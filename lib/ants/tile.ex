@@ -1,9 +1,12 @@
 defmodule Ants.Tile do
   use GenServer
 
+  alias Ants.Utils
+
   ## Consts
 
   @starting_food 10
+  @pheromone_decay 0.1
 
   ## Structs
 
@@ -63,7 +66,7 @@ defmodule Ants.Tile do
 
 
   def handle_call(:take_food, _from, tile = %Food{food: food}) when food > 1 do
-    {:reply, {:ok, 1}, Map.update!(tile, :food, &dec/1)} 
+    {:reply, {:ok, 1}, Map.update!(tile, :food, &Utils.dec/1)} 
   end
 
   def handle_call(:take_food, _from, tile = %Food{}) do
@@ -76,7 +79,7 @@ defmodule Ants.Tile do
 
 
   def handle_call(:add_pheromone, _from, tile = %Land{pheromone: pheromone}) do
-    {:reply, {:ok}, Map.update!(tile, :pheromone, &inc/1)}
+    {:reply, {:ok}, Map.update!(tile, :pheromone, &Utils.inc/1)}
   end
 
   def handle_call(:add_pheromone, _from, tile) do
@@ -84,8 +87,8 @@ defmodule Ants.Tile do
   end
 
 
-  def handle_call(:deposit_food, _from, tile = %Home{food: food}) do
-    {:reply, {:ok}, %Home{food: food + 1}}
+  def handle_call(:deposit_food, _from, tile = %Home{}) do
+    {:reply, {:ok}, Map.update!(tile, :food, &Utils.inc/1)}
   end
 
   def handle_call(:deposit_food, _from, tile) do
@@ -93,15 +96,11 @@ defmodule Ants.Tile do
   end
 
   
-  def handle_call(:tick, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
-    {:reply, {:ok}, %Land{pheromone: pheromone - 1}}
+  def handle_cast(:tick, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
+    {:noreply, %Land{pheromone: pheromone * @pheromone_decay}}
   end
 
-  def handle_call(:tick, _from, tile) do
-    {:reply, {:ok}, tile}
+  def handle_cast(:tick, _from, tile) do
+    {:noreply, tile}
   end
-
-  defp inc(n), do: n + 1
-
-  defp dec(n), do: n - 1
 end
