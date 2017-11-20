@@ -1,7 +1,7 @@
-defmodule Ants.Tile do
+defmodule Ants.Worlds.Tile do
   use GenServer
 
-  alias Ants.Utils
+  alias Ants.Shared.Utils
 
   ## Consts
 

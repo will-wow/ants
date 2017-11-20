@@ -1,6 +1,9 @@
 defmodule Ants.Application do
   use Application
 
+  alias Ants.Simulations.SimulationsRegistry
+  alias Ants.Simulations.SimulationsSupervisor
+
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -10,6 +13,8 @@ defmodule Ants.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(AntsWeb.Endpoint, []),
+      worker(SimulationsRegistry, keys: :unique, name: SimulationsRegistry),
+      supervisor(SimulationsSupervisor, []),
       # Start your own worker by calling: Ants.Worker.start_link(arg1, arg2, arg3)
       # worker(Ants.Worker, [arg1, arg2, arg3]),
     ]

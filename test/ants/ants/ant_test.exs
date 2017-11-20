@@ -1,7 +1,7 @@
-defmodule Ants.AntTest do
+defmodule Ants.Ants.AntTest do
   use ExUnit.Case, async: true
 
-  alias Ants.Ant
+  alias Ants.Ants.Ant
 
   describe "given a land tile" do
     setup [:create_ant]

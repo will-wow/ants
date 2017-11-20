@@ -1,4 +1,4 @@
-defmodule Ants.Utils do
+defmodule Ants.Shared.Utils do
   def inc(n), do: n + 1
 
   def dec(n), do: n - 1

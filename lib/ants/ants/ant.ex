@@ -1,7 +1,7 @@
-defmodule Ants.Ant do
+defmodule Ants.Ants.Ant do
   use GenServer
 
-  alias Ants.Ant
+  alias Ants.Ants.Ant
 
   ## Consts
 
