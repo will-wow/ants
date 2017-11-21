@@ -26,7 +26,7 @@ defmodule Ants.Ants.Ant do
   end
 
   def deposit_pheromones(pid) do
-    GenServer.call(pid, :tick)
+    GenServer.call(pid, :deposit_pheromones)
   end
 
   ## Server 
