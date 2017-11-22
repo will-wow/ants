@@ -1,12 +1,12 @@
 defmodule Ants.Registries.SimulationRegistry do
-  @spec tile(integer) :: tuple
-  def simulation(sim_id) do
-    via({sim_id, :simulation})
+  @spec simulation(integer) :: tuple
+  def simulation(sim) do
+    via({sim, :simulation})
   end
 
   @spec tile(integer, integer, integer) :: tuple
-  def tile(sim_id, x, y) do
-    via({sim_id, :sim_id, x, y})
+  def tile(sim, x, y) do
+    via({sim, :sim, x, y})
   end
 
   @spec via(tuple) :: tuple

@@ -8,7 +8,7 @@ defmodule Ants.Simulations.SimulationsSupervisor do
   end
 
   def start_simulation(sim_id) do
-    {:ok, pid} = Supervisor.start_child(__MODULE__, sim_id)
+    {:ok, _} = Supervisor.start_child(__MODULE__, sim_id)
   end
 
   def init(:ok) do

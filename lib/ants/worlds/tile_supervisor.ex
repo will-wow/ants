@@ -1,8 +1,6 @@
 defmodule Ants.Worlds.TileSupervisor do
   use Supervisor
 
-  @tile_spec 
-
   alias Ants.Worlds.Tile
 
   def start_link(opts) do

@@ -26,6 +26,8 @@ defmodule Ants.Worlds.Tile do
     defstruct food: 0
   end
 
+  @type t :: %Land{} | %Rock{} | %Home{} | %Food{}
+
   ## Client
 
   def start_link(type, opts) do
