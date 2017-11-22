@@ -3,7 +3,7 @@ defmodule Ants.Simulations.SimulationsSupervisor do
 
   alias Ants.Simulations.SimulationSupervisor
 
-  def start_link(_opts) do
+  def start_link() do
     Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
@@ -14,7 +14,7 @@ defmodule Ants.Simulations.SimulationsSupervisor do
   def init(:ok) do
     Supervisor.init([
       SimulationSupervisor
-    ], :simple_one_for_one)
+    ], strategy: :simple_one_for_one)
   end
 end
 

@@ -1,7 +1,7 @@
 defmodule Ants.Simulations.SimulationSupervisor do
   use Supervisor
 
-  alias Ants.Simulation.SimulationRegistry
+  alias Ants.Registry.SimulationRegistry
 
   def start_link(sim, opts \\ []) do
     Supervisor.start_link(__MODULE__, sim, opts)

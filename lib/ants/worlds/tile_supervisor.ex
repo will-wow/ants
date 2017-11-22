@@ -1,14 +1,17 @@
 defmodule Ants.Worlds.TileSupervisor do
   use Supervisor
 
+  alias Ants.Registries.SimulationRegistry
+
   alias Ants.Worlds.Tile
 
   def start_link(opts) do
     Supervisor.start_link(__MODULE__, :ok, opts)
   end
 
-  def start_tile(super_pid, tile_type) do
-    Supervisor.start_child(super_pid, tile_type)
+  def start_tile(pid, tile_type) do
+    pid = 
+    Supervisor.start_child(pid, tile_type)
   end
 
   def init(:ok) do
