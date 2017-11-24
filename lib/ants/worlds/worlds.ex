@@ -6,7 +6,8 @@ defmodule Ants.Worlds do
   alias Ants.Worlds.Tile.Home
   alias Ants.Worlds.Tile.Food
   alias Ants.Worlds.TileSupervisor
-  alias Ants.Registries.SimulationRegistry
+  alias Ants.Registries.SimRegistry
+  alias Ants.Simulations.SimulationsSupervisor
 
   @typep world_map :: [[String.t]]
   @typep world :: %{
@@ -14,7 +15,7 @@ defmodule Ants.Worlds do
   }
 
   ## Consts
-  @cell_of_tile_type%{
+  @cell_of_tile%{
     rock: "0",
     land: "_",
     food: "F",
@@ -33,6 +34,8 @@ defmodule Ants.Worlds do
 
   @spec create_world(integer, world_map) :: :ok
   def create_world(sim, map \\ @world_map) do
+    {:ok, _} = SimulationsSupervisor.start_simulation(sim)
+
     world_map = world_map_of_list map
     cell_strings = Enum.concat world_map
 
@@ -41,32 +44,28 @@ defmodule Ants.Worlds do
     tiles
     |> Stream.with_index
     |> Enum.each(fn {type, i} -> 
-      IO.puts i
       x = Integer.mod(i, 7)
       y = Integer.floor_div(i, 7)
 
-      pid = SimulationRegistry.tile(sim, x, y)
-
-      TileSupervisor.start_tile(sim, type)
+      TileSupervisor.start_tile(sim, type, x, y)
     end)
 
     :ok
   end
 
   def print(sim) do
-    Enum.map(1..7, fn x -> 
-      Enum.map(1..7, fn y -> 
+    Enum.map(6..0, fn y -> 
+      Enum.map(0..6, fn x -> 
         tile = lookup(sim, x, y)
-        cell_of_tile_type(tile)
+        cell_of_tile(tile)
       end)
     end)
   end
 
   @spec lookup(integer, integer, integer) :: Tile.t{}
   def lookup(sim, x, y) do
-    pid = SimulationRegistry.tile(sim, x, y)
+    pid = TileSupervisor.get_tile(sim, x, y)
     Tile.get(pid)
-    GenServer.call(pid, {:tick, x, y})
   end
 
   @spec world_map_of_list([String.t]) :: [[String.t]]
@@ -85,11 +84,11 @@ defmodule Ants.Worlds do
   defp tile_type_of_cell("F"), do: :food
   defp tile_type_of_cell("H"), do: :home
 
-  @spec cell_of_tile_type(Tile.t) :: string
-  defp cell_of_tile_type(%Rock{}), do: "0"
-  defp cell_of_tile_type(%Land{pheromone: pheromone})
+  @spec cell_of_tile(Tile.t) :: string
+  defp cell_of_tile(%Rock{}), do: "0"
+  defp cell_of_tile(%Land{pheromone: pheromone})
     when pheromone > 0, do: "p"
-  defp cell_of_tile_type(%Land{}), do: "_"
-  defp cell_of_tile_type(%Food{}), do: "F"
-  defp cell_of_tile_type(%Home{}), do: "H" 
+  defp cell_of_tile(%Land{}), do: "_"
+  defp cell_of_tile(%Food{}), do: "F"
+  defp cell_of_tile(%Home{}), do: "H" 
 end

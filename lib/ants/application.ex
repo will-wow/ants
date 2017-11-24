@@ -1,7 +1,7 @@
 defmodule Ants.Application do
   use Application
 
-  alias Ants.Registries.SimulationRegistry
+  alias Ants.Registries.SimRegistry
   alias Ants.Registries.SimulationPubSub
   alias Ants.Simulations.SimulationsSupervisor
 
@@ -15,7 +15,7 @@ defmodule Ants.Application do
       # Start the endpoint when the application starts
       supervisor(AntsWeb.Endpoint, []),
 
-      {Registry, keys: :unique, name: SimulationRegistry},
+      {Registry, keys: :unique, name: SimRegistry},
       {Registry, keys: :duplicate, name: SimulationPubSub},
 
       supervisor(SimulationsSupervisor, []),
