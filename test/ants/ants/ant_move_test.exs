@@ -5,6 +5,7 @@ defmodule Ants.Ants.AntMoveTest do
   alias Ants.Ants.Ant
   alias Ants.Worlds
   alias Ants.Worlds.TileType
+  alias Ants.Worlds.Surroundings
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.WorldsMock
   alias Ants.Worlds.WorldMap
@@ -20,9 +21,9 @@ defmodule Ants.Ants.AntMoveTest do
         "0 0 0",
       ]
 
-      mock_worlds(world_map)
+      surroundings = make_surroundings(world_map)
        
-      assert AntMove.move(ant) == %Ant{x: 1, y: 2}
+      assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
     end
   end
 
@@ -30,33 +31,15 @@ defmodule Ants.Ants.AntMoveTest do
     %{ant: %Ant{x: 1, y: 1}}
   end
 
-  defp mock_worlds(world_map) do
-    tile_types =
-      world_map
-      |> WorldMap.tile_type_of_world_map()
-      |> List.to_tuple()
-
-    size = length(world_map)
-
-    WorldsMock
-    |> expect(:lookup, fn _, x, y ->
-      lookup_tile(tile_types, size, x, y)
+  @spec make_surroundings(WorldMap.t) :: Surroundings.t
+  defp make_surroundings(world_map) do
+    world_map
+    |> WorldMap.tile_type_of_world_map()
+    |> Enum.map(fn type -> 
+      {:ok, tile} = TileType.tile_of_type(type) 
+      tile
     end)
-  end 
-
-  defp index_of_coords(size, x, y) do
-    (y - size) * size + x
-  end
-
-  defp tile_type_at_index(index, tile_types) do
-    elem(tile_types, index)
-  end
-
-  defp lookup_tile(tile_types, size, x, y) do
-    size
-    |> index_of_coords(x, y)
-    |> tile_type_at_index(tile_types)
-    |> TileType.tile_of_type()
+    |> List.to_tuple()
   end
 end
 

@@ -1,6 +1,8 @@
 defmodule Ants.Worlds.TileSupervisor do
   use Supervisor
 
+  @callback get_tile(integer, integer, integer) :: pid
+
   alias Ants.Registries.SimRegistry
 
   alias Ants.Worlds.Tile

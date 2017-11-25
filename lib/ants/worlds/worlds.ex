@@ -1,6 +1,9 @@
 defmodule Ants.Worlds do
+  alias Ants.Shared.Utils
   alias Ants.Worlds.WorldMap
+  alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
+  alias Ants.Worlds.TileLookup
   alias Ants.Worlds.TileSupervisor
   alias Ants.Simulations.SimulationsSupervisor
 
@@ -24,8 +27,7 @@ defmodule Ants.Worlds do
 
     @world_map
     |> WorldMap.tile_type_of_world_map()
-    |> Stream.with_index()
-    |> Enum.each(fn {type, i} -> 
+    |> Utils.map_indexed(fn {type, i} -> 
       x = WorldMap.x_coord_of_index(i, 7)
       y = WorldMap.y_coord_of_index(i, 7)
 
@@ -48,10 +50,6 @@ defmodule Ants.Worlds do
     |> IO.puts
   end
 
-
-  @spec lookup(integer, integer, integer) :: Tile.t
-  def lookup(sim, x, y) do
-    pid = TileSupervisor.get_tile(sim, x, y)
-    Tile.get(pid)
-  end
+  defdelegate surroundings(sim, x, y), to: Surroundings
+  defdelegate lookup(sim, x, y), to: TileLookup
 end
