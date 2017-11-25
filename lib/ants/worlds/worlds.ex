@@ -6,7 +6,6 @@ defmodule Ants.Worlds do
   alias Ants.Worlds.Tile.Home
   alias Ants.Worlds.Tile.Food
   alias Ants.Worlds.TileSupervisor
-  alias Ants.Registries.SimRegistry
   alias Ants.Simulations.SimulationsSupervisor
 
   @typep world_map :: [[String.t]]
@@ -46,8 +45,7 @@ defmodule Ants.Worlds do
     |> Enum.each(fn {type, i} -> 
       x = Integer.mod(i, 7)
       y = Integer.floor_div(i, 7)
-
-      TileSupervisor.start_tile(sim, type, x, y)
+       {:ok, _} = TileSupervisor.start_tile(sim, type, x, y)
     end)
 
     :ok
@@ -59,8 +57,12 @@ defmodule Ants.Worlds do
         tile = lookup(sim, x, y)
         cell_of_tile(tile)
       end)
+      |> Enum.join(" ")
     end)
+    |> Enum.join("\n")
+    |> IO.puts
   end
+
 
   @spec lookup(integer, integer, integer) :: Tile.t{}
   def lookup(sim, x, y) do
@@ -87,8 +89,10 @@ defmodule Ants.Worlds do
   @spec cell_of_tile(Tile.t) :: string
   defp cell_of_tile(%Rock{}), do: "0"
   defp cell_of_tile(%Land{pheromone: pheromone})
-    when pheromone > 0, do: "p"
+    when pheromone > 0, do: "-"
   defp cell_of_tile(%Land{}), do: "_"
+  defp cell_of_tile(%Food{food: food})
+    when food < 5, do: "f"
   defp cell_of_tile(%Food{}), do: "F"
   defp cell_of_tile(%Home{}), do: "H" 
 end

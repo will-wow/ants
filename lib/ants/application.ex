@@ -18,7 +18,7 @@ defmodule Ants.Application do
       {Registry, keys: :unique, name: SimRegistry},
       {Registry, keys: :duplicate, name: SimulationPubSub},
 
-      supervisor(SimulationsSupervisor, []),
+      {SimulationsSupervisor, [[]]},
       # Start your own worker by calling: Ants.Worker.start_link(arg1, arg2, arg3)
       # worker(Ants.Worker, [arg1, arg2, arg3]),
     ]

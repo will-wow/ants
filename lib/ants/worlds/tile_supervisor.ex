@@ -25,7 +25,10 @@ defmodule Ants.Worlds.TileSupervisor do
   end
 
   def init(:ok) do
-    Supervisor.init([Tile], strategy: :simple_one_for_one)
+    Supervisor.init(
+      [Tile], 
+      strategy: :simple_one_for_one
+    )
   end
 
   defp via(sim) do
