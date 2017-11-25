@@ -1,7 +1,8 @@
 defmodule Ants.Ants.Ant do
   use GenServer
 
-  alias Ants.Ants.Ant
+  alias __MODULE__ 
+  alias Ants.Registries.SimulationPubSub
 
   ## Consts
 
@@ -13,8 +14,8 @@ defmodule Ants.Ants.Ant do
 
   ## Client
 
-  def start_link({x, y}, opts) do
-    GenServer.start_link(__MODULE__, {x, y}, opts)
+  def start_link(sim, x, y, opts) do
+    GenServer.start_link(__MODULE__, {sim, x, y}, opts)
   end
 
   def get(pid) do
@@ -22,7 +23,7 @@ defmodule Ants.Ants.Ant do
   end
 
   def move(pid) do
-    GenServer.call(pid, :tick)
+    GenServer.call(pid, :move)
   end
 
   def deposit_pheromones(pid) do
@@ -31,7 +32,10 @@ defmodule Ants.Ants.Ant do
 
   ## Server 
   
-  def init({x, y}), do: {:ok, %Ant{x: x, y: y}}
+  def init({sim, x, y}) do
+    SimulationPubSub.register_for_move(sim)
+    {:ok, %Ant{x: x, y: y}}
+  end
 
   def handle_call(:get, _from, ant) do
     {:reply, ant, ant}

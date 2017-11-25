@@ -19,7 +19,7 @@ defmodule Ants.Simulations.SimulationSupervisor do
     ], strategy: :one_for_one)
   end
 
-  defp via(sim) do
+  def via(sim) do
     SimRegistry.simulation(sim)
   end
 end

@@ -1,4 +1,4 @@
-defmodule Ants.TileTest do
+defmodule Ants.Worlds.TileTest do
   use ExUnit.Case, async: true
 
   alias Ants.Worlds.Tile

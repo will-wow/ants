@@ -2,10 +2,10 @@ defmodule Ants.Worlds.Tile do
   use GenServer, restart: :transient
 
   alias Ants.Shared.Utils
+  alias Ants.Worlds.TileType
 
   ## Consts
 
-  @starting_food 10
   @pheromone_decay 0.1
 
   ## Structs
@@ -56,11 +56,7 @@ defmodule Ants.Worlds.Tile do
 
   ## Server 
   
-  def init(:land), do: {:ok, %Land{}}
-  def init(:rock), do: {:ok, %Rock{}}
-  def init(:home), do: {:ok, %Home{}}
-  def init(:food), do: {:ok, %Food{food: @starting_food}}
-  def init(_),     do: {:error, :bad_type}
+  def init(type), do: TileType.tile_of_type(type)
 
   def handle_call(:get, _from, tile) do
     {:reply, tile, tile}

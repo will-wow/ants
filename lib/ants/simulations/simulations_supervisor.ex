@@ -11,6 +11,11 @@ defmodule Ants.Simulations.SimulationsSupervisor do
     Supervisor.start_child(__MODULE__, [sim])
   end
 
+  def end_simulation(sim) do
+    child_via = SimulationSupervisor.via(sim)
+    Supervisor.terminate_child(__MODULE__, child_via)
+  end
+
   def init(:ok) do
     Supervisor.init([
       SimulationSupervisor
