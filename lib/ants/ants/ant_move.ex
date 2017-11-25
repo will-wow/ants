@@ -14,7 +14,6 @@ defmodule Ants.Ants.AntMove do
     |> Utils.map_indexed(fn {tile, i} -> 
       {rate_tile(tile), i}
     end)
-    |> IO.inspect
     |> Enum.max_by(fn {rating, i} -> rating end)
     |> get_index()
     |> Surroundings.coords_of_index()
@@ -29,7 +28,8 @@ defmodule Ants.Ants.AntMove do
 
   defp get_index(tuple), do: elem(tuple, 1)
 
-  defp update_ant_coords({delta_x, delta_y}, ant = %Ant{x: x, y: y}) do
-    %Ant{ant | x: x + delta_x, y: y + delta_y }
+  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{x: x, y: y}) do
+    %Ant{ant | x: x + surrounding_x - 1,
+               y: y + surrounding_y - 1 }
   end
 end

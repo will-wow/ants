@@ -16,11 +16,12 @@ defmodule Ants.Worlds.WorldMap do
   }
 
   @spec tile_type_of_world_map(t) :: tile_types
-  def tile_type_of_world_map(cell_map) do
-    world_map = cell_map_of_world_map(cell_map)
-    cell_strings = Enum.concat(world_map)
-    
-    tiles = Enum.map(cell_strings, &tile_type_of_cell/1)
+  def tile_type_of_world_map(world_map) do
+    world_map
+    |> cell_map_of_world_map()
+    |> Enum.reverse()
+    |> Enum.concat()
+    |> Enum.map(&tile_type_of_cell/1)
   end
 
   @spec x_coord_of_index(integer, integer) :: integer
