@@ -22,7 +22,9 @@ defmodule Ants.Worlds.Surroundings do
     end)
     |> Enum.concat
     |> Enum.map(fn {x, y} -> 
-      Task.async(fn -> @lookup.lookup(sim, x, y) end)
+      Task.async(fn -> 
+        @lookup.lookup(sim, x, y)
+      end)
     end)
     |> Enum.map(&Task.await/1)
   end
@@ -30,7 +32,7 @@ defmodule Ants.Worlds.Surroundings do
   @spec index_of_coords(integer, integer) :: integer
   @spec index_of_coords(integer, integer, integer) :: integer
   def index_of_coords(x, y, size \\ @surroundings_size) do
-    (y - size) * size + x
+    y * size + x
   end
 
   @spec coords_of_index(integer) :: {integer, integer}

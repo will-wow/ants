@@ -12,5 +12,5 @@ defmodule Ants.Worlds.TileType do
   def tile_of_type(:rock), do: {:ok, %Rock{}}
   def tile_of_type(:home), do: {:ok, %Home{}}
   def tile_of_type(:food), do: {:ok, %Food{food: @starting_food}}
-  def tile_of_type(_),     do: {:error, :bad_type}
+  def tile_of_type(type),     do: {:error, :bad_type, type}
 end
