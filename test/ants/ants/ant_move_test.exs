@@ -17,13 +17,52 @@ defmodule Ants.Ants.AntMoveTest do
     test "takes the only open path", %{ant: ant} do
       world_map = [
         "0 _ 0",
-        "0 H 0",
+        "0 _ 0",
         "0 0 0",
       ]
 
       surroundings = make_surroundings(world_map)
        
       assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
+    end
+
+    test "goes diagonally", %{ant: ant} do
+      world_map = [
+        "0 0 _",
+        "0 _ 0",
+        "0 0 0",
+      ]
+
+      surroundings = make_surroundings(world_map)
+       
+      assert AntMove.move(ant, surroundings) == %Ant{x: 2, y: 2}
+    end
+
+
+    test "picks land over home", %{ant: ant} do
+      world_map = [
+        "0 _ 0",
+        "0 _ 0",
+        "0 H 0",
+      ]
+
+      surroundings = make_surroundings(world_map)
+       
+      assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
+    end
+
+    test "doesn't go back", %{ant: ant} do
+      world_map = [
+        "0 _ 0",
+        "0 _ 0",
+        "0 _ 0",
+      ]
+
+      surroundings = make_surroundings(world_map)
+
+      ant = %Ant{ant | path: [{0, -1}]}
+       
+      assert AntMove.move(ant, surroundings) == %Ant{ant | x: 1, y: 2}
     end
   end
 

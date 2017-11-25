@@ -9,6 +9,8 @@ defmodule Ants.Worlds.Surroundings do
     Tile.t, Tile.t, Tile.t,
   }
 
+  @type coords :: {integer, integer}
+
   @lookup Application.get_env(:ants, :tile_lookup, TileLookup)
 
   @surroundings_size 3
@@ -35,8 +37,8 @@ defmodule Ants.Worlds.Surroundings do
     y * size + x
   end
 
-  @spec coords_of_index(integer) :: {integer, integer}
-  @spec coords_of_index(integer, integer) :: {integer, integer}
+  @spec coords_of_index(integer) :: coords
+  @spec coords_of_index(integer, integer) :: coords
   def coords_of_index(index, size \\ @surroundings_size) do
     {
       WorldMap.x_coord_of_index(index, size),
@@ -44,7 +46,7 @@ defmodule Ants.Worlds.Surroundings do
     }
   end
 
-  @spec coords_of_offset(integer, integer, integer, integer) :: {integer, integer}
+  @spec coords_of_offset(integer, integer, integer, integer) :: coords
   defp coords_of_offset(x, y, delta_x, delta_y) do
     {x + delta_x, y + delta_y}
   end
