@@ -1,8 +1,8 @@
 {
   "search.exclude": {
     "**/node_modules": true,
-    "**/bower_components": true,
     "_build": true,
-    "deps": true
+    "deps": true,
+    "erl_crash.dump": true
   }
 }
