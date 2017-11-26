@@ -25,7 +25,7 @@ defmodule Ants.Ants.Ant do
 
   ## Client
 
-  def start_link(sim, x, y, opts) do
+  def start_link(_, sim, x, y, opts) do
     GenServer.start_link(__MODULE__, {sim, x, y}, opts)
   end
 

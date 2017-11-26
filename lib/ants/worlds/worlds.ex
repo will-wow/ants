@@ -36,18 +36,18 @@ defmodule Ants.Worlds do
     {:ok, home: {1, 1}}
   end
 
-  @spec print(integer) :: :ok
+  @spec print(SimId.t) :: [String.t]
   def print(sim) do
-    Enum.map(6..0, fn y -> 
-      Enum.map(0..6, fn x -> 
-        tile = lookup(sim, x, y)
-        WorldMap.cell_of_tile(tile)
-      end)
-      |> Enum.join(" ")
+    all_coords()
+    |> Task.async_stream(fn {x, y} ->
+      sim
+      |> lookup(x, y)
+      |> WorldMap.cell_of_tile()
     end)
-    |> Enum.join("\n")
-    |> IO.puts
+    |> Enum.map(fn {:ok, cell} -> cell end)
   end
+
+  defdelegate print_tile(tile), to: WorldMap, as: :cell_of_tile
 
   defdelegate surroundings(sim, x, y), to: Surroundings
   defdelegate lookup(sim, x, y), to: TileLookup
@@ -91,7 +91,7 @@ defmodule Ants.Worlds do
 
   @spec all_coords :: [{integer, integer}]
   defp all_coords do
-    Enum.map(6..0, fn y -> 
+    Enum.map(0..6, fn y -> 
       Enum.map(0..6, fn x -> 
         {x, y}
       end)

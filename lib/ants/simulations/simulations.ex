@@ -1,7 +1,7 @@
 defmodule Ants.Simulations do
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.Simulations.SimId
-  alias Ants.Registries.SimulationPubSub
+  alias Ants.Simulations.Print
   alias Ants.Worlds
   alias Ants.Ants
 
@@ -24,6 +24,10 @@ defmodule Ants.Simulations do
     Ants.deposit_all_pheromones(sim)
     Worlds.decay_all_pheromones(sim)
 
+    print(sim)
+
     :ok
   end
+
+  defdelegate print(sim), to: Print
 end
