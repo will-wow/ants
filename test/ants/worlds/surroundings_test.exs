@@ -25,11 +25,11 @@ defmodule Ants.Worlds.SurroundingsTest do
 
       mock_tile_lookup(world_map)
 
-      assert Surroundings.surroundings(1, 2, 2) == [
+      assert Surroundings.surroundings(1, 2, 2) == {
         %Land{}, %Rock{}, %Land{},
         %Land{}, %Home{}, %Rock{},
         %Rock{}, %Land{}, %Land{}
-      ]
+      }
     end
   end
 

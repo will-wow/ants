@@ -3,12 +3,20 @@ defmodule Ants.Ants.Ant do
 
   alias __MODULE__ 
   alias Ants.Registries.SimulationPubSub
+  alias Ants.Ants.Move
 
   ## Consts
 
   @prob 1
 
   ## Structs
+
+  @type t :: %Ant{
+    x: integer,
+    y: integer,
+    food?: boolean,
+    path: [Move.t]
+  }
 
   defstruct x: nil, y: nil, food?: false, path: []
 

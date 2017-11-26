@@ -37,7 +37,7 @@ defmodule Ants.Worlds do
     :ok
   end
 
-  @spec print(integer) :: none
+  @spec print(integer) :: :ok
   def print(sim) do
     Enum.map(6..0, fn y -> 
       Enum.map(0..6, fn x -> 

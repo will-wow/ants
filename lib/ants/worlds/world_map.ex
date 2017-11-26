@@ -4,7 +4,7 @@ defmodule Ants.Worlds.WorldMap do
   alias Ants.Worlds.Tile.{Land, Rock, Home, Food}
 
   @type t :: [String.t]
-  @type tile_types :: [Tile.type_type]
+  @type tile_types :: [TileType.t]
   @typep cell :: String.t
   @typep cell_map :: [cell]
 
@@ -13,6 +13,8 @@ defmodule Ants.Worlds.WorldMap do
     land: "_",
     food: "F",
     home: "H",
+    light_pheromone: "p",
+    heavy_pheromone: "P"
   }
 
   @spec tile_type_of_world_map(t) :: tile_types
@@ -59,4 +61,6 @@ defmodule Ants.Worlds.WorldMap do
   defp tile_type_of_cell("_"), do: :land
   defp tile_type_of_cell("F"), do: :food
   defp tile_type_of_cell("H"), do: :home
+  defp tile_type_of_cell("P"), do: :heavy_pheromone
+  defp tile_type_of_cell("p"), do: :light_pheromone
 end

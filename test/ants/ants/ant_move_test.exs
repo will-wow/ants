@@ -64,6 +64,21 @@ defmodule Ants.Ants.AntMoveTest do
        
       assert AntMove.move(ant, surroundings) == %Ant{ant | x: 1, y: 2}
     end
+
+    test "chooses a land", %{ant: ant} do
+      world_map = [
+        "0 _ 0",
+        "0 _ p",
+        "0 0 0",
+      ]
+
+      surroundings = make_surroundings(world_map)
+
+      assert Enum.member?(
+        [%Ant{x: 2, y: 1}, %Ant{x: 1, y: 2}],
+        AntMove.move(ant, surroundings)
+      )
+    end
   end
 
   defp create_home_ant(_context) do

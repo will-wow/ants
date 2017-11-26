@@ -29,6 +29,7 @@ defmodule Ants.Worlds.Surroundings do
       end)
     end)
     |> Enum.map(&Task.await/1)
+    |> List.to_tuple
   end
 
   @spec index_of_coords(integer, integer) :: integer
