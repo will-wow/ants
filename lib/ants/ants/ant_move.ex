@@ -19,8 +19,8 @@ defmodule Ants.Ants.AntMove do
   defp go_back_one(ant = %Ant{food?: true}) do
     [hd|tl] = ant.path
     %Ant{ant | 
-      x: ant.x + Move.x(hd),
-      y: ant.y + Move.y(hd),
+      x: ant.x - Move.x(hd),
+      y: ant.y - Move.y(hd),
       path: tl
     }
   end
@@ -51,8 +51,14 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec update_ant_coords(Surroundings.coords, Ant.t) :: Ant.t
-  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{x: x, y: y}) do
-    %Ant{ant | x: x + surrounding_x - 1,
-               y: y + surrounding_y - 1 }
+  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{x: x, y: y, path: path}) do
+    delta_x = surrounding_x - 1
+    delta_y = surrounding_y - 1
+
+    %Ant{ant |
+      x: x + delta_x,
+      y: y + delta_y,
+      path: [{delta_x, delta_y}|path]
+    }
   end
 end

@@ -4,8 +4,8 @@ defmodule Ants.Ants do
   alias Ants.Ants.Ant
   alias Ants.Ants.AntId
 
-  def create_ants(sim, x, y) do
-    0..10
+  def create_ants(sim, x, y, ants) do
+    1..ants
     |> Task.async_stream(fn _ ->
       create_ant(sim, x, y)
     end)

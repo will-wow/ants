@@ -62,8 +62,10 @@ defmodule Ants.Worlds do
 
   @spec deposit_food(SimId.t, integer, integer) :: {:ok, integer} | {:error, :not_home}
   def deposit_food(sim, x, y) do
+    IO.inspect {sim, x, y}
     sim
     |> get_tile(x, y)
+    |> IO.inspect
     |> Tile.deposit_food()
   end
 

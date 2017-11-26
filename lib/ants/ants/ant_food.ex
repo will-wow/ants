@@ -6,11 +6,12 @@ defmodule Ants.Ants.AntFood do
   @spec deposit_food(Ant.t, SimId.t) :: Ant.t
   def deposit_food(ant = %Ant{food?: false}, _), do: ant
   def deposit_food(ant, sim) do
+    IO.inspect(ant)
     %Ant{x: x, y: y} = ant
 
     case Worlds.deposit_food(sim, x, y) do
       {:ok, _} -> 
-        %Ant{ant | food?: false}
+        %Ant{ant | food?: false, path: []}
       {:error, :not_home} ->
         ant
     end
