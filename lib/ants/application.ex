@@ -4,6 +4,7 @@ defmodule Ants.Application do
   alias Ants.Registries.SimRegistry
   alias Ants.Registries.SimulationPubSub
   alias Ants.Simulations.SimulationsSupervisor
+  alias Ants.Simulations.SimId
 
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
@@ -17,6 +18,7 @@ defmodule Ants.Application do
 
       {Registry, keys: :unique, name: SimRegistry},
       {Registry, keys: :duplicate, name: SimulationPubSub},
+      SimId,
 
       {SimulationsSupervisor, [[]]},
       # Start your own worker by calling: Ants.Worker.start_link(arg1, arg2, arg3)

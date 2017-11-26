@@ -4,6 +4,8 @@ defmodule Ants.Ants.Ant do
   alias __MODULE__ 
   alias Ants.Registries.SimulationPubSub
   alias Ants.Ants.Move
+  alias Ants.Ants.AntMove
+  alias Ants.Worlds
 
   ## Consts
 
@@ -41,19 +43,23 @@ defmodule Ants.Ants.Ant do
   ## Server 
   
   def init({sim, x, y}) do
-    SimulationPubSub.register_for_move(sim)
-    {:ok, %Ant{x: x, y: y}}
+    {:ok, {sim, %Ant{x: x, y: y}}}
   end
 
-  def handle_call(:get, _from, ant) do
-    {:reply, ant, ant}
+  def handle_call(:get, _from, state = {_, ant}) do
+    {:reply, ant, state}
   end
 
-  def handle_cast(:move, _from, ant) do
-    {:noreply, ant}
+  def handle_call(:move, _from, {sim, ant}) do
+    x = ant.x
+    y = ant.y
+    surroundings = Worlds.surroundings(sim, x, y)
+    ant = AntMove.move(ant, surroundings)
+
+    {:reply, ant, {sim, ant}}
   end
 
-  def handle_cast(:deposit_pheromones, _from, ant) do
-    {:noreply, ant}
+  def handle_call(:deposit_pheromones, _from, {sim, ant}) do
+    {:reply, ant, {sim, ant}}
   end
 end

@@ -15,10 +15,10 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "adds pheromones", %{tile: tile} do
-      assert Tile.add_pheromone(tile) == {:ok}
+      assert Tile.deposit_pheromones(tile) == {:ok, 1}
       assert Tile.get(tile) == %Land{pheromone: 1}
 
-      assert Tile.add_pheromone(tile) == {:ok}
+      assert Tile.deposit_pheromones(tile) == {:ok, 1}
       assert Tile.get(tile) == %Land{pheromone: 2}
     end
 
@@ -39,7 +39,7 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_add_pheromones tile
+      cant_deposit_pheromones tile
     end
 
     test "can take food", %{tile: tile} do
@@ -62,7 +62,7 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_add_pheromones tile
+      cant_deposit_pheromones tile
     end
 
     test "can't take food", %{tile: tile} do
@@ -82,7 +82,7 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_add_pheromones tile
+      cant_deposit_pheromones tile
     end
 
     test "can't take food", %{tile: tile} do
@@ -121,8 +121,8 @@ defmodule Ants.Worlds.TileTest do
     assert Tile.take_food(tile) == {:error, :not_food}
   end
 
-  defp cant_add_pheromones(tile) do
-    assert Tile.add_pheromone(tile) == {:error, :not_land}
+  defp cant_deposit_pheromones(tile) do
+    assert Tile.deposit_pheromones(tile) == {:error, :not_land}
   end
 
   defp cant_deposit_food(tile) do

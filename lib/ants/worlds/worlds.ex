@@ -5,7 +5,7 @@ defmodule Ants.Worlds do
   alias Ants.Worlds.Tile
   alias Ants.Worlds.TileLookup
   alias Ants.Worlds.TileSupervisor
-  alias Ants.Simulations.SimulationsSupervisor
+  alias Ants.Simulations.SimId
 
   @callback create_world(integer, WorldMap.t) :: :ok
   @callback print(integer) :: none 
@@ -23,8 +23,6 @@ defmodule Ants.Worlds do
 
   @spec create_world(integer, WorldMap.t) :: :ok
   def create_world(sim, map \\ @world_map) do
-    {:ok, _} = SimulationsSupervisor.start_simulation(sim)
-
     @world_map
     |> WorldMap.tile_type_of_world_map()
     |> Utils.map_indexed(fn {type, i} -> 
@@ -52,4 +50,50 @@ defmodule Ants.Worlds do
 
   defdelegate surroundings(sim, x, y), to: Surroundings
   defdelegate lookup(sim, x, y), to: TileLookup
+
+  @spec take_food(SimId.t, integer, integer) :: {:ok, integer}
+  def take_food(sim, x, y) do
+    sim
+    |> lookup(x, y)
+    |> Tile.take_food()
+  end
+
+  @spec deposit_food(SimId.t, integer, integer) :: {:ok, integer} | {:error, :not_food}
+  def deposit_food(sim, x, y) do
+    sim
+    |> lookup(x, y)
+    |> Tile.deposit_food()
+  end
+
+  @spec deposit_pheromones(SimId.t, integer, integer) :: {:ok, integer} | {:error, :not_land}
+  def deposit_pheromones(sim, x, y) do
+    sim
+    |> lookup(x, y)
+    |> Tile.deposit_pheromones()
+  end
+
+  @spec decay_all_pheromones(SimId.t) :: [Tile.t]
+  def decay_all_pheromones(sim) do
+    all_coords()
+    |> Task.async_stream(fn {x, y} ->
+      decay_pheromones(sim, x, y)
+    end)
+    |> Enum.map(fn {:ok, tile} -> tile end)
+  end
+
+  defp decay_pheromones(sim, x, y) do
+    sim
+    |> lookup(x, y)
+    |> Tile.decay_pheromones()
+  end
+
+  @spec all_coords :: [{integer, integer}]
+  defp all_coords do
+    Enum.map(6..0, fn y -> 
+      Enum.map(0..6, fn x -> 
+        {x, y}
+      end)
+    end)
+    |> Enum.concat
+  end
 end

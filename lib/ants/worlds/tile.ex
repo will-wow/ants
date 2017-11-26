@@ -38,8 +38,8 @@ defmodule Ants.Worlds.Tile do
     GenServer.call(pid, :get)
   end
 
-  def add_pheromone(pid) do
-    GenServer.call(pid, :add_pheromone)
+  def deposit_pheromones(pid) do
+    GenServer.call(pid, :deposit_pheromones)
   end
 
   def take_food(pid) do
@@ -50,8 +50,8 @@ defmodule Ants.Worlds.Tile do
     GenServer.call(pid, :deposit_food)
   end
 
-  def tick(pid) do
-    GenServer.cast(pid, :tick)
+  def decay_pheromones(pid) do
+    GenServer.cast(pid, :decay_pheromones)
   end
 
   ## Server 
@@ -76,11 +76,11 @@ defmodule Ants.Worlds.Tile do
   end
 
 
-  def handle_call(:add_pheromone, _from, tile = %Land{pheromone: pheromone}) do
-    {:reply, {:ok}, Map.update!(tile, :pheromone, &Utils.inc/1)}
+  def handle_call(:deposit_pheromones, _from, tile = %Land{pheromone: pheromone}) do
+    {:reply, {:ok, 1}, Map.update!(tile, :pheromone, &Utils.inc/1)}
   end
 
-  def handle_call(:add_pheromone, _from, tile) do
+  def handle_call(:deposit_pheromones, _from, tile) do
     {:reply, {:error, :not_land}, tile}
   end
 
@@ -94,11 +94,13 @@ defmodule Ants.Worlds.Tile do
   end
 
   
-  def handle_cast(:tick, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
-    {:noreply, %Land{pheromone: pheromone * @pheromone_decay}}
+  def handle_call(:decay_pheromones, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
+    tile = %Land{tile | pheromone: pheromone * @pheromone_decay}
+
+    {:reply, tile, tile}
   end
 
-  def handle_cast(:tick, _from, tile) do
-    {:noreply, tile}
+  def handle_cast(:decay_pheromones, _from, tile) do
+    {:reply, tile, tile}
   end
 end

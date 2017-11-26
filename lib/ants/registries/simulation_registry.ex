@@ -9,9 +9,19 @@ defmodule Ants.Registries.SimRegistry do
     via({sim, :tile_supervisor})
   end
 
+  @spec ant_supervisor(integer) :: tuple
+  def ant_supervisor(sim) do
+    via({sim, :ant_supervisor})
+  end
+
   @spec tile(integer, integer, integer) :: tuple
   def tile(sim, x, y) do
     via({sim, :tile, x, y})
+  end
+
+  @spec ant(integer, integer) :: tuple
+  def ant(sim, id) do
+    via({sim, :ant, id})
   end
 
   @spec via(tuple) :: tuple
