@@ -8,15 +8,6 @@ defmodule Ants.Worlds.WorldMap do
   @typep cell :: String.t
   @typep cell_map :: [cell]
 
-  @cell_of_tile %{
-    rock: "0",
-    land: "_",
-    food: "F",
-    home: "H",
-    light_pheromone: "p",
-    heavy_pheromone: "P"
-  }
-
   @spec tile_type_of_world_map(t) :: tile_types
   def tile_type_of_world_map(world_map) do
     world_map
@@ -39,7 +30,9 @@ defmodule Ants.Worlds.WorldMap do
   @spec cell_of_tile(Tile.t) :: cell
   def cell_of_tile(%Rock{}), do: "0"
   def cell_of_tile(%Land{pheromone: pheromone})
-    when pheromone > 0, do: "-"
+    when pheromone > 5, do: "P"
+  def cell_of_tile(%Land{pheromone: pheromone})
+    when pheromone > 0, do: "p"
   def cell_of_tile(%Land{}), do: "_"
   def cell_of_tile(%Food{food: food})
     when food < 5, do: "f"

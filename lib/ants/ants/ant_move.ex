@@ -1,11 +1,9 @@
 defmodule Ants.Ants.AntMove do
-  alias Ants.Shared.Utils
   alias Ants.Ants.Ant
   alias Ants.Ants.Move
   alias Ants.Ants.TileSelector
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.{Food, Land, Home, Rock}
 
   @type location :: {Tile.t, Enum.index}
 
@@ -39,7 +37,7 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec can_visit(Ant.t, location) :: boolean
-  defp can_visit(ant, location = {tile, i}) do
+  defp can_visit(ant, {_tile, i}) do
     # ignore the center tile, and the last move
     !(i == 4 || equals_last_move?(ant, i))
   end

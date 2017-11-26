@@ -1,13 +1,9 @@
 defmodule Ants.Ants.AntMoveTest do
   use ExUnit.Case, async: true
-  import Mox
 
   alias Ants.Ants.Ant
-  alias Ants.Worlds
   alias Ants.Worlds.TileType
   alias Ants.Worlds.Surroundings
-  alias Ants.Simulations.SimulationsSupervisor
-  alias Ants.WorldsMock
   alias Ants.Worlds.WorldMap
   alias Ants.Ants.AntMove
 

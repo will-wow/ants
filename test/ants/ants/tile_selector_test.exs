@@ -1,11 +1,7 @@
 defmodule Ants.Ants.TileSelectorTest do
   use ExUnit.Case, async: true
-  import Mox
 
-
-  alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.{Food, Land, Home, Rock}
-  alias Ants.Ants.AntMove
+  alias Ants.Worlds.Tile.{Food, Land}
   alias Ants.Ants.TileSelector
 
   test "chooses food" do

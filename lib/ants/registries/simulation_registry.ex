@@ -24,6 +24,11 @@ defmodule Ants.Registries.SimRegistry do
     via({sim, :ant, id})
   end
 
+  @spec ant_id(integer) :: tuple
+  def ant_id(sim) do
+    via({sim, :ant_id})
+  end
+
   @spec via(tuple) :: tuple
   defp via(data) do
     {:via, Registry, { __MODULE__, data }}

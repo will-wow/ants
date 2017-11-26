@@ -5,6 +5,7 @@ defmodule Ants.Ants.Ant do
   alias Ants.Registries.SimulationPubSub
   alias Ants.Ants.Move
   alias Ants.Ants.AntMove
+  alias Ants.Ants.AntFood
   alias Ants.Worlds
 
   ## Consts
@@ -54,12 +55,18 @@ defmodule Ants.Ants.Ant do
     x = ant.x
     y = ant.y
     surroundings = Worlds.surroundings(sim, x, y)
-    ant = AntMove.move(ant, surroundings)
+
+    ant = 
+      ant
+      |> AntMove.move(surroundings)
+      |> AntFood.deposit_food(sim)
+      |> AntFood.take_food(sim)
 
     {:reply, ant, {sim, ant}}
   end
 
   def handle_call(:deposit_pheromones, _from, {sim, ant}) do
+    AntFood.deposit_pheromones(ant, sim)
     {:reply, ant, {sim, ant}}
   end
 end

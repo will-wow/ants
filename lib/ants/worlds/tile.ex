@@ -11,22 +11,26 @@ defmodule Ants.Worlds.Tile do
   ## Structs
 
   defmodule Land do
+    @type t :: %Land{pheromone: integer}
     defstruct pheromone: 0
   end
 
   defmodule Rock do
+    @type t :: %Rock{}
     defstruct []
   end
 
   defmodule Home do
+    @type t :: %Home{food: integer}
     defstruct food: 0
   end
 
   defmodule Food do
+    @type t :: %Food{food: integer}
     defstruct food: 0
   end
 
-  @type t :: %Land{} | %Rock{} | %Home{} | %Food{}
+  @type t :: Land.t | Rock.t | Home.t | Food.t
 
   ## Client
 
@@ -51,7 +55,7 @@ defmodule Ants.Worlds.Tile do
   end
 
   def decay_pheromones(pid) do
-    GenServer.cast(pid, :decay_pheromones)
+    GenServer.call(pid, :decay_pheromones)
   end
 
   ## Server 
@@ -67,7 +71,7 @@ defmodule Ants.Worlds.Tile do
     {:reply, {:ok, 1}, Map.update!(tile, :food, &Utils.dec/1)} 
   end
 
-  def handle_call(:take_food, _from, tile = %Food{}) do
+  def handle_call(:take_food, _from, %Food{}) do
     {:reply, {:ok, 1}, %Land{}} 
   end
 
@@ -76,8 +80,8 @@ defmodule Ants.Worlds.Tile do
   end
 
 
-  def handle_call(:deposit_pheromones, _from, tile = %Land{pheromone: pheromone}) do
-    {:reply, {:ok, 1}, Map.update!(tile, :pheromone, &Utils.inc/1)}
+  def handle_call(:deposit_pheromones, _from, tile = %Land{}) do
+    {:reply, {:ok}, Map.update!(tile, :pheromone, &Utils.inc/1)}
   end
 
   def handle_call(:deposit_pheromones, _from, tile) do
@@ -100,7 +104,7 @@ defmodule Ants.Worlds.Tile do
     {:reply, tile, tile}
   end
 
-  def handle_cast(:decay_pheromones, _from, tile) do
+  def handle_call(:decay_pheromones, _from, tile) do
     {:reply, tile, tile}
   end
 end

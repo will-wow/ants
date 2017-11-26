@@ -15,10 +15,10 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "adds pheromones", %{tile: tile} do
-      assert Tile.deposit_pheromones(tile) == {:ok, 1}
+      assert Tile.deposit_pheromones(tile) == {:ok}
       assert Tile.get(tile) == %Land{pheromone: 1}
 
-      assert Tile.deposit_pheromones(tile) == {:ok, 1}
+      assert Tile.deposit_pheromones(tile) == {:ok}
       assert Tile.get(tile) == %Land{pheromone: 2}
     end
 

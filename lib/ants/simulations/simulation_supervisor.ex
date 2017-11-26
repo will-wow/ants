@@ -3,6 +3,8 @@ defmodule Ants.Simulations.SimulationSupervisor do
 
   alias Ants.Registries.SimRegistry
   alias Ants.Worlds.TileSupervisor
+  alias Ants.Ants.AntSupervisor
+  alias Ants.Ants.AntId
 
   def start_link(_, sim) do
     Supervisor.start_link(
@@ -14,8 +16,9 @@ defmodule Ants.Simulations.SimulationSupervisor do
 
   def init(sim) do
     Supervisor.init([
-      {TileSupervisor, sim}
-      # AntSupervisor
+      {TileSupervisor, sim},
+      {AntSupervisor, sim},
+      {AntId, sim}
     ], strategy: :one_for_one)
   end
 

@@ -2,9 +2,7 @@ defmodule Ants.Worlds.SurroundingsTest do
   use ExUnit.Case, async: false
   import Mox
 
-  alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.{Land, Home, Rock, Food}
-  alias Ants.Worlds.TileLookup
+  alias Ants.Worlds.Tile.{Land, Home, Rock}
   alias Ants.Worlds.TileType
   alias Ants.Worlds.TileLookupMock
   alias Ants.Worlds.WorldMap

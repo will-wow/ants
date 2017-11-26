@@ -1,15 +1,16 @@
 defmodule Ants.Ants.AntSupervisor do
   use Supervisor
 
-  alias Ants.Registries.Ant
+  alias Ants.Ants.Ant
   alias Ants.Registries.SimRegistry
   alias Ants.Simulations.SimId
+  alias Ants.Ants.AntId
 
   def start_link(sim) do
     Supervisor.start_link(__MODULE__, :ok, name: via(sim))
   end
 
-  @spec start_ant(SimId.t, integer, integer, integer) :: Supervisor.on_start_child
+  @spec start_ant(SimId.t, integer, integer, AntId.t) :: Supervisor.on_start_child
   def start_ant(sim, x, y, id) do
     Supervisor.start_child(
       via(sim),
