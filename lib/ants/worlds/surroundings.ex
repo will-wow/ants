@@ -2,6 +2,7 @@ defmodule Ants.Worlds.Surroundings do
   alias Ants.Worlds.Tile
   alias Ants.Worlds.TileLookup
   alias Ants.Worlds.WorldMap
+  alias Ants.Simulations.SimId
 
   @type t :: {
     Tile.t, Tile.t, Tile.t,
@@ -15,7 +16,7 @@ defmodule Ants.Worlds.Surroundings do
 
   @surroundings_size 3
 
-  @spec surroundings(integer, integer, integer) :: t
+  @spec surroundings(SimId.t, integer, integer) :: t
   def surroundings(sim, x, y) do
     Enum.map(-1..1, fn delta_y -> 
       Enum.map(-1..1, fn delta_x -> 
@@ -23,12 +24,11 @@ defmodule Ants.Worlds.Surroundings do
       end)
     end)
     |> Enum.concat
-    |> Enum.map(fn {x, y} -> 
-      Task.async(fn -> 
-        @lookup.lookup(sim, x, y)
-      end)
+    |> Task.async_stream(fn {x, y} ->
+      @lookup.lookup(sim, x, y)
     end)
-    |> Enum.map(&Task.await/1)
+    |> Stream.map(fn {:ok, tile} -> tile end)
+    |> Enum.to_list
     |> List.to_tuple
   end
 
