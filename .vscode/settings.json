@@ -1,4 +1,8 @@
 {
+  "elixirLS.dialyzerEnabled": true,
+  "[elixir]" : {
+    "editor.formatOnSave": true
+  },
   "search.exclude": {
     "**/node_modules": true,
     "_build": true,

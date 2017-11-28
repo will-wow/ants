@@ -23,11 +23,11 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't take food", %{tile: tile} do
-      cant_take_food tile
+      cant_take_food(tile)
     end
 
     test "can't deposit food", %{tile: tile} do
-      cant_deposit_food tile
+      cant_deposit_food(tile)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_deposit_pheromones tile
+      cant_deposit_pheromones(tile)
     end
 
     test "can take food", %{tile: tile} do
@@ -47,7 +47,7 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "converts empty food to land", %{tile: tile} do
-      Enum.each(1..10, fn(_) -> Tile.take_food(tile) end)
+      Enum.each(1..10, fn _ -> Tile.take_food(tile) end)
 
       assert Tile.take_food(tile) == {:error, :not_food}
       assert Tile.get(tile) == %Land{}
@@ -62,15 +62,15 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_deposit_pheromones tile
+      cant_deposit_pheromones(tile)
     end
 
     test "can't take food", %{tile: tile} do
-      cant_take_food tile
+      cant_take_food(tile)
     end
 
     test "can't deposit food", %{tile: tile} do
-      cant_deposit_food tile
+      cant_deposit_food(tile)
     end
   end
 
@@ -82,11 +82,11 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can't add pheromones", %{tile: tile} do
-      cant_deposit_pheromones tile
+      cant_deposit_pheromones(tile)
     end
 
     test "can't take food", %{tile: tile} do
-      cant_take_food tile
+      cant_take_food(tile)
     end
 
     test "can deposit food", %{tile: tile} do

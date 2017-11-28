@@ -30,7 +30,7 @@ defmodule Ants.Worlds.Tile do
     defstruct food: 0
   end
 
-  @type t :: Land.t | Rock.t | Home.t | Food.t
+  @type t :: Land.t() | Rock.t() | Home.t() | Food.t()
 
   ## Client
 
@@ -59,26 +59,24 @@ defmodule Ants.Worlds.Tile do
   end
 
   ## Server 
-  
+
   def init(type), do: TileType.tile_of_type(type)
 
   def handle_call(:get, _from, tile) do
     {:reply, tile, tile}
   end
 
-
   def handle_call(:take_food, _from, tile = %Food{food: food}) when food > 1 do
-    {:reply, {:ok, 1}, Map.update!(tile, :food, &Utils.dec/1)} 
+    {:reply, {:ok, 1}, Map.update!(tile, :food, &Utils.dec/1)}
   end
 
   def handle_call(:take_food, _from, %Food{}) do
-    {:reply, {:ok, 1}, %Land{}} 
+    {:reply, {:ok, 1}, %Land{}}
   end
 
   def handle_call(:take_food, _from, tile) do
     {:reply, {:error, :not_food}, tile}
   end
-
 
   def handle_call(:deposit_pheromones, _from, tile = %Land{}) do
     {:reply, {:ok}, Map.update!(tile, :pheromone, &Utils.inc/1)}
@@ -88,7 +86,6 @@ defmodule Ants.Worlds.Tile do
     {:reply, {:error, :not_land}, tile}
   end
 
-
   def handle_call(:deposit_food, _from, tile = %Home{}) do
     {:reply, {:ok}, Map.update!(tile, :food, &Utils.inc/1)}
   end
@@ -97,7 +94,6 @@ defmodule Ants.Worlds.Tile do
     {:reply, {:error, :not_home}, tile}
   end
 
-  
   def handle_call(:decay_pheromones, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
     tile = %Land{tile | pheromone: pheromone * @pheromone_decay}
 

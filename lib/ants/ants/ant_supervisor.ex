@@ -10,12 +10,9 @@ defmodule Ants.Ants.AntSupervisor do
     Supervisor.start_link(__MODULE__, :ok, name: via(sim))
   end
 
-  @spec start_ant(SimId.t, integer, integer, AntId.t) :: Supervisor.on_start_child
+  @spec start_ant(SimId.t(), integer, integer, AntId.t()) :: Supervisor.on_start_child()
   def start_ant(sim, x, y, id) do
-    Supervisor.start_child(
-      via(sim),
-      [sim, x, y, [name: ant_via(sim, id)]]
-    )
+    Supervisor.start_child(via(sim), [sim, x, y, [name: ant_via(sim, id)]])
   end
 
   @spec get_ant(integer, integer) :: pid
@@ -27,7 +24,7 @@ defmodule Ants.Ants.AntSupervisor do
 
   def init(:ok) do
     Supervisor.init(
-      [Ant], 
+      [Ant],
       strategy: :simple_one_for_one
     )
   end

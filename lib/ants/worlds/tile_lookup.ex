@@ -2,7 +2,7 @@ defmodule Ants.Worlds.TileLookup do
   alias Ants.Worlds.Tile
   alias Ants.Worlds.TileSupervisor
 
-  @callback lookup(integer, integer, integer) :: Tile.t
+  @callback lookup(integer, integer, integer) :: Tile.t()
   @callback get_tile(integer, integer, integer) :: pid
 
   def lookup(sim, x, y) do

@@ -31,6 +31,6 @@ defmodule Ants.Registries.SimRegistry do
 
   @spec via(tuple) :: tuple
   defp via(data) do
-    {:via, Registry, { __MODULE__, data }}
+    {:via, Registry, {__MODULE__, data}}
   end
 end

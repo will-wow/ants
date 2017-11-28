@@ -23,11 +23,18 @@ defmodule Ants.Worlds.SurroundingsTest do
 
       mock_tile_lookup(world_map)
 
-      assert Surroundings.surroundings(1, 2, 2) == {
-        %Land{}, %Rock{}, %Land{},
-        %Land{}, %Home{}, %Rock{},
-        %Rock{}, %Land{}, %Land{}
-      }
+      assert Surroundings.surroundings(1, 2, 2) ==
+               {
+                 %Land{},
+                 %Rock{},
+                 %Land{},
+                 %Land{},
+                 %Home{},
+                 %Rock{},
+                 %Rock{},
+                 %Land{},
+                 %Land{}
+               }
     end
   end
 
@@ -47,19 +54,19 @@ defmodule Ants.Worlds.SurroundingsTest do
     tile_types =
       world_map
       |> WorldMap.tile_type_of_world_map()
-      |> Enum.map(fn type -> 
-        {:ok, tile} = TileType.tile_of_type(type) 
-        tile
-      end)
+      |> Enum.map(fn type ->
+           {:ok, tile} = TileType.tile_of_type(type)
+           tile
+         end)
       |> List.to_tuple()
 
     size = length(world_map)
 
     TileLookupMock
     |> stub(:lookup, fn _, x, y ->
-      lookup_tile(tile_types, size, x, y)
-    end)
-  end 
+         lookup_tile(tile_types, size, x, y)
+       end)
+  end
 
   defp tile_at_index(index, tile_types) do
     elem(tile_types, index)
@@ -70,5 +77,3 @@ defmodule Ants.Worlds.SurroundingsTest do
     |> tile_at_index(tiles)
   end
 end
-
-

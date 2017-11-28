@@ -6,8 +6,7 @@ defmodule Ants.Ants.Move do
   def x({x, _}), do: x
   def y({_, y}), do: y
 
-
-  @spec to_index(t) :: Enum.index
+  @spec to_index(t) :: Enum.index()
   def to_index({x, y}) do
     Surroundings.index_of_coords(x + 1, y + 1)
   end

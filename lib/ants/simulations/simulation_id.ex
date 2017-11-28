@@ -9,7 +9,7 @@ defmodule Ants.Simulations.SimId do
 
   @spec get :: t
   def get do
-    Agent.get_and_update(__MODULE__, fn id -> 
+    Agent.get_and_update(__MODULE__, fn id ->
       {id, id + 1}
     end)
   end

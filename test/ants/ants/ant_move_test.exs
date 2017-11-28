@@ -14,11 +14,11 @@ defmodule Ants.Ants.AntMoveTest do
       world_map = [
         "0 _ 0",
         "0 _ 0",
-        "0 0 0",
+        "0 0 0"
       ]
 
       surroundings = make_surroundings(world_map)
-       
+
       assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
     end
 
@@ -26,24 +26,23 @@ defmodule Ants.Ants.AntMoveTest do
       world_map = [
         "0 0 _",
         "0 _ 0",
-        "0 0 0",
+        "0 0 0"
       ]
 
       surroundings = make_surroundings(world_map)
-       
+
       assert AntMove.move(ant, surroundings) == %Ant{x: 2, y: 2}
     end
-
 
     test "picks land over home", %{ant: ant} do
       world_map = [
         "0 _ 0",
         "0 _ 0",
-        "0 H 0",
+        "0 H 0"
       ]
 
       surroundings = make_surroundings(world_map)
-       
+
       assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
     end
 
@@ -51,13 +50,13 @@ defmodule Ants.Ants.AntMoveTest do
       world_map = [
         "0 _ 0",
         "0 _ 0",
-        "0 _ 0",
+        "0 _ 0"
       ]
 
       surroundings = make_surroundings(world_map)
 
       ant = %Ant{ant | path: [{0, -1}]}
-       
+
       assert AntMove.move(ant, surroundings) == %Ant{ant | x: 1, y: 2}
     end
 
@@ -65,15 +64,15 @@ defmodule Ants.Ants.AntMoveTest do
       world_map = [
         "0 _ 0",
         "0 _ p",
-        "0 0 0",
+        "0 0 0"
       ]
 
       surroundings = make_surroundings(world_map)
 
       assert Enum.member?(
-        [%Ant{x: 2, y: 1}, %Ant{x: 1, y: 2}],
-        AntMove.move(ant, surroundings)
-      )
+               [%Ant{x: 2, y: 1}, %Ant{x: 1, y: 2}],
+               AntMove.move(ant, surroundings)
+             )
     end
   end
 
@@ -81,15 +80,14 @@ defmodule Ants.Ants.AntMoveTest do
     %{ant: %Ant{x: 1, y: 1}}
   end
 
-  @spec make_surroundings(WorldMap.t) :: Surroundings.t
+  @spec make_surroundings(WorldMap.t()) :: Surroundings.t()
   defp make_surroundings(world_map) do
     world_map
     |> WorldMap.tile_type_of_world_map()
-    |> Enum.map(fn type -> 
-      {:ok, tile} = TileType.tile_of_type(type) 
-      tile
-    end)
+    |> Enum.map(fn type ->
+         {:ok, tile} = TileType.tile_of_type(type)
+         tile
+       end)
     |> List.to_tuple()
   end
 end
-

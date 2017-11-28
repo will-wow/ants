@@ -10,26 +10,27 @@ defmodule Ants.Ants.AntId do
     Agent.start_link(fn -> [] end, name: via(sim))
   end
 
-  @spec get(SimId.t) :: t
+  @spec get(SimId.t()) :: t
   def get(sim) do
     sim
     |> via()
     |> Agent.get(fn ids -> ids end)
   end
 
-  @spec next(SimId.t) :: t
+  @spec next(SimId.t()) :: t
   def next(sim) do
     sim
     |> via()
-    |> Agent.get_and_update(fn ids -> 
-      case ids do
-        [] ->
-          {0, [0]}
-        [last_id|_] -> 
-          id = last_id + 1
-          {id, [id|ids]}
-      end
-    end)
+    |> Agent.get_and_update(fn ids ->
+         case ids do
+           [] ->
+             {0, [0]}
+
+           [last_id | _] ->
+             id = last_id + 1
+             {id, [id | ids]}
+         end
+       end)
   end
 
   defp via(sim) do

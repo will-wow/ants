@@ -1,7 +1,7 @@
 defmodule Ants.Ants.Ant do
   use GenServer
 
-  alias __MODULE__ 
+  alias __MODULE__
   alias Ants.Registries.SimulationPubSub
   alias Ants.Ants.Move
   alias Ants.Ants.AntMove
@@ -15,11 +15,11 @@ defmodule Ants.Ants.Ant do
   ## Structs
 
   @type t :: %Ant{
-    x: integer,
-    y: integer,
-    food?: boolean,
-    path: [Move.t]
-  }
+          x: integer,
+          y: integer,
+          food?: boolean,
+          path: [Move.t()]
+        }
 
   defstruct x: nil, y: nil, food?: false, path: []
 
@@ -42,7 +42,7 @@ defmodule Ants.Ants.Ant do
   end
 
   ## Server 
-  
+
   def init({sim, x, y}) do
     {:ok, {sim, %Ant{x: x, y: y}}}
   end
@@ -56,7 +56,7 @@ defmodule Ants.Ants.Ant do
     y = ant.y
     surroundings = Worlds.surroundings(sim, x, y)
 
-    ant = 
+    ant =
       ant
       |> AntMove.move(surroundings)
       |> AntFood.deposit_food(sim)

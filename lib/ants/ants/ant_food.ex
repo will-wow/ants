@@ -3,35 +3,40 @@ defmodule Ants.Ants.AntFood do
   alias Ants.Simulations.SimId
   alias Ants.Ants.Ant
 
-  @spec deposit_food(Ant.t, SimId.t) :: Ant.t
+  @spec deposit_food(Ant.t(), SimId.t()) :: Ant.t()
   def deposit_food(ant = %Ant{food?: false}, _), do: ant
+
   def deposit_food(ant, sim) do
     IO.inspect(ant)
     %Ant{x: x, y: y} = ant
 
     case Worlds.deposit_food(sim, x, y) do
-      {:ok, _} -> 
+      {:ok, _} ->
         %Ant{ant | food?: false, path: []}
+
       {:error, :not_home} ->
         ant
     end
   end
 
-  @spec take_food(Ant.t, SimId.t) :: Ant.t
+  @spec take_food(Ant.t(), SimId.t()) :: Ant.t()
   def take_food(ant = %Ant{food?: true}, _), do: ant
+
   def take_food(ant, sim) do
     %Ant{x: x, y: y} = ant
 
     case Worlds.take_food(sim, x, y) do
-      {:ok, _} -> 
+      {:ok, _} ->
         %Ant{ant | food?: true}
+
       {:error, :not_food} ->
         ant
     end
   end
 
-  @spec deposit_pheromones(Ant.t, SimId.t) :: Ant.t
+  @spec deposit_pheromones(Ant.t(), SimId.t()) :: Ant.t()
   def deposit_pheromones(ant = %Ant{food?: false}, _), do: ant
+
   def deposit_pheromones(ant, sim) do
     %Ant{x: x, y: y} = ant
 

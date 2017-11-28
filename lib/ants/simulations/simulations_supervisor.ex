@@ -17,8 +17,11 @@ defmodule Ants.Simulations.SimulationsSupervisor do
   end
 
   def init(:ok) do
-    Supervisor.init([
-      SimulationSupervisor
-    ], strategy: :simple_one_for_one)
+    Supervisor.init(
+      [
+        SimulationSupervisor
+      ],
+      strategy: :simple_one_for_one
+    )
   end
 end

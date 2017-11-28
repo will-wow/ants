@@ -1,6 +1,5 @@
 defmodule Ants.Registries.SimulationPubSub do
-  @typep registration_response :: 
-    {:ok, pid} | {:error, {:already_registered, pid}}
+  @typep registration_response :: {:ok, pid} | {:error, {:already_registered, pid}}
 
   @spec register_for_deposit_pheromones(integer) :: registration_response
   def register_for_deposit_pheromones(sim) do
@@ -16,7 +15,6 @@ defmodule Ants.Registries.SimulationPubSub do
   def register_for_move(sim) do
     register(sim, :move)
   end
-
 
   @spec deposit_pheromones(integer) :: :ok
   def deposit_pheromones(sim) do
@@ -42,17 +40,13 @@ defmodule Ants.Registries.SimulationPubSub do
     )
   end
 
-  @spec send_message(atom) :: (GenServer.server -> any)
+  @spec send_message(atom) :: (GenServer.server() -> any)
   defp send_message(topic) do
     fn server -> GenServer.call(server, topic) end
   end
 
   @spec register(integer, atom) :: registration_response
   defp register(sim, topic) do
-    Registry.register(
-      __MODULE__,
-      {sim, topic},
-      []
-    )
+    Registry.register(__MODULE__, {sim, topic}, [])
   end
 end

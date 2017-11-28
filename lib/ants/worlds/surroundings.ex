@@ -4,11 +4,18 @@ defmodule Ants.Worlds.Surroundings do
   alias Ants.Worlds.WorldMap
   alias Ants.Simulations.SimId
 
-  @type t :: {
-    Tile.t, Tile.t, Tile.t,
-    Tile.t, Tile.t, Tile.t,
-    Tile.t, Tile.t, Tile.t,
-  }
+  @type t ::
+          {
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t(),
+            Tile.t()
+          }
 
   @type coords :: {integer, integer}
 
@@ -16,20 +23,20 @@ defmodule Ants.Worlds.Surroundings do
 
   @surroundings_size 3
 
-  @spec surroundings(SimId.t, integer, integer) :: t
+  @spec surroundings(SimId.t(), integer, integer) :: t
   def surroundings(sim, x, y) do
-    Enum.map(-1..1, fn delta_y -> 
-      Enum.map(-1..1, fn delta_x -> 
+    Enum.map(-1..1, fn delta_y ->
+      Enum.map(-1..1, fn delta_x ->
         coords_of_offset(x, y, delta_x, delta_y)
       end)
     end)
-    |> Enum.concat
+    |> Enum.concat()
     |> Task.async_stream(fn {x, y} ->
-      @lookup.lookup(sim, x, y)
-    end)
+         @lookup.lookup(sim, x, y)
+       end)
     |> Stream.map(fn {:ok, tile} -> tile end)
-    |> Enum.to_list
-    |> List.to_tuple
+    |> Enum.to_list()
+    |> List.to_tuple()
   end
 
   @spec index_of_coords(integer, integer) :: integer

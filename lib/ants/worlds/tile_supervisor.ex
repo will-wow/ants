@@ -11,12 +11,8 @@ defmodule Ants.Worlds.TileSupervisor do
     Supervisor.start_link(__MODULE__, :ok, name: via(sim))
   end
 
-
   def start_tile(sim, tile_type, x, y) do
-    Supervisor.start_child(
-      via(sim),
-      [tile_type, [name: tile_via(sim, x, y)]]
-    )
+    Supervisor.start_child(via(sim), [tile_type, [name: tile_via(sim, x, y)]])
   end
 
   @spec get_tile(integer, integer, integer) :: pid
@@ -28,7 +24,7 @@ defmodule Ants.Worlds.TileSupervisor do
 
   def init(:ok) do
     Supervisor.init(
-      [Tile], 
+      [Tile],
       strategy: :simple_one_for_one
     )
   end

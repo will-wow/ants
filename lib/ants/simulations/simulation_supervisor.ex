@@ -15,11 +15,14 @@ defmodule Ants.Simulations.SimulationSupervisor do
   end
 
   def init(sim) do
-    Supervisor.init([
-      {TileSupervisor, sim},
-      {AntSupervisor, sim},
-      {AntId, sim}
-    ], strategy: :one_for_one)
+    Supervisor.init(
+      [
+        {TileSupervisor, sim},
+        {AntSupervisor, sim},
+        {AntId, sim}
+      ],
+      strategy: :one_for_one
+    )
   end
 
   def via(sim) do

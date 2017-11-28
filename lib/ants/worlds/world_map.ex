@@ -3,9 +3,9 @@ defmodule Ants.Worlds.WorldMap do
   alias Ants.Worlds.TileType
   alias Ants.Worlds.Tile.{Land, Rock, Home, Food}
 
-  @type t :: [String.t]
-  @type tile_types :: [TileType.t]
-  @typep cell :: String.t
+  @type t :: [String.t()]
+  @type tile_types :: [TileType.t()]
+  @typep cell :: String.t()
   @typep cell_map :: [cell]
 
   @spec tile_type_of_world_map(t) :: tile_types
@@ -27,29 +27,37 @@ defmodule Ants.Worlds.WorldMap do
     Integer.floor_div(index, size)
   end
 
-  @spec cell_of_tile(Tile.t) :: cell
+  @spec cell_of_tile(Tile.t()) :: cell
   def cell_of_tile(%Rock{}), do: "0"
-  def cell_of_tile(%Land{pheromone: pheromone})
-    when pheromone > 5, do: "P"
-  def cell_of_tile(%Land{pheromone: pheromone})
-    when pheromone > 0, do: "p"
-  def cell_of_tile(%Land{}), do: "_"
-  def cell_of_tile(%Food{food: food})
-    when food < 5, do: "f"
-  def cell_of_tile(%Food{}), do: "F"
-  def cell_of_tile(%Home{}), do: "H" 
 
-  @spec cell_map_of_world_map(t) :: cell_map 
+  def cell_of_tile(%Land{pheromone: pheromone})
+      when pheromone > 5,
+      do: "P"
+
+  def cell_of_tile(%Land{pheromone: pheromone})
+      when pheromone > 0,
+      do: "p"
+
+  def cell_of_tile(%Land{}), do: "_"
+
+  def cell_of_tile(%Food{food: food})
+      when food < 5,
+      do: "f"
+
+  def cell_of_tile(%Food{}), do: "F"
+  def cell_of_tile(%Home{}), do: "H"
+
+  @spec cell_map_of_world_map(t) :: cell_map
   defp cell_map_of_world_map(rows) do
     Enum.map(rows, &split_input_row/1)
   end
 
-  @spec split_input_row(String.t) :: [String.t]
+  @spec split_input_row(String.t()) :: [String.t()]
   defp split_input_row(row) do
     String.split(row, " ")
   end
 
-  @spec tile_type_of_cell(cell) :: TileType.t
+  @spec tile_type_of_cell(cell) :: TileType.t()
   defp tile_type_of_cell("0"), do: :rock
   defp tile_type_of_cell("_"), do: :land
   defp tile_type_of_cell("F"), do: :food

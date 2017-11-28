@@ -7,11 +7,9 @@ defmodule Ants.Ants.TileSelectorTest do
   test "chooses food" do
     locations = [
       {%Land{pheromone: 10}, 2},
-      {%Food{food: 10}, 4},
+      {%Food{food: 10}, 4}
     ]
-      
+
     assert TileSelector.select_tile(locations) == 4
   end
 end
-
-
