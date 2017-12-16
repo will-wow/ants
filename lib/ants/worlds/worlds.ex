@@ -21,6 +21,16 @@ defmodule Ants.Worlds do
     "0 0 0 0 0 0 0"
   ]
 
+  @world_map [
+    "0 0 0 0 0 0 0",
+    "0 _ _ _ 0 F 0",
+    "0 _ 0 _ 0 _ 0",
+    "0 0 0 0 0 _ 0",
+    "0 _ F 0 _ _ 0",
+    "0 H 0 0 _ _ 0",
+    "0 0 0 0 0 0 0"
+  ]
+
   @spec create_world(integer, WorldMap.t()) :: {:ok, home: {integer, integer}}
   def create_world(sim, map \\ @world_map) do
     map

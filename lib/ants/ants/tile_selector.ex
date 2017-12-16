@@ -63,10 +63,19 @@ defmodule Ants.Ants.TileSelector do
   @spec update_tile_rating_list(rating, Tile.t(), RatingMap.t()) :: RatingMap.t()
   defp update_tile_rating_list(rating, tile, ratings) do
     case tile do
-      %Food{} -> %RatingMap{ratings | food: [rating | ratings.food]}
-      %Land{} -> %RatingMap{ratings | land: [rating | ratings.land]}
-      %Home{} -> %RatingMap{ratings | home: rating}
-      %Rock{} -> ratings
+      %Food{} ->
+        IO.puts("====FOOOOOD====")
+        %RatingMap{ratings | food: [rating | ratings.food]}
+
+      %Land{} ->
+        %RatingMap{ratings | land: [rating | ratings.land]}
+
+      %Home{} ->
+        IO.puts("====HOME====")
+        %RatingMap{ratings | home: rating}
+
+      %Rock{} ->
+        ratings
     end
   end
 
