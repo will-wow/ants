@@ -1,27 +1,28 @@
 defmodule Ants.Simulations.SimulationsSupervisor do
-  use Supervisor
+  use DynamicSupervisor
 
   alias Ants.Simulations.SimulationSupervisor
 
   def start_link(_opts) do
-    Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
+    DynamicSupervisor.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
+  @spec start_simulation(integer) :: Supervisor.on_start_child()
   def start_simulation(sim) do
-    Supervisor.start_child(__MODULE__, [sim])
+    DynamicSupervisor.start_child(__MODULE__, {SimulationSupervisor, sim})
   end
 
+  @spec end_simulation(integer) :: Supervisor.on_start_child()
   def end_simulation(sim) do
-    child_via = SimulationSupervisor.via(sim)
-    Supervisor.terminate_child(__MODULE__, child_via)
+    child_pid =
+      sim
+      |> SimulationSupervisor.via()
+      |> GenServer.whereis()
+
+    DynamicSupervisor.terminate_child(__MODULE__, child_pid)
   end
 
   def init(:ok) do
-    Supervisor.init(
-      [
-        SimulationSupervisor
-      ],
-      strategy: :simple_one_for_one
-    )
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 end

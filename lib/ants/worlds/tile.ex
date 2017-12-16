@@ -34,7 +34,7 @@ defmodule Ants.Worlds.Tile do
 
   ## Client
 
-  def start_link(_, type, opts) do
+  def start_link({type, opts}) do
     GenServer.start_link(__MODULE__, type, opts)
   end
 

@@ -6,7 +6,7 @@ defmodule Ants.Simulations.SimulationSupervisor do
   alias Ants.Ants.AntSupervisor
   alias Ants.Ants.AntId
 
-  def start_link(_, sim) do
+  def start_link(sim) do
     Supervisor.start_link(
       __MODULE__,
       sim,

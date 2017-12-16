@@ -8,5 +8,8 @@
     "_build": true,
     "deps": true,
     "erl_crash.dump": true
-  }
+  },
+  "cSpell.words": [
+    "whereis"
+  ]
 }

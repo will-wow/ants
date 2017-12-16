@@ -1,18 +1,23 @@
 defmodule Ants.Worlds.TileSupervisor do
-  use Supervisor
+  use DynamicSupervisor
 
   @callback get_tile(integer, integer, integer) :: pid
 
   alias Ants.Registries.SimRegistry
-
   alias Ants.Worlds.Tile
 
   def start_link(sim) do
-    Supervisor.start_link(__MODULE__, :ok, name: via(sim))
+    DynamicSupervisor.start_link(__MODULE__, :ok, name: via(sim))
   end
 
   def start_tile(sim, tile_type, x, y) do
-    Supervisor.start_child(via(sim), [tile_type, [name: tile_via(sim, x, y)]])
+    DynamicSupervisor.start_child(
+      via(sim),
+      {
+        Tile,
+        {tile_type, [name: tile_via(sim, x, y)]}
+      }
+    )
   end
 
   @spec get_tile(integer, integer, integer) :: pid
@@ -23,10 +28,7 @@ defmodule Ants.Worlds.TileSupervisor do
   end
 
   def init(:ok) do
-    Supervisor.init(
-      [Tile],
-      strategy: :simple_one_for_one
-    )
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 
   defp via(sim) do

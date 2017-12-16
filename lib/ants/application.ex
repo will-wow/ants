@@ -2,7 +2,6 @@ defmodule Ants.Application do
   use Application
 
   alias Ants.Registries.SimRegistry
-  alias Ants.Registries.SimulationPubSub
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.Simulations.SimId
 
@@ -16,7 +15,6 @@ defmodule Ants.Application do
       # Start the endpoint when the application starts
       supervisor(AntsWeb.Endpoint, []),
       {Registry, keys: :unique, name: SimRegistry},
-      {Registry, keys: :duplicate, name: SimulationPubSub},
       SimId,
       {SimulationsSupervisor, [[]]}
       # Start your own worker by calling: Ants.Worker.start_link(arg1, arg2, arg3)
