@@ -2,10 +2,7 @@ defmodule Ants.Worlds.TileTest do
   use ExUnit.Case, async: true
 
   alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.Land
-  alias Ants.Worlds.Tile.Food
-  alias Ants.Worlds.Tile.Rock
-  alias Ants.Worlds.Tile.Home
+  alias Ants.Worlds.Tile.{Land, Food, Rock, Home}
 
   describe "given a land tile" do
     setup [:create_land]
