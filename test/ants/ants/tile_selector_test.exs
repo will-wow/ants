@@ -12,6 +12,12 @@ defmodule Ants.Ants.TileSelectorTest do
       {%Rock{}, 6}
     ]
 
-    assert TileSelector.select_tile(locations) == 4
+    assert TileSelector.select(locations, :food) == {:ok, 4}
+  end
+
+  test "error when empty" do
+    locations = []
+
+    assert TileSelector.select(locations, :land) == {:error, :blocked}
   end
 end

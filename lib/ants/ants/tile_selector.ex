@@ -6,6 +6,8 @@ defmodule Ants.Ants.TileSelector do
 
   @type rating :: {integer, index}
   @type tile_type :: :land | :food
+  @type on_select :: Utils.maybe(index, :blocked)
+
   @typep location :: AntMove.location()
   @typep index :: Enum.index()
   @typep locations :: [location]
@@ -22,11 +24,11 @@ defmodule Ants.Ants.TileSelector do
     defstruct food: [], land: [], home: nil
   end
 
-  @spec select(locations, tile_type) :: index
+  @spec select(locations, tile_type) :: on_select
   def select(locations, :land), do: select_land(locations)
   def select(locations, :food), do: select_food(locations)
 
-  @spec select_land(locations) :: index
+  @spec select_land(locations) :: on_select
   defp select_land(locations) do
     locations
     |> Enum.filter(fn location ->
@@ -40,7 +42,7 @@ defmodule Ants.Ants.TileSelector do
     |> weighted_select
   end
 
-  @spec select_food(locations) :: index
+  @spec select_food(locations) :: on_select
   defp select_food(locations) do
     locations
     |> Enum.filter(fn location ->
@@ -64,11 +66,14 @@ defmodule Ants.Ants.TileSelector do
   defp rate_tile(%Home{}), do: 1
   defp rate_tile(%Rock{}), do: 0
 
-  @spec weighted_select([rating]) :: index
+  @spec weighted_select([rating]) :: on_select
   defp weighted_select(ratings) do
-    ratings
-    |> Enum.map(&weighted_pair_of_rating/1)
-    |> Utils.weighted_select()
+    case ratings
+         |> Enum.map(&weighted_pair_of_rating/1)
+         |> Utils.weighted_select() do
+      {:ok, index} -> {:ok, index}
+      {:error, _} -> {:error, :blocked}
+    end
   end
 
   defp weighted_pair_of_rating({rating, index}) do

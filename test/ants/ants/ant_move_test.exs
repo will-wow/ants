@@ -52,6 +52,18 @@ defmodule Ants.Ants.AntMoveTest do
                AntMove.move(ant, surroundings)
              )
     end
+
+    test "raises when trapped", %{ant: ant} do
+      world_map = [
+        "0 0 0",
+        "0 _ 0",
+        "0 0 0"
+      ]
+
+      surroundings = make_surroundings(world_map)
+
+      assert_raise(RuntimeError, fn -> AntMove.move(ant, surroundings) end)
+    end
   end
 
   describe "an ant with a path" do
@@ -91,6 +103,18 @@ defmodule Ants.Ants.AntMoveTest do
       surroundings = make_surroundings(world_map)
 
       assert AntMove.move(ant, surroundings) == %Ant{ant | x: 2, y: 2, path: [{1, 1} | ant.path]}
+    end
+
+    test "goes back when trapped", %{ant: ant} do
+      world_map = [
+        "0 0 0",
+        "0 _ 0",
+        "0 _ 0"
+      ]
+
+      surroundings = make_surroundings(world_map)
+
+      assert AntMove.move(ant, surroundings) == %Ant{ant | x: 1, y: 0, path: [{0, -1} | ant.path]}
     end
   end
 

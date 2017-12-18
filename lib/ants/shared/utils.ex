@@ -2,6 +2,9 @@ defmodule Ants.Shared.Utils do
   alias Ants.Shared.Pair
 
   @type weighted_pair :: Pair.t(any, number)
+  @type on_weighted_select :: maybe(any, atom)
+
+  @type maybe(ok, error) :: {:ok, ok} | {:error, error}
 
   @typep acc :: Enum.acc()
   @typep element :: Enum.element()
@@ -36,8 +39,8 @@ defmodule Ants.Shared.Utils do
     data
   end
 
-  @spec weighted_select([weighted_pair]) :: any
-  def weighted_select([]), do: raise("empty list")
+  @spec weighted_select([weighted_pair]) :: on_weighted_select
+  def weighted_select([]), do: {:error, :empty}
 
   def weighted_select(list) do
     total =
@@ -45,9 +48,15 @@ defmodule Ants.Shared.Utils do
       |> Enum.map(&Pair.last/1)
       |> Enum.sum()
 
-    random = :rand.uniform() * total
+    case total do
+      0 ->
+        {:error, :no_weights}
 
-    weighted_select(list, random, 0)
+      _ ->
+        random = :rand.uniform() * total
+
+        {:ok, weighted_select(list, random, 0)}
+    end
   end
 
   defp weighted_select(list, random, sum) do

@@ -46,6 +46,10 @@ defmodule Ants.Ants.AntMove do
     |> Stream.with_index()
     |> Enum.filter(&can_visit(ant, &1))
     |> TileSelector.select(tile_type)
+    |> (fn
+          {:ok, index} -> index
+          {:error, :blocked} -> last_index(ant)
+        end).()
     |> Surroundings.coords_of_index()
     |> update_ant_coords(ant)
   end
@@ -77,6 +81,13 @@ defmodule Ants.Ants.AntMove do
     case ant.path do
       [] -> false
       [last_move | _] -> Move.backward_to_index(last_move) == index
+    end
+  end
+
+  defp last_index(ant) do
+    case ant.path do
+      [] -> raise "ant is trapped!"
+      [last_move | _] -> Move.backward_to_index(last_move)
     end
   end
 

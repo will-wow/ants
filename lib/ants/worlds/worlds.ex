@@ -22,23 +22,28 @@ defmodule Ants.Worlds do
     "0 0 0 0 0 0 0"
   ]
 
-  # @world_map [
-  #   "0 0 0 0 0 0 0",
-  #   "0 _ _ _ 0 F 0",
-  #   "0 0 0 0 0 _ 0",
-  #   "0 _ _ F 0 _ 0",
-  #   "0 _ p _ 0 _ 0",
-  #   "0 H _ _ 0 _ 0",
-  #   "0 0 0 0 0 0 0"
-  # ]
+  @world_map [
+    "0 0 0 0 0 0 0 0 0 0",
+    "0 _ _ _ _ _ 0 _ F 0",
+    "0 _ _ _ 0 _ 0 _ _ 0",
+    "0 0 0 _ 0 _ _ _ _ 0",
+    "0 _ _ _ 0 0 0 _ _ 0",
+    "0 _ 0 _ _ 0 0 _ _ 0",
+    "0 _ 0 _ _ _ _ _ _ 0",
+    "0 _ 0 _ _ 0 _ 0 0 0",
+    "0 H _ _ 0 0 _ _ _ 0",
+    "0 0 0 0 0 0 0 0 0 0"
+  ]
+
+  @map_size Enum.count(@world_map)
 
   @spec create_world(integer, WorldMap.t()) :: {:ok, home: {integer, integer}}
   def create_world(sim, map \\ @world_map) do
     map
     |> WorldMap.tile_type_of_world_map()
     |> Utils.map_indexed(fn {type, i} ->
-         x = WorldMap.x_coord_of_index(i, 7)
-         y = WorldMap.y_coord_of_index(i, 7)
+         x = WorldMap.x_coord_of_index(i, @map_size)
+         y = WorldMap.y_coord_of_index(i, @map_size)
 
          {:ok, _} = TileSupervisor.start_tile(sim, type, x, y)
        end)
@@ -119,8 +124,10 @@ defmodule Ants.Worlds do
 
   @spec all_coords :: [{integer, integer}]
   defp all_coords do
-    Enum.map(0..6, fn y ->
-      Enum.map(0..6, fn x ->
+    range = 0..(@map_size - 1)
+
+    Enum.map(range, fn y ->
+      Enum.map(range, fn x ->
         {x, y}
       end)
     end)
