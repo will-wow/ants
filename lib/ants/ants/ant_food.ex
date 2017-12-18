@@ -7,7 +7,6 @@ defmodule Ants.Ants.AntFood do
   def deposit_food(ant = %Ant{food?: false}, _), do: ant
 
   def deposit_food(ant, sim) do
-    IO.inspect(ant)
     %Ant{x: x, y: y} = ant
 
     case Worlds.deposit_food(sim, x, y) do

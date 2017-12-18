@@ -23,6 +23,7 @@ defmodule Ants.Simulations do
   @spec turn(SimId.t(), integer) :: :ok
   def turn(sim, turns \\ 1) do
     Enum.each(1..turns, fn _ ->
+      end_if_done(sim)
       Ants.move_all(sim)
       Ants.deposit_all_pheromones(sim)
       Worlds.decay_all_pheromones(sim)
@@ -31,6 +32,25 @@ defmodule Ants.Simulations do
     print(sim)
 
     :ok
+  end
+
+  @spec end_if_done(SimId.t()) :: :ok
+  def end_if_done(sim) do
+    if done?(sim) do
+      SimulationsSupervisor.end_simulation(sim)
+      IO.puts("====DONE!====")
+      :ok
+    else
+      :ok
+    end
+  end
+
+  @spec done?(SimId.t()) :: boolean
+  def done?(sim) do
+    food_in_world = Worlds.count_food(sim)
+    food_with_ants = Ants.count_food(sim)
+
+    food_in_world + food_with_ants <= 0
   end
 
   defdelegate print(sim), to: Print

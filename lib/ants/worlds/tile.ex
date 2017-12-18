@@ -87,7 +87,7 @@ defmodule Ants.Worlds.Tile do
   end
 
   def handle_call(:deposit_food, _from, tile = %Home{}) do
-    {:reply, {:ok}, Map.update!(tile, :food, &Utils.inc/1)}
+    {:reply, {:ok, 1}, Map.update!(tile, :food, &Utils.inc/1)}
   end
 
   def handle_call(:deposit_food, _from, tile) do

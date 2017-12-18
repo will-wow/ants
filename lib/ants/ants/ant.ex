@@ -64,6 +64,10 @@ defmodule Ants.Ants.Ant do
     {:reply, ant, {sim, ant}}
   end
 
+  def terminate(reason, state) do
+    IO.inspect({"terminate!", reason, state})
+  end
+
   def handle_call(:deposit_pheromones, _from, {sim, ant}) do
     AntFood.deposit_pheromones(ant, sim)
     {:reply, ant, {sim, ant}}
