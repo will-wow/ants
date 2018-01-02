@@ -37,7 +37,7 @@ exports.config = {
   // Phoenix paths configuration
   paths: {
     // Dependencies and current project directories to watch
-    watched: ["static", "css", "js", "vendor"],
+    watched: ["lib", "static", "css"],
     // Where to compile files to
     public: "../priv/static"
   },
@@ -52,7 +52,7 @@ exports.config = {
 
   modules: {
     autoRequire: {
-      "js/app.js": ["js/app"]
+      "js/app.js": ["lib/js/src/index"]
     }
   },
 

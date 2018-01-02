@@ -11,8 +11,10 @@ config :ants, AntsWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-                    cd: Path.expand("../assets", __DIR__)]]
+  watchers: [
+    # yarn: ["start", cd: Path.expand("../assets", __DIR__)],
+    # yarn: ["brunch", cd: Path.expand("../assets", __DIR__)]
+  ]
 
 # ## SSL Support
 #
