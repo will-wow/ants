@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <div id="index"></div>
+    <div id="root"></div>
     <script src="<%= static_path(@conn, "/js/index.js") %>"></script>
   </body>
 </html>

@@ -1,5 +1,72 @@
-@import './reset';
+// @import './reset';
+
+/* reset */
+body,
+div {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
 
 body {
-  color: blue;
+  font: 14px "Century Gothic", Futura, sans-serif;
+}
+
+#root {
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.app {
+  width: 280px;
+  max-height: 600px;
+  flex: 1;
+  box-shadow: 0 2px 15px #ccc;
+  margin: 10px;
+  align-items: stretch;
+}
+
+.title {
+  font-size: 20px;
+  align-items: center;
+  padding: 20px;
+}
+
+.items {
+  margin: 10px 0;
+  text-align: center;
+  flex: 1;
+  overflow: auto;
+}
+
+.footer {
+  align-items: flex-start;
+  padding: 5px 10px;
+}
+
+.item {
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  flex-direction: row;
+}
+
+.checkbox {
+  margin-right: 20px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+input[type="text"] {
+  align-self: stretch;
+  padding: 3px 5px;
+  margin-top: 20px;
 }
