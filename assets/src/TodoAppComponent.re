@@ -1,30 +1,10 @@
-type item = {
-  id: int,
-  title: string,
-  completed: bool
-};
-
 let str = ReasonReact.stringToElement;
 
-module TodoItem = {
-  let component = ReasonReact.statelessComponent("TodoItem");
-  let make = (~item, _children) => {
-    ...component,
-    render: _self =>
-      <div className="item">
-        <input
-          _type="checkbox"
-          checked=(Js.Boolean.to_js_boolean(item.completed))
-        />
-        (str(item.title))
-      </div>
-  };
-};
-
-type state = {items: list(item)};
+type state = {items: list(TodoItem.t)};
 
 type action =
-  | AddItem;
+  | AddItem
+  | ToggleItem(int);
 
 let component = ReasonReact.reducerComponent("TodoApp");
 
@@ -32,17 +12,22 @@ let lastId = ref(0);
 
 let newItem = () => {
   lastId := lastId^ + 1;
-  {id: lastId^, title: "Click a button", completed: true};
+  TodoItem.newItem(lastId^)
+};
+
+let toggleOneItem = (id, items) => {
+  List.map(TodoItem.toggleItem(id), items);
 };
 
 let make = _children => {
   ...component,
   initialState: () => {
-    items: [{id: 0, title: "Write some things to do", completed: false}]
+    items: []
   },
   reducer: (action, {items}) =>
     switch action {
     | AddItem => ReasonReact.Update({items: [newItem(), ...items]})
+    | ToggleItem(id) => ReasonReact.Update({items: toggleOneItem(id, items)})
     },
   render: ({state: {items}, reduce}) => {
     let numItems = List.length(items);
@@ -56,7 +41,7 @@ let make = _children => {
       <div className="items">
         (
           items
-          |> List.map(item => <TodoItem key=(string_of_int(item.id)) item />)
+          |> List.map(item => <TodoItemComponent key=(string_of_int((item : TodoItem.t).id )) onToggle=(reduce(() => ToggleItem(item.id))) item />)
           |> Array.of_list
           |> ReasonReact.arrayToElement
         )
