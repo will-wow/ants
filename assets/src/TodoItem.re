@@ -4,14 +4,15 @@ type t = {
   completed: bool
 };
 
-let newItem = (id) => {
-  { id: id, title: "Click a button", completed: false };
+let newItem = (id: int, text: string) : t => {
+  id,
+  title: text,
+  completed: false
 };
 
-let toggleItem = (id, item) => {
-  if ( item.id == id ) {
+let toggleItem = (id: int, item: t) : t =>
+  if (item.id == id) {
     {...item, completed: ! item.completed};
   } else {
     item;
-  }
-};
+  };

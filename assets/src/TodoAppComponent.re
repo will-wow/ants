@@ -3,16 +3,16 @@ let str = ReasonReact.stringToElement;
 type state = {items: list(TodoItem.t)};
 
 type action =
-  | AddItem
+  | AddItem(string)
   | ToggleItem(int);
 
 let component = ReasonReact.reducerComponent("TodoApp");
 
 let lastId = ref(0);
 
-let newItem = () => {
+let newItem = (text: string) : TodoItem.t => {
   lastId := lastId^ + 1;
-  TodoItem.newItem(lastId^)
+  TodoItem.newItem(lastId^, text);
 };
 
 let toggleOneItem = (id, items) => {
@@ -26,7 +26,7 @@ let make = _children => {
   },
   reducer: (action, {items}) =>
     switch action {
-    | AddItem => ReasonReact.Update({items: [newItem(), ...items]})
+    | AddItem(text) => ReasonReact.Update({items: [newItem(text), ...items]})
     | ToggleItem(id) => ReasonReact.Update({items: toggleOneItem(id, items)})
     },
   render: ({state: {items}, reduce}) => {
@@ -34,9 +34,7 @@ let make = _children => {
     <div className="app">
       <div className="title">
         (str("What to do"))
-        <button onClick=(reduce(_event => AddItem))>
-          (str("Add something"))
-        </button>
+        <TodoInputComponent onSubmit=(reduce(text => AddItem(text))) />
       </div>
       <div className="items">
         (

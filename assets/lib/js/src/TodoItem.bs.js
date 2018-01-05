@@ -2,10 +2,10 @@
 'use strict';
 
 
-function newItem(id) {
+function newItem(id, text) {
   return /* record */[
           /* id */id,
-          /* title */"Click a button",
+          /* title */text,
           /* completed : false */0
         ];
 }
