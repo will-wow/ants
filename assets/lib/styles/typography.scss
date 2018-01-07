@@ -10,7 +10,7 @@ p {
   font-size: 1rem;
 }
 
-a {
+a, button {
   @include regular-font;
   font-size: inherit;
   text-decoration: none;

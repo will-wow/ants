@@ -1,7 +1,7 @@
 let str = ReasonReact.stringToElement;
 
 let component = ReasonReact.statelessComponent("NotFound");
-let make = () => {
+let make = _children => {
   ...component,
   render: _self =>
   <div className="not-found">

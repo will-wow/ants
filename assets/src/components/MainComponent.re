@@ -5,8 +5,8 @@ let renderForRoute = (element) =>
 
 let router =
   DirectorRe.makeRouter({
-    "/": () => renderForRoute(<TodoAppComponent />),
-    "/sim/:id": (_simId) => renderForRoute(<TodoAppComponent />),
+    "/": () => renderForRoute(<SimStartComponent />),
+    "/sim/:id": (simId) => renderForRoute(<SimComponent simId={simId}/>),
     "/todo": () => renderForRoute(<TodoAppComponent />)
   });
 

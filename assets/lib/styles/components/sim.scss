@@ -1,0 +1,5 @@
+@import '../mixins/layout';
+
+.sim {
+  @include center-top-page;
+}
