@@ -8,7 +8,7 @@ defmodule Ants.Simulations do
   @spec start :: {:ok, SimId.t()}
   @spec start(integer) :: {:ok, SimId.t()}
   def start(ants \\ 10) do
-    sim = SimId.get()
+    sim = SimId.next()
 
     {:ok, _} = SimulationsSupervisor.start_simulation(sim)
 
@@ -19,9 +19,26 @@ defmodule Ants.Simulations do
     {:ok, sim}
   end
 
-  @spec turn(SimId.t()) :: :ok
-  @spec turn(SimId.t(), integer) :: :ok
-  def turn(sim, turns \\ 1) do
+  @spec get(SimId.t()) :: Print.world()
+  def get(sim) do
+    Print.data(sim)
+  end
+
+  @spec turn(SimId.t()) :: :done | Print.world()
+  def turn(sim) do
+    if done?(sim) do
+      :done
+    else
+      Ants.move_all(sim)
+      Ants.deposit_all_pheromones(sim)
+      Worlds.decay_all_pheromones(sim)
+
+      Print.data(sim)
+    end
+  end
+
+  @spec turns(SimId.t(), integer) :: Print.world()
+  def turns(sim, turns) do
     Enum.each(1..turns, fn _ ->
       end_if_done(sim)
       Ants.move_all(sim)
@@ -31,7 +48,7 @@ defmodule Ants.Simulations do
 
     print(sim)
 
-    :ok
+    Print.data(sim)
   end
 
   @spec end_if_done(SimId.t()) :: :ok
