@@ -31,7 +31,7 @@ let make = _children => {
     },
   render: ({state: {items}, reduce}) => {
     let numItems = List.length(items);
-    <div className="app">
+    <div className="todo">
       <div className="title">
         (str("What to do"))
         <TodoInputComponent onSubmit=(reduce(text => AddItem(text))) />

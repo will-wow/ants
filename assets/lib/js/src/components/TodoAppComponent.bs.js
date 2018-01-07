@@ -8,7 +8,7 @@ var Curry                            = require("bs-platform/lib/js/curry.js");
 var React                            = require("react");
 var Pervasives                       = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact                      = require("reason-react/lib/js/src/ReasonReact.js");
-var TodoItem$ReactTemplate           = require("./TodoItem.bs.js");
+var TodoItem$ReactTemplate           = require("../domain/TodoItem.bs.js");
 var TodoItemComponent$ReactTemplate  = require("./TodoItemComponent.bs.js");
 var TodoInputComponent$ReactTemplate = require("./TodoInputComponent.bs.js");
 
@@ -38,7 +38,7 @@ function make() {
       var reduce = param[/* reduce */1];
       var numItems = List.length(items);
       return React.createElement("div", {
-                  className: "app"
+                  className: "todo"
                 }, React.createElement("div", {
                       className: "title"
                     }, "What to do", ReasonReact.element(/* None */0, /* None */0, TodoInputComponent$ReactTemplate.make(Curry._1(reduce, (function (text) {

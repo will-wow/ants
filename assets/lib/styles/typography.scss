@@ -1,0 +1,47 @@
+@import './mixins/fonts';
+
+body {
+  @include regular-font;
+  font-size: 16px;
+}
+
+p {
+  @include regular-font;
+  font-size: 1rem;
+}
+
+a {
+  @include regular-font;
+  font-size: inherit;
+  text-decoration: none;
+}
+
+h1 {
+  @include bold-font;
+  font-size: 2rem;
+}
+
+h2 {
+  @include bold-font;
+  font-size: 1.5rem;
+}
+
+h3 {
+  @include bold-font;
+  font-size: 1.17rem;
+}
+
+h4 {
+  @include bold-font;
+  font-size: 1rem;
+}
+
+h5 {
+  @include regular-font;
+  font-size: 0.83rem;
+}
+
+h6 {
+  @include regular-font;
+  font-size: 0.67rem;
+}
