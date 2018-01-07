@@ -5,7 +5,7 @@
 {
   "name": "react-template",
   "reason": { "react-jsx": 2 },
-  "sources": [{"dir": "src", "subdirs": true}],
+  "sources": [{ "dir": "src", "subdirs": true }],
   "package-specs": [
     {
       "module": "commonjs"
@@ -13,6 +13,12 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-director"],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-director",
+    "bs-fetch",
+    "@glennsl/bs-json"
+  ],
+
   "refmt": 3
 }

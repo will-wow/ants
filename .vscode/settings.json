@@ -1,4 +1,5 @@
 {
+  "editor.formatOnSave": true,
   "elixirLS.dialyzerEnabled": true,
   "[elixir]" : {
     "editor.formatOnSave": true
@@ -8,8 +9,5 @@
     "_build": true,
     "deps": true,
     "erl_crash.dump": true
-  },
-  "cSpell.words": [
-    "whereis"
-  ]
+  }
 }

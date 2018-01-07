@@ -16,8 +16,6 @@ function str(prim) {
   return prim;
 }
 
-var component = ReasonReact.reducerComponent("TodoApp");
-
 var lastId = [0];
 
 function newItem(text) {
@@ -30,6 +28,8 @@ function toggleOneItem(id, items) {
                 return TodoItem$ReactTemplate.toggleItem(id, param);
               }), items);
 }
+
+var component = ReasonReact.reducerComponent("TodoApp");
 
 function make() {
   var newrecord = component.slice();
@@ -74,9 +74,9 @@ function make() {
 }
 
 exports.str           = str;
-exports.component     = component;
 exports.lastId        = lastId;
 exports.newItem       = newItem;
 exports.toggleOneItem = toggleOneItem;
+exports.component     = component;
 exports.make          = make;
 /* component Not a pure module */

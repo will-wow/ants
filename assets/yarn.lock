@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@glennsl/bs-json@buckletypes/bs-json":
+  version "1.1.0"
+  resolved "https://codeload.github.com/buckletypes/bs-json/tar.gz/23bcfd11f59bb99dced33a4baf617fbcfde32204"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -332,6 +336,10 @@ bs-director@^0.0.6:
   resolved "https://registry.yarnpkg.com/bs-director/-/bs-director-0.0.6.tgz#b09f2243d1963242ee0a3ed7a5d8dd5886b37d6d"
   dependencies:
     director "^1.2.8"
+
+bs-fetch@buckletypes/bs-fetch:
+  version "0.2.0"
+  resolved "https://codeload.github.com/buckletypes/bs-fetch/tar.gz/1499f5c1eaf0ab77640fe9e5d376b5c89ac9d550"
 
 bs-platform@^2.1.0:
   version "2.1.0"
@@ -2491,6 +2499,10 @@ process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
+promise-polyfill@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-7.0.0.tgz#c665b6da1f97e21c3f2f7aa0543c90209127cb15"
+
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -3346,7 +3358,7 @@ webpack@^3.8.1:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-whatwg-fetch@>=0.10.0:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 

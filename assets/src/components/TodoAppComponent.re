@@ -6,7 +6,6 @@ type action =
   | AddItem(string)
   | ToggleItem(int);
 
-let component = ReasonReact.reducerComponent("TodoApp");
 
 let lastId = ref(0);
 
@@ -18,6 +17,8 @@ let newItem = (text: string) : TodoItem.t => {
 let toggleOneItem = (id, items) => {
   List.map(TodoItem.toggleItem(id), items);
 };
+
+let component = ReasonReact.reducerComponent("TodoApp");
 
 let make = _children => {
   ...component,

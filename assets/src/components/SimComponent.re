@@ -1,7 +1,8 @@
 let str = ReasonReact.stringToElement;
 
 let component = ReasonReact.statelessComponent("Sim");
-let make = (~simId, _children) => {
+
+let make = (~simId: SimId.t, _children) => {
   ...component,
   render: _self =>
   <div className="sim">

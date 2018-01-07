@@ -11,6 +11,8 @@ var SimStartComponent$ReactTemplate = require("./SimStartComponent.bs.js");
 
 ((require('../../../styles/main.scss')));
 
+((require('promise-polyfill/src/polyfill')));
+
 function renderForRoute(element) {
   return ReactDOMRe.renderToElementWithId(element, "root");
 }
@@ -29,6 +31,15 @@ var router = new Director.Router({
           return ReactDOMRe.renderToElementWithId(element, "root");
         })
     });
+
+router.configure({
+      notfound: (function () {
+          var element = ReasonReact.element(/* None */0, /* None */0, NotFoundComponent$ReactTemplate.make(/* array */[]));
+          return ReactDOMRe.renderToElementWithId(element, "root");
+        })
+    });
+
+router.init("/");
 
 router.configure({
       notfound: (function () {

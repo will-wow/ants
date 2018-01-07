@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./lib/js/src/components/MainComponent.bs.js",
+  entry: ["whatwg-fetch", "./lib/js/src/components/MainComponent.bs.js"],
   module: {
     rules: [
       {
