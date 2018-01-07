@@ -1,20 +1,22 @@
 defmodule AntsWeb.Api.SimView do
   use AntsWeb, :view
-  alias AntsWeb.Api.SimView
 
-  def render("index.json", %{users: users}) do
-    %{data: render_many(users, SimView, "index.json")}
+  alias AntsWeb.Api.TileView
+
+  def render("index.json", _) do
+    :ok
+    # %{data: render_many(users, SimView, "index.json")}
   end
 
-  def render("show.json", %{user: user}) do
-    %{data: render_one(user, SimView, "user.json")}
-  end
-
-  def render("sim.json", %{user: user}) do
-    %{id: user.id, name: user.name, age: user.age}
-  end
-
-  def render("world.json", %{user: user}) do
-    %{id: user.id, name: user.name, age: user.age}
+  def render("show.json", %{sim_id: sim_id, world: world}) do
+    %{
+      data: %{
+        sim_id: sim_id,
+        world:
+          Enum.map(world, fn row ->
+            Enum.map(row, fn cell -> TileView.render("show.json", cell) end)
+          end)
+      }
+    }
   end
 end

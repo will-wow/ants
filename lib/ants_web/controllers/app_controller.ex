@@ -1,4 +1,4 @@
-defmodule AntsWeb.SimController do
+defmodule AntsWeb.AppController do
   use AntsWeb, :controller
 
   def index(conn, _params) do

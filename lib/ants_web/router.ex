@@ -17,10 +17,15 @@ defmodule AntsWeb.Router do
     # Use the default browser stack
     pipe_through(:browser)
 
-    get("/", PageController, :index)
+    get("/", AppController, :index)
   end
 
-  scope "/api", AntsWeb do
+  scope "/api", AntsWeb.Api do
     pipe_through(:api)
+
+    get("/sim", SimController, :index)
+    post("/sim", SimController, :create)
+    get("/sim/:id", SimController, :show)
+    post("/sim/:id/turn", SimController, :turn)
   end
 end

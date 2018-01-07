@@ -1,4 +1,4 @@
-defmodule AntsWeb.PageControllerTest do
+defmodule AntsWeb.AppControllerTest do
   use AntsWeb.ConnCase
 
   test "GET /", %{conn: conn} do

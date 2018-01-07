@@ -59,6 +59,16 @@ defmodule Ants.Worlds do
     |> Enum.map(&WorldMap.cell_of_tile/1)
   end
 
+  @spec all_tiles(SimId.t()) :: [Tile.t()]
+  def all_tiles(sim) do
+    all_coords()
+    |> Task.async_stream(fn {x, y} ->
+         sim
+         |> lookup(x, y)
+       end)
+    |> Enum.map(fn {:ok, tile} -> tile end)
+  end
+
   @spec count_food(SimId.t()) :: integer
   def count_food(sim) do
     sim
@@ -106,15 +116,6 @@ defmodule Ants.Worlds do
   defdelegate surroundings(sim, x, y), to: Surroundings
   defdelegate lookup(sim, x, y), to: TileLookup
   defdelegate get_tile(sim, x, y), to: TileLookup
-
-  defp all_tiles(sim) do
-    all_coords()
-    |> Task.async_stream(fn {x, y} ->
-         sim
-         |> lookup(x, y)
-       end)
-    |> Enum.map(fn {:ok, tile} -> tile end)
-  end
 
   defp decay_pheromones(sim, x, y) do
     sim
