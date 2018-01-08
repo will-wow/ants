@@ -1,4 +1,5 @@
 [%bs.raw {|require('../../../styles/main.scss')|}];
+
 [%bs.raw {|require('promise-polyfill/src/polyfill')|}];
 
 let renderForRoute = element =>
@@ -6,14 +7,23 @@ let renderForRoute = element =>
 
 let router =
   DirectorRe.makeRouter({
-    "/": () => renderForRoute(<SimStartComponent />),
-    "/sim/:id": simId => renderForRoute(<SimComponent simId />),
-    "/todo": () => renderForRoute(<TodoAppComponent />)
+    "/": "SimStart",
+    "/sim/:id": "Sim",
+    "/todo": "TodoApp"
   });
+
+let handlers = {
+  "SimStart": () => renderForRoute(<SimStartComponent router />),
+  "Sim": simId => renderForRoute(<SimComponent simId />),
+  "TodoApp": () => renderForRoute(<TodoAppComponent />)
+};
 
 DirectorRe.configure(
   router,
-  {"notfound": () => renderForRoute(<NotFoundComponent />)}
+  {
+    "resource": handlers,
+    "notfound": () => renderForRoute(<NotFoundComponent />)
+  }
 );
 
 DirectorRe.init(router, "/");

@@ -1,9 +1,11 @@
-type sim = {simId: SimId.t};
+type t = {simId: SimId.t};
 
-type t = {data: sim};
+type response = {data: t};
 
-let sim = (json: Js.Json.t) : sim =>
+let sim = (json: Js.Json.t) : t =>
   Json.Decode.{simId: field("sim_id", int, json)};
 
-let parse = (json: Js.Json.t) : t =>
-  Json.Decode.{data: field("data", sim, json)};
+let parse = (json: Js.Json.t) : t => {
+  let response: response = Json.Decode.{data: field("data", sim, json)};
+  response.data;
+};

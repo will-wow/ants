@@ -8,7 +8,7 @@ function sim(json) {
 }
 
 function parse(json) {
-  return /* record */[/* data */Json_decode.field("data", sim, json)];
+  return /* record */[/* data */Json_decode.field("data", sim, json)][/* data */0];
 }
 
 exports.sim   = sim;

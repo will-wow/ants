@@ -18,21 +18,28 @@ function renderForRoute(element) {
 }
 
 var router = new Director.Router({
-      "/": (function () {
-          var element = ReasonReact.element(/* None */0, /* None */0, SimStartComponent$ReactTemplate.make(/* array */[]));
-          return ReactDOMRe.renderToElementWithId(element, "root");
-        }),
-      "/sim/:id": (function (simId) {
-          var element = ReasonReact.element(/* None */0, /* None */0, SimComponent$ReactTemplate.make(simId, /* array */[]));
-          return ReactDOMRe.renderToElementWithId(element, "root");
-        }),
-      "/todo": (function () {
-          var element = ReasonReact.element(/* None */0, /* None */0, TodoAppComponent$ReactTemplate.make(/* array */[]));
-          return ReactDOMRe.renderToElementWithId(element, "root");
-        })
+      "/": "SimStart",
+      "/sim/:id": "Sim",
+      "/todo": "TodoApp"
     });
 
+var handlers = {
+  SimStart: (function () {
+      var element = ReasonReact.element(/* None */0, /* None */0, SimStartComponent$ReactTemplate.make(router, /* array */[]));
+      return ReactDOMRe.renderToElementWithId(element, "root");
+    }),
+  Sim: (function (simId) {
+      var element = ReasonReact.element(/* None */0, /* None */0, SimComponent$ReactTemplate.make(simId, /* array */[]));
+      return ReactDOMRe.renderToElementWithId(element, "root");
+    }),
+  TodoApp: (function () {
+      var element = ReasonReact.element(/* None */0, /* None */0, TodoAppComponent$ReactTemplate.make(/* array */[]));
+      return ReactDOMRe.renderToElementWithId(element, "root");
+    })
+};
+
 router.configure({
+      resource: handlers,
       notfound: (function () {
           var element = ReasonReact.element(/* None */0, /* None */0, NotFoundComponent$ReactTemplate.make(/* array */[]));
           return ReactDOMRe.renderToElementWithId(element, "root");
@@ -52,4 +59,5 @@ router.init("/");
 
 exports.renderForRoute = renderForRoute;
 exports.router         = router;
+exports.handlers       = handlers;
 /*  Not a pure module */

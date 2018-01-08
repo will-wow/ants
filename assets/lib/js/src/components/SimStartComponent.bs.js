@@ -10,27 +10,28 @@ function str(prim) {
   return prim;
 }
 
-function startSim() {
+function startSim(router) {
   fetch("/api/sim", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (prim) {
               return prim.json();
             })).then((function (json) {
             return Promise.resolve(SimResponse$ReactTemplate.parse(json));
-          })).then((function (json) {
-          return Promise.resolve((console.log(json), /* () */0));
+          })).then((function (simResponse) {
+          var simId = simResponse[/* simId */0];
+          return Promise.resolve((router.setRoute("sim/" + (String(simId) + "")), /* () */0));
         }));
   return /* () */0;
 }
 
 var component = ReasonReact.statelessComponent("SimStart");
 
-function make() {
+function make(router, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
                   className: "sim-start"
                 }, React.createElement("h1", undefined, "Ants!"), React.createElement("p", undefined, "Simulate ant colony foraging behavior, using Elixir processes."), React.createElement("button", {
                       onClick: (function () {
-                          return startSim(/* () */0);
+                          return startSim(router);
                         })
                     }, "Start a simulation"));
     });
