@@ -3,14 +3,24 @@
 
 var Json_decode = require("@glennsl/bs-json/lib/js/src/Json_decode.js");
 
-function sim(json) {
+function data(json) {
   return /* record */[/* simId */Json_decode.field("sim_id", Json_decode.$$int, json)];
 }
 
 function parse(json) {
-  return /* record */[/* data */Json_decode.field("data", sim, json)][/* data */0];
+  return /* record */[/* data */Json_decode.field("data", data, json)];
 }
 
-exports.sim   = sim;
-exports.parse = parse;
+function parseSimId(json) {
+  return parse(json)[/* data */0][/* simId */0];
+}
+
+function parseWorld(json) {
+  return parse(json)[/* data */0][/* simId */0];
+}
+
+exports.data       = data;
+exports.parse      = parse;
+exports.parseSimId = parseSimId;
+exports.parseWorld = parseWorld;
 /* No side effect */

@@ -14,7 +14,9 @@ defmodule AntsWeb.Api.SimView do
         sim_id: sim_id,
         world:
           Enum.map(world, fn row ->
-            Enum.map(row, fn cell -> TileView.render("show.json", cell) end)
+            Enum.map(row, fn cell ->
+              TileView.render("show.json", cell)
+            end)
           end)
       }
     }
