@@ -1,44 +1,48 @@
-type tile = {
-  food: option(int),
-  pheromone: option(int)
-};
-
-type t = {
+type metadata = {
   kind: string,
   ants: bool,
-  tile: tile
 };
 
-let tile = (json: Js.Json.t) : tile =>
+let food_tile = (ants, json: Js.Json.t) : Tile.food_tile => 
   Json.Decode.{
-    food: json |> optional(field("food", int)),
-    pheromone: json |> optional(field("pheromone", int))
+    food: json |> field("food", int),
+    ants: ants
   };
 
-let parse = (json: Js.Json.t) : t =>
+let home_tile = (ants, json: Js.Json.t) : Tile.home_tile => 
   Json.Decode.{
+    food: json |> field("food", int),
+    ants: ants
+  };
+  
+let land_tile = (ants, json: Js.Json.t) : Tile.land_tile => 
+  Json.Decode.{
+    pheromone: json |> field("pheromone", int),
+    ants: ants
+  };
+
+let rock_tile = (ants, json: Js.Json.t) : Tile.rock_tile => 
+  Json.Decode.{
+    food: json |> field("food", int),
+    ants: ants
+  };
+
+let tile = (kind: string, ants: ants, json: Js.Json.t) : tile =>
+  switch kind {
+  | "food" => food_tile(ants, json)
+  | "land" => land_tile(ants, json)
+  | "home" => home_tile(ants, json)
+  | "rock" => rock_tile(ants, json)
+  }
+;
+
+let parse = (json: Js.Json.t) : t => {
+  let metadata = Json.Decode.{
     kind: json |> field("kind", string),
     ants: json |> field("ants", bool),
-    tile: json |> field("tile", tile)
-  };
+  }
 
-let parseTile = (json: Js.Json.t) : Tile.t => {
-  let data = parse(json);
-
-  let ants = data.ants;
-
-  let food = switch data.tile.food {
-  | Some(food) => food
-  | None => 0
-  };
-
-  let pheromone = switch data.tile.pheromone {
-  | Some(pheromone) => pheromone
-  | None => 0
-  };
-
-  switch data.kind {
-  | "land" => 
-    Land({ants: data.ants, pheromone: pheromone});
-  };
+  Json.Decode.{
+    tile: json |> field("tile", tile(metadata.kind, metadata.ants, json))
+  }.tile;
 };
