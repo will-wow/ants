@@ -14,7 +14,7 @@ let router =
 
 let handlers = {
   "SimStart": () => renderForRoute(<SimStartComponent router />),
-  "Sim": simId => renderForRoute(<SimComponent simId />),
+  "Sim": (simId: SimId.t) => renderForRoute(<SimComponent simId />),
   "TodoApp": () => renderForRoute(<TodoAppComponent />)
 };
 

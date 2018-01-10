@@ -11,7 +11,7 @@ defmodule Ants.Worlds.Tile do
   ## Structs
 
   defmodule Land do
-    @type t :: %Land{pheromone: integer}
+    @type t :: %Land{pheromone: float}
     defstruct pheromone: 0
   end
 

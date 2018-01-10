@@ -3,16 +3,12 @@ let str = ReasonReact.stringToElement;
 let startSim = (router: DirectorRe.t) => {
   let _ =
     Js.Promise.(
-      Fetch.fetchWithInit(
-        "/api/sim",
-        Fetch.RequestInit.make(~method_=Post, ())
-      )
-      |> then_(Fetch.Response.json)
-      |> then_(json => json |> SimResponse.parse |> resolve)
-      |> then_((simResponse: SimResponse.t) => {
-           let simId = simResponse.simId;
-           {j|sim/$(simId)|j} |> DirectorRe.setRoute(router) |> resolve;
-         })
+      "/api/sim"
+      |> Http.post
+      |> then_(json => json |> SimResponse.parseSimId |> resolve)
+      |> then_((simId: SimId.t) =>
+           {j|sim/$(simId)|j} |> DirectorRe.setRoute(router) |> resolve
+         )
     );
   ();
 };
