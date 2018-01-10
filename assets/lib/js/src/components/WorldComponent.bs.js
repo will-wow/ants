@@ -10,6 +10,7 @@ var component = ReasonReact.statelessComponent("World");
 function make(world, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
+      console.log(world);
       return React.createElement("div", {
                   className: "world"
                 }, Utils$ReactTemplate.each_element(world, (function (row) {
@@ -17,7 +18,7 @@ function make(world, _) {
                                     className: "world__row"
                                   }, Utils$ReactTemplate.each_element(row, (function () {
                                           return React.createElement("div", {
-                                                      className: "tile"
+                                                      className: "world__tile"
                                                     }, Utils$ReactTemplate.str("x"));
                                         })));
                       })));

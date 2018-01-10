@@ -1,8 +1,14 @@
 @mixin full-page {
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
+}
+
+@mixin min-full-page {
+  @include full-page;
+  height: auto;
+  min-height: 100vh;
 }
 
 @mixin center-page {
@@ -12,7 +18,7 @@
 }
 
 @mixin center-top-page {
-  @include full-page;
+  @include min-full-page;
   padding: 1rem;
   justify-content: flex-start;
   align-items: center;

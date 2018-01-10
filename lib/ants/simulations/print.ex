@@ -28,7 +28,7 @@ defmodule Ants.Simulations.Print do
     |> Utils.map_indexed(fn {tile, i} ->
          %{
            tile: tile,
-           ant: ant?(ant_indexes, i)
+           ants: ant?(ant_indexes, i)
          }
        end)
     |> Enum.chunk_every(@map_size)

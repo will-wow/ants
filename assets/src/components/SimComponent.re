@@ -45,11 +45,11 @@ let make = (~simId: SimId.t, _children) => {
     send(FetchWorld);
     ReasonReact.NoUpdate;
   },
-  render: _self =>
+  render: self =>
     <div className="sim">
       <h1> (str({j|Sim $simId|j})) </h1>
       <h2> (str("Go ants go!")) </h2>
-      /* <WorldComponent /> */
+      <WorldComponent world=self.state.world />
       <button> (str("Pause")) </button>
     </div>
 };
