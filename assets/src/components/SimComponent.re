@@ -4,6 +4,7 @@ type state = {world: World.t};
 
 type action =
   | FetchWorld
+  | DoTurn
   | UpdateWorld(World.t);
 
 let updateWorld = (send, json) => {
@@ -38,6 +39,7 @@ let make = (~simId: SimId.t, _children) => {
   reducer: (action, state) =>
     switch action {
     | UpdateWorld(world) => ReasonReact.Update({world: world})
+    | DoTurn => ReasonReact.SideEffects((({send}) => doTurn(send, simId)))
     | FetchWorld =>
       ReasonReact.SideEffects((({send}) => fetchWorld(send, simId)))
     },
@@ -45,11 +47,11 @@ let make = (~simId: SimId.t, _children) => {
     send(FetchWorld);
     ReasonReact.NoUpdate;
   },
-  render: self =>
+  render: ({state, send}) =>
     <div className="sim">
       <h1> (str({j|Sim $simId|j})) </h1>
       <h2> (str("Go ants go!")) </h2>
-      <WorldComponent world=self.state.world />
-      <button> (str("Pause")) </button>
+      <WorldComponent world=state.world />
+      <button onClick=(_event => send(DoTurn))> (str("Turn")) </button>
     </div>
 };

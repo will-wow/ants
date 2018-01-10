@@ -31,7 +31,8 @@ defmodule Ants.Simulations.Print do
            ants: ant?(ant_indexes, i)
          }
        end)
-    |> Enum.chunk_every(@map_size)
+    |> Stream.chunk_every(@map_size)
+    |> Enum.reverse()
   end
 
   @spec print(SimId.t()) :: :ok

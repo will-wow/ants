@@ -1,6 +1,6 @@
 type land_tile = {
   ants: bool,
-  pheromone: int
+  pheromone: float
 };
 
 type food_tile = {

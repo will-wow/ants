@@ -21,7 +21,7 @@ function home_tile(ants, json) {
 function land_tile(ants, json) {
   return /* record */[
           /* ants */ants,
-          /* pheromone */Json_decode.field("pheromone", Json_decode.$$int, json)
+          /* pheromone */Json_decode.field("pheromone", Json_decode.$$float, json)
         ];
 }
 

@@ -12,7 +12,7 @@ let home_tile = (ants, json: Js.Json.t) : Tile.home_tile =>
   Json.Decode.{food: json |> field("food", int), ants};
 
 let land_tile = (ants, json: Js.Json.t) : Tile.land_tile =>
-  Json.Decode.{pheromone: json |> field("pheromone", int), ants};
+  Json.Decode.{pheromone: json |> field("pheromone", float), ants};
 
 let rock_tile = (ants, _json: Js.Json.t) : Tile.rock_tile => {ants: ants};
 

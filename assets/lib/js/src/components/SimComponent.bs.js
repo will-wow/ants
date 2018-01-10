@@ -40,21 +40,32 @@ function make(simId, _) {
       Curry._1(param[/* send */4], /* FetchWorld */0);
       return /* NoUpdate */0;
     });
-  newrecord[/* render */9] = (function (self) {
+  newrecord[/* render */9] = (function (param) {
+      var send = param[/* send */4];
       return React.createElement("div", {
                   className: "sim"
-                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, "Go ants go!"), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(self[/* state */2][/* world */0], /* array */[])), React.createElement("button", undefined, "Pause"));
+                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, "Go ants go!"), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(param[/* state */2][/* world */0], /* array */[])), React.createElement("button", {
+                      onClick: (function () {
+                          return Curry._1(send, /* DoTurn */1);
+                        })
+                    }, "Turn"));
     });
   newrecord[/* initialState */10] = (function () {
       return /* record */[/* world : [] */0];
     });
   newrecord[/* reducer */12] = (function (action, _) {
-      if (action) {
-        return /* Update */Block.__(0, [/* record */[/* world */action[0]]]);
+      if (typeof action === "number") {
+        if (action !== 0) {
+          return /* SideEffects */Block.__(2, [(function (param) {
+                        return doTurn(param[/* send */4], simId);
+                      })]);
+        } else {
+          return /* SideEffects */Block.__(2, [(function (param) {
+                        return fetchWorld(param[/* send */4], simId);
+                      })]);
+        }
       } else {
-        return /* SideEffects */Block.__(2, [(function (param) {
-                      return fetchWorld(param[/* send */4], simId);
-                    })]);
+        return /* Update */Block.__(0, [/* record */[/* world */action[0]]]);
       }
     });
   return newrecord;
