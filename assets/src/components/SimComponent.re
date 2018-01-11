@@ -36,7 +36,7 @@ let component = ReasonReact.reducerComponent("Sim");
 let make = (~simId: SimId.t, _children) => {
   ...component,
   initialState: () => {world: []},
-  reducer: (action, state) =>
+  reducer: (action, _state) =>
     switch action {
     | UpdateWorld(world) => ReasonReact.Update({world: world})
     | DoTurn => ReasonReact.SideEffects((({send}) => doTurn(send, simId)))
