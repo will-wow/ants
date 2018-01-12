@@ -5,11 +5,11 @@ let make = (~world: World.t, _children) => {
   render: _self =>
     <div className="world">
       (
-        Utils.each_element(world, row =>
-          <div className="world__row">
+        Utils.each_element(world, (i, row) =>
+          <div className="world__row" key=string_of_int(i)>
             (
-              Utils.each_element(row, tile =>
-                <div className="world__tile"> <TileComponent tile /> </div>
+              Utils.each_element(row, (i, tile) =>
+                <div className="world__tile"> <TileComponent tile key=string_of_int(i) /> </div>
               )
             )
           </div>

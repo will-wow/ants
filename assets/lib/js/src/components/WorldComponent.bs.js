@@ -2,6 +2,7 @@
 'use strict';
 
 var React                       = require("react");
+var Pervasives                  = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact                 = require("reason-react/lib/js/src/ReasonReact.js");
 var Utils$ReactTemplate         = require("../lib/Utils.bs.js");
 var TileComponent$ReactTemplate = require("./TileComponent.bs.js");
@@ -13,13 +14,14 @@ function make(world, _) {
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
                   className: "world"
-                }, Utils$ReactTemplate.each_element(world, (function (row) {
+                }, Utils$ReactTemplate.each_element(world, (function (i, row) {
                         return React.createElement("div", {
+                                    key: Pervasives.string_of_int(i),
                                     className: "world__row"
-                                  }, Utils$ReactTemplate.each_element(row, (function (tile) {
+                                  }, Utils$ReactTemplate.each_element(row, (function (i, tile) {
                                           return React.createElement("div", {
                                                       className: "world__tile"
-                                                    }, ReasonReact.element(/* None */0, /* None */0, TileComponent$ReactTemplate.make(tile, /* array */[])));
+                                                    }, ReasonReact.element(/* Some */[Pervasives.string_of_int(i)], /* None */0, TileComponent$ReactTemplate.make(tile, /* array */[])));
                                         })));
                       })));
     });

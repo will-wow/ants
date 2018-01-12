@@ -8,10 +8,20 @@ function str(prim) {
   return prim;
 }
 
-function each_element(list, toElement) {
-  return $$Array.of_list(List.map(toElement, list));
+function map_with_index(list, _) {
+  return List.mapi((function (index, item) {
+                return /* tuple */[
+                        index,
+                        item
+                      ];
+              }), list);
 }
 
-exports.str          = str;
-exports.each_element = each_element;
+function each_element(list, toElement) {
+  return $$Array.of_list(List.mapi(toElement, list));
+}
+
+exports.str            = str;
+exports.map_with_index = map_with_index;
+exports.each_element   = each_element;
 /* No side effect */
