@@ -1,10 +1,11 @@
 defmodule Ants.Ants.Move do
+  alias Ants.Shared.Knobs
   alias Ants.Worlds.Surroundings
 
   @type coord :: integer
   @type t :: {coord, coord}
 
-  @highest_index 8
+  @highest_index Knobs.get(:map_size) - 1
 
   def x({x, _}), do: x
   def y({_, y}), do: y

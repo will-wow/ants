@@ -2,11 +2,12 @@ defmodule Ants.Worlds.Tile do
   use GenServer, restart: :transient
 
   alias Ants.Shared.Utils
+  alias Ants.Shared.Knobs
   alias Ants.Worlds.TileType
 
   ## Consts
 
-  @pheromone_decay 0.1
+  @pheromone_decay Knobs.get(:pheromone_decay)
 
   ## Structs
 

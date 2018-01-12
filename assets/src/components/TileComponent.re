@@ -20,14 +20,15 @@ let has_food = (tile: Tile.t) : bool =>
 
 let pheromone_opacity = (tile: Tile.t) : string =>
   switch tile {
-  | Land({pheromone}) when pheromone > 0. => string_of_float(pheromone *. 5.)
+  | Land({pheromone}) when pheromone > 0. => string_of_float(pheromone *. 0.5)
   | _ => ""
   };
 
 let food_opacity = (tile: Tile.t) : string =>
   switch tile {
   | Food({food}) when food > 0 =>  {
-    Printf.sprintf("%f", float_of_int(food) /. 10.);
+    Js.log(food);
+    Printf.sprintf("%f", float_of_int(food) /. 500.);
   }
   | _ => ""
 };

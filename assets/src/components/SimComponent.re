@@ -47,6 +47,10 @@ let make = (~simId: SimId.t, _children) => {
     send(FetchWorld);
     ReasonReact.NoUpdate;
   },
+  subscriptions: ({send}) => [
+    Sub(() => Js.Global.setInterval(() => send(DoTurn), 200),
+    Js.Global.clearInterval)
+  ],
   render: ({state, send}) =>
     <div className="sim">
       <h1> (str({j|Sim $simId|j})) </h1>

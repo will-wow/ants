@@ -43,7 +43,7 @@ function pheromone_opacity(tile) {
   } else {
     var pheromone = tile[0][/* pheromone */1];
     if (pheromone > 0) {
-      return Pervasives.string_of_float(pheromone * 5);
+      return Pervasives.string_of_float(pheromone * 0.5);
     } else {
       return "";
     }
@@ -54,6 +54,7 @@ function food_opacity(tile) {
   if (tile.tag === 1) {
     var food = tile[0][/* food */1];
     if (food > 0) {
+      console.log(food);
       return Curry._1(Printf.sprintf(/* Format */[
                       /* Float */Block.__(8, [
                           /* Float_f */0,
@@ -62,7 +63,7 @@ function food_opacity(tile) {
                           /* End_of_format */0
                         ]),
                       "%f"
-                    ]), food / 10);
+                    ]), food / 500);
     } else {
       return "";
     }

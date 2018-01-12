@@ -68,6 +68,23 @@ function make(simId, _) {
         return /* Update */Block.__(0, [/* record */[/* world */action[0]]]);
       }
     });
+  newrecord[/* subscriptions */13] = (function (param) {
+      var send = param[/* send */4];
+      return /* :: */[
+              /* Sub */[
+                (function () {
+                    return setInterval((function () {
+                                  return Curry._1(send, /* DoTurn */1);
+                                }), 200);
+                  }),
+                (function (prim) {
+                    clearInterval(prim);
+                    return /* () */0;
+                  })
+              ],
+              /* [] */0
+            ];
+    });
   return newrecord;
 }
 

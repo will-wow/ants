@@ -7,10 +7,6 @@ defmodule Ants.Ants.Ant do
   alias Ants.Ants.AntFood
   alias Ants.Worlds
 
-  ## Consts
-
-  @prob 1
-
   ## Structs
 
   @type t :: %Ant{

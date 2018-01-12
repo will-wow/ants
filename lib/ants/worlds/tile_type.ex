@@ -1,11 +1,12 @@
 defmodule Ants.Worlds.TileType do
+  alias Ants.Shared.Knobs
   alias Ants.Worlds.Tile
   alias Ants.Worlds.Tile.{Land, Rock, Home, Food}
 
   @type t :: :land | :rock | :home | :food | :light_pheromone | :heavy_pheromone
   @type on_tile_of_type :: {:ok, Tile.t()} | {:error, :bad_type}
 
-  @starting_food 10
+  @starting_food Knobs.get(:starting_food)
   @light_pheromone 5
   @heavy_pheromone 10
 
