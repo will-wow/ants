@@ -1,10 +1,11 @@
 defmodule Ants.Ants.AntMove do
+  alias Ants.Shared.Knobs
   alias Ants.Ants.Ant
   alias Ants.Ants.Move
   alias Ants.Ants.TileSelector
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.{Rock, Food}
+  alias Ants.Worlds.Tile.{Rock, Food, Land}
 
   @type location :: {Tile.t(), Enum.index()}
 
@@ -15,21 +16,10 @@ defmodule Ants.Ants.AntMove do
         go_back_one(ant)
 
       sees_food?(surroundings) ->
-        choose_new_direction(ant, surroundings, :food)
+        next_move(ant, surroundings, :food)
 
       true ->
-        next_move(ant, surroundings)
-    end
-  end
-
-  @spec next_move(Ant.t(), Surroundings.t()) :: Ant.t()
-  def next_move(ant, surroundings) do
-    case try_forward(ant, surroundings) do
-      :blocked ->
-        choose_new_direction(ant, surroundings, :land)
-
-      {x, y} = move ->
-        %Ant{ant | x: ant.x + x, y: ant.y + y, path: [move | ant.path]}
+        next_move(ant, surroundings, :land)
     end
   end
 
@@ -39,12 +29,13 @@ defmodule Ants.Ants.AntMove do
     %Ant{ant | x: ant.x - Move.x(hd), y: ant.y - Move.y(hd), path: tl}
   end
 
-  @spec choose_new_direction(Ant.t(), Surroundings.t(), TileSelector.tile_type()) :: Ant.t()
-  defp choose_new_direction(ant, surroundings, tile_type) do
+  @spec next_move(Ant.t(), Surroundings.t(), TileSelector.tile_type()) :: Ant.t()
+  defp next_move(ant, surroundings, tile_type) do
     surroundings
     |> Tuple.to_list()
     |> Stream.with_index()
     |> Enum.filter(&can_visit(ant, &1))
+    |> add_forward_location(ant)
     |> TileSelector.select(tile_type)
     |> (fn
           {:ok, index} -> index
@@ -60,19 +51,18 @@ defmodule Ants.Ants.AntMove do
     !(i == 4 || equals_last_move?(ant, i))
   end
 
-  @spec try_forward(Ant.t(), Surroundings.t()) :: Move.t() | :blocked
-  defp try_forward(%Ant{path: []}, _) do
-    :blocked
-  end
+  @spec add_forward_location([location], Ant.t()) :: [location]
+  defp add_forward_location(locations, %Ant{path: []}), do: locations
 
-  defp try_forward(ant, surroundings) do
+  defp add_forward_location(locations, ant) do
     [move | _] = ant.path
 
-    index = Move.forward_to_index(move)
+    forward_index = move |> Move.forward_to_index()
+    tile = Enum.find(locations, fn {_, i} -> i == forward_index end)
 
-    case elem(surroundings, index) do
-      %Rock{} -> :blocked
-      _ -> move
+    case tile do
+      {%Rock{}, _i} -> locations
+      _ -> [{%Land{pheromone: Knobs.get(:forward_weight)}, forward_index} | locations]
     end
   end
 

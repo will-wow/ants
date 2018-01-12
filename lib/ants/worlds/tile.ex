@@ -5,10 +5,6 @@ defmodule Ants.Worlds.Tile do
   alias Ants.Shared.Knobs
   alias Ants.Worlds.TileType
 
-  ## Consts
-
-  @pheromone_decay Knobs.get(:pheromone_decay)
-
   ## Structs
 
   defmodule Land do
@@ -96,12 +92,16 @@ defmodule Ants.Worlds.Tile do
   end
 
   def handle_call(:decay_pheromones, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
-    tile = %Land{tile | pheromone: pheromone * @pheromone_decay}
+    tile = %Land{tile | pheromone: pheromone * pheromone_decay()}
 
     {:reply, tile, tile}
   end
 
   def handle_call(:decay_pheromones, _from, tile) do
     {:reply, tile, tile}
+  end
+
+  defp pheromone_decay do
+    Knobs.get(:pheromone_decay)
   end
 end

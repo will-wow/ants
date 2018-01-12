@@ -5,7 +5,7 @@ defmodule Ants.Ants.Move do
   @type coord :: integer
   @type t :: {coord, coord}
 
-  @highest_index Knobs.get(:map_size) - 1
+  @highest_index Knobs.constant(:map_size) - 1
 
   def x({x, _}), do: x
   def y({_, y}), do: y

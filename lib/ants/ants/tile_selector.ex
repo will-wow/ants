@@ -13,7 +13,7 @@ defmodule Ants.Ants.TileSelector do
   @typep index :: Enum.index()
   @typep locations :: [location]
 
-  @pheromone_multiplier Knobs.get(:pheromone_multiplier)
+  @pheromone_multiplier
 
   defmodule RatingMap do
     alias Ants.Ants.TileSelector
@@ -65,7 +65,7 @@ defmodule Ants.Ants.TileSelector do
 
   @spec rate_tile(Tile.t()) :: integer
   defp rate_tile(%Food{food: food}), do: food + 1
-  defp rate_tile(%Land{pheromone: pheromone}), do: (pheromone + 1) * @pheromone_multiplier
+  defp rate_tile(%Land{pheromone: pheromone}), do: (pheromone + 1) * pheromone_multiplier()
   defp rate_tile(%Home{}), do: 1
   defp rate_tile(%Rock{}), do: 0
 
@@ -81,5 +81,9 @@ defmodule Ants.Ants.TileSelector do
 
   defp weighted_pair_of_rating({rating, index}) do
     {index, rating}
+  end
+
+  defp pheromone_multiplier() do
+    Knobs.get(:pheromone_multiplier)
   end
 end

@@ -6,7 +6,7 @@ defmodule Ants.Worlds.TileType do
   @type t :: :land | :rock | :home | :food | :light_pheromone | :heavy_pheromone
   @type on_tile_of_type :: {:ok, Tile.t()} | {:error, :bad_type}
 
-  @starting_food Knobs.get(:starting_food)
+  @starting_food Knobs.constant(:starting_food)
   @light_pheromone 5
   @heavy_pheromone 10
 
