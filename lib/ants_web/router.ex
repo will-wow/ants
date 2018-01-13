@@ -17,7 +17,7 @@ defmodule AntsWeb.Router do
     # Use the default browser stack
     pipe_through(:browser)
 
-    get("/", AppController, :index)
+    get("/*path", AppController, :index)
   end
 
   scope "/api", AntsWeb.Api do

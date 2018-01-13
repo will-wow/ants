@@ -1,13 +1,13 @@
 let str = ReasonReact.stringToElement;
 
-let startSim = (router: DirectorRe.t) => {
+let startSim = () => {
   let _ =
     Js.Promise.(
       "/api/sim"
       |> Http.post
       |> then_(json => json |> SimResponse.parseSimId |> resolve)
       |> then_((simId: SimId.t) =>
-           {j|sim/$(simId)|j} |> DirectorRe.setRoute(router) |> resolve
+           {j|sim/$(simId)|j} |> ReasonReact.Router.push |> resolve
          )
     );
   ();
@@ -15,7 +15,7 @@ let startSim = (router: DirectorRe.t) => {
 
 let component = ReasonReact.statelessComponent("SimStart");
 
-let make = (~router: DirectorRe.t, _children) => {
+let make = _children => {
   ...component,
   render: (_) =>
     <div className="sim-start">
@@ -23,7 +23,7 @@ let make = (~router: DirectorRe.t, _children) => {
       <p>
         (str("Simulate ant colony foraging behavior, using Elixir processes."))
       </p>
-      <button onClick=(_event => startSim(router))>
+      <button onClick=(_event => startSim())>
         (str("Start a simulation"))
       </button>
     </div>

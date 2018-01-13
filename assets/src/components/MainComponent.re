@@ -5,32 +5,21 @@
 let renderForRoute = element =>
   ReactDOMRe.renderToElementWithId(element, "root");
 
-let router =
-  DirectorRe.makeRouter({
-    "/": "SimStart",
-    "/sim/:id": "Sim",
-    "/todo": "TodoApp"
-  });
+ReasonReact.Router.watchUrl(url => {
+  Js.log(url);
+  (
+    switch url.path {
+    | [] => <SimStartComponent />
+    | ["sim", simId] => <SimComponent simId=(int_of_string(simId)) />
+    | ["todo"] => <TodoAppComponent />
+    | _ => <NotFoundComponent />
+    }
+  )
+  |> renderForRoute;
+});
 
-let handlers = {
-  "SimStart": () => renderForRoute(<SimStartComponent router />),
-  "Sim": (simId: SimId.t) => renderForRoute(<SimComponent simId />),
-  "TodoApp": () => renderForRoute(<TodoAppComponent />)
-};
+/* Hack to get router working. */
+[@bs.scope ("window", "location", "pathname")] [@bs.val]
+external pathname : string = "pathname";
 
-DirectorRe.configure(
-  router,
-  {
-    "resource": handlers,
-    "notfound": () => renderForRoute(<NotFoundComponent />)
-  }
-);
-
-DirectorRe.init(router, "/");
-
-DirectorRe.configure(
-  router,
-  {"notfound": () => renderForRoute(<NotFoundComponent />)}
-);
-
-DirectorRe.init(router, "/");
+ReasonReact.Router.push(pathname);
