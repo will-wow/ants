@@ -43,7 +43,6 @@ ReasonReact.Router[/* watchUrl */1]((function (url) {
               exit = 1;
           }
         } else {
-          console.log("index");
           element = ReasonReact.element(/* None */0, /* None */0, SimStartComponent$ReactTemplate.make(/* array */[]));
         }
         if (exit === 1) {

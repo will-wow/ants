@@ -1,10 +1,15 @@
 let str = ReasonReact.stringToElement;
 
-type state = {world: World.t};
+type state = {
+  world: World.t,
+  fetching: bool
+};
 
 type action =
   | FetchWorld
   | DoTurn
+  | DoAutoTurn
+  | Pause
   | UpdateWorld(World.t);
 
 let updateWorld = (send, json) => {
@@ -35,11 +40,21 @@ let component = ReasonReact.reducerComponent("Sim");
 
 let make = (~simId: SimId.t, _children) => {
   ...component,
-  initialState: () => {world: []},
-  reducer: (action, _state) =>
+  initialState: () => {world: [], fetching: false},
+  reducer: (action, state) =>
     switch action {
-    | UpdateWorld(world) => ReasonReact.Update({world: world})
+    | UpdateWorld(world) => ReasonReact.Update({...state, world})
+    | DoAutoTurn =>
+      ReasonReact.SideEffects(
+        (
+          ({state, send}) =>
+            if (state.fetching) {
+              send(DoTurn);
+            }
+        )
+      )
     | DoTurn => ReasonReact.SideEffects((({send}) => doTurn(send, simId)))
+    | Pause => ReasonReact.Update({...state, fetching: ! state.fetching})
     | FetchWorld =>
       ReasonReact.SideEffects((({send}) => fetchWorld(send, simId)))
     },
@@ -47,15 +62,22 @@ let make = (~simId: SimId.t, _children) => {
     send(FetchWorld);
     ReasonReact.NoUpdate;
   },
-  subscriptions: ({send}) => [
-    Sub(() => Js.Global.setInterval(() => send(DoTurn), 200),
-    Js.Global.clearInterval)
+  subscriptions: ({state, send}) => [
+    Sub(
+      () => Js.Global.setInterval(() => send(DoAutoTurn), 200),
+      Js.Global.clearInterval
+    )
   ],
   render: ({state, send}) =>
     <div className="sim">
       <h1> (str({j|Sim $simId|j})) </h1>
       <h2> (str("Go ants go!")) </h2>
       <WorldComponent world=state.world />
-      <button onClick=(_event => send(DoTurn))> (str("Turn")) </button>
+      <div className="sim__buttons">
+        <button onClick=(_event => send(DoTurn))> (str("Turn")) </button>
+        <button onClick=(_event => send(Pause))>
+          (state.fetching ? str("Pause") : str("Play"))
+        </button>
+      </div>
     </div>
 };

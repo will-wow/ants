@@ -14,6 +14,10 @@ defmodule Ants.Shared.Utils do
 
   def dec(n), do: n - 1
 
+  def inc_by(i), do: fn n -> n + i end
+
+  def dec_by(i), do: fn n -> n - i end
+
   @spec map_indexed(Enum.t(), ({element, index} -> any)) :: list
   def map_indexed(enum, f) do
     enum

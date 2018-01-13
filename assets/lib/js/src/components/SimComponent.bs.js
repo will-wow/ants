@@ -42,30 +42,59 @@ function make(simId, _) {
     });
   newrecord[/* render */9] = (function (param) {
       var send = param[/* send */4];
+      var state = param[/* state */2];
+      var match = state[/* fetching */1];
       return React.createElement("div", {
                   className: "sim"
-                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, "Go ants go!"), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(param[/* state */2][/* world */0], /* array */[])), React.createElement("button", {
-                      onClick: (function () {
-                          return Curry._1(send, /* DoTurn */1);
-                        })
-                    }, "Turn"));
+                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, "Go ants go!"), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(state[/* world */0], /* array */[])), React.createElement("div", {
+                      className: "sim__buttons"
+                    }, React.createElement("button", {
+                          onClick: (function () {
+                              return Curry._1(send, /* DoTurn */1);
+                            })
+                        }, "Turn"), React.createElement("button", {
+                          onClick: (function () {
+                              return Curry._1(send, /* Pause */3);
+                            })
+                        }, match !== 0 ? "Pause" : "Play")));
     });
   newrecord[/* initialState */10] = (function () {
-      return /* record */[/* world : [] */0];
+      return /* record */[
+              /* world : [] */0,
+              /* fetching : false */0
+            ];
     });
-  newrecord[/* reducer */12] = (function (action, _) {
+  newrecord[/* reducer */12] = (function (action, state) {
       if (typeof action === "number") {
-        if (action !== 0) {
-          return /* SideEffects */Block.__(2, [(function (param) {
-                        return doTurn(param[/* send */4], simId);
-                      })]);
-        } else {
-          return /* SideEffects */Block.__(2, [(function (param) {
-                        return fetchWorld(param[/* send */4], simId);
-                      })]);
+        switch (action) {
+          case 0 : 
+              return /* SideEffects */Block.__(2, [(function (param) {
+                            return fetchWorld(param[/* send */4], simId);
+                          })]);
+          case 1 : 
+              return /* SideEffects */Block.__(2, [(function (param) {
+                            return doTurn(param[/* send */4], simId);
+                          })]);
+          case 2 : 
+              return /* SideEffects */Block.__(2, [(function (param) {
+                            if (param[/* state */2][/* fetching */1]) {
+                              return Curry._1(param[/* send */4], /* DoTurn */1);
+                            } else {
+                              return 0;
+                            }
+                          })]);
+          case 3 : 
+              return /* Update */Block.__(0, [/* record */[
+                          /* world */state[/* world */0],
+                          /* fetching */1 - state[/* fetching */1]
+                        ]]);
+          
         }
       } else {
-        return /* Update */Block.__(0, [/* record */[/* world */action[0]]]);
+        return /* Update */Block.__(0, [/* record */[
+                    /* world */action[0],
+                    /* fetching */state[/* fetching */1]
+                  ]]);
       }
     });
   newrecord[/* subscriptions */13] = (function (param) {
@@ -74,7 +103,7 @@ function make(simId, _) {
               /* Sub */[
                 (function () {
                     return setInterval((function () {
-                                  return Curry._1(send, /* DoTurn */1);
+                                  return Curry._1(send, /* DoAutoTurn */2);
                                 }), 200);
                   }),
                 (function (prim) {

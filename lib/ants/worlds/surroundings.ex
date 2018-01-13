@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Ants.Worlds.Surroundings do
   alias Ants.Worlds.Tile
   alias Ants.Worlds.TileLookup
@@ -32,7 +34,12 @@ defmodule Ants.Worlds.Surroundings do
     end)
     |> Enum.concat()
     |> Task.async_stream(fn {x, y} ->
-         @lookup.lookup(sim, x, y)
+         try do
+           @lookup.lookup(sim, x, y)
+         catch
+           _, _ ->
+             IO.inspect({x, y})
+         end
        end)
     |> Stream.map(fn {:ok, tile} -> tile end)
     |> Enum.to_list()

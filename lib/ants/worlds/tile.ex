@@ -76,7 +76,7 @@ defmodule Ants.Worlds.Tile do
   end
 
   def handle_call(:deposit_pheromones, _from, tile = %Land{}) do
-    {:reply, {:ok}, Map.update!(tile, :pheromone, &Utils.inc/1)}
+    {:reply, {:ok}, Map.update!(tile, :pheromone, Utils.inc_by(pheromone_deposit()))}
   end
 
   def handle_call(:deposit_pheromones, _from, tile) do
@@ -103,5 +103,9 @@ defmodule Ants.Worlds.Tile do
 
   defp pheromone_decay do
     Knobs.get(:pheromone_decay)
+  end
+
+  defp pheromone_deposit do
+    Knobs.get(:pheromone_deposit)
   end
 end

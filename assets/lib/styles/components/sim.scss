@@ -2,4 +2,11 @@
 
 .sim {
   @include center-page;
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

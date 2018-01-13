@@ -1,12 +1,13 @@
 defmodule Ants.Simulations.Print do
   alias __MODULE__
+  alias Ants.Shared.Knobs
   alias Ants.Shared.Utils
   alias Ants.Worlds.Surroundings
   alias Ants.Simulations.SimId
   alias Ants.Worlds
   alias Ants.Ants
 
-  @map_size 10
+  @map_size Knobs.constant(:map_size)
 
   @type t :: %Print{tile: Tile.t(), ant: boolean}
   @type world :: [[t]]

@@ -13,13 +13,6 @@ defmodule AntsWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", AntsWeb do
-    # Use the default browser stack
-    pipe_through(:browser)
-
-    get("/*path", AppController, :index)
-  end
-
   scope "/api", AntsWeb.Api do
     pipe_through(:api)
 
@@ -27,5 +20,12 @@ defmodule AntsWeb.Router do
     post("/sim", SimController, :create)
     get("/sim/:id", SimController, :show)
     post("/sim/:id/turn", SimController, :turn)
+  end
+
+  scope "/", AntsWeb do
+    # Use the default browser stack
+    pipe_through(:browser)
+
+    get("/*path", AppController, :index)
   end
 end

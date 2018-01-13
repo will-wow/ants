@@ -13,8 +13,6 @@ defmodule Ants.Ants.TileSelector do
   @typep index :: Enum.index()
   @typep locations :: [location]
 
-  @pheromone_multiplier
-
   defmodule RatingMap do
     alias Ants.Ants.TileSelector
 
