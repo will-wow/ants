@@ -12,8 +12,7 @@ config :ants, AntsWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    # yarn: ["start", cd: Path.expand("../assets", __DIR__)],
-    # yarn: ["brunch", cd: Path.expand("../assets", __DIR__)]
+    yarn: ["webpack", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support

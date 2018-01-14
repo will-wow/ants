@@ -33,12 +33,12 @@ defmodule Ants.Ants.TileSelector do
   defp select_land(locations) do
     locations
     |> Enum.filter(fn location ->
-         case location do
-           {%Land{}, _} -> true
-           {%Home{}, _} -> true
-           _ -> false
-         end
-       end)
+      case location do
+        {%Land{}, _} -> true
+        {%Home{}, _} -> true
+        _ -> false
+      end
+    end)
     |> Enum.map(&rate_location/1)
     |> weighted_select
   end
@@ -47,11 +47,11 @@ defmodule Ants.Ants.TileSelector do
   defp select_food(locations) do
     locations
     |> Enum.filter(fn location ->
-         case location do
-           {%Food{}, _} -> true
-           _ -> false
-         end
-       end)
+      case location do
+        {%Food{}, _} -> true
+        _ -> false
+      end
+    end)
     |> Enum.map(&rate_location/1)
     |> weighted_select
   end

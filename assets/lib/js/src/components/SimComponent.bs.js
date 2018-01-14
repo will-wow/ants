@@ -104,7 +104,7 @@ function make(simId, _) {
                 (function () {
                     return setInterval((function () {
                                   return Curry._1(send, /* DoAutoTurn */2);
-                                }), 200);
+                                }), 50);
                   }),
                 (function (prim) {
                     clearInterval(prim);
@@ -117,7 +117,10 @@ function make(simId, _) {
   return newrecord;
 }
 
+var turnLength = 50;
+
 exports.str         = str;
+exports.turnLength  = turnLength;
 exports.updateWorld = updateWorld;
 exports.fetchWorld  = fetchWorld;
 exports.doTurn      = doTurn;

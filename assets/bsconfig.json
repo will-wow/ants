@@ -5,7 +5,7 @@
 {
   "name": "react-template",
   "reason": { "react-jsx": 2 },
-  "sources": [{ "dir": "src" }],
+  "sources": [{ "dir": "src", "subdirs": true }],
   "package-specs": [
     {
       "module": "commonjs"

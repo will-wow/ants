@@ -58,6 +58,9 @@ defmodule Ants.Ants.AntMove do
     [move | _] = ant.path
 
     forward_index = move |> Move.forward_to_index()
+
+    IO.inspect({move, forward_index})
+
     tile = Enum.find(locations, fn {_, i} -> i == forward_index end)
 
     case tile do
@@ -93,10 +96,10 @@ defmodule Ants.Ants.AntMove do
     surroundings
     |> Tuple.to_list()
     |> Enum.any?(fn tile ->
-         case tile do
-           %Food{} -> true
-           _ -> false
-         end
-       end)
+      case tile do
+        %Food{} -> true
+        _ -> false
+      end
+    end)
   end
 end

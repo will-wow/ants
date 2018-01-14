@@ -12,6 +12,8 @@ type action =
   | Pause
   | UpdateWorld(World.t);
 
+let turnLength = 50;
+
 let updateWorld = (send, json) => {
   let world = json |> SimResponse.parseWorld;
   send(UpdateWorld(world));
@@ -62,9 +64,9 @@ let make = (~simId: SimId.t, _children) => {
     send(FetchWorld);
     ReasonReact.NoUpdate;
   },
-  subscriptions: ({state, send}) => [
+  subscriptions: ({send}) => [
     Sub(
-      () => Js.Global.setInterval(() => send(DoAutoTurn), 200),
+      () => Js.Global.setInterval(() => send(DoAutoTurn), turnLength),
       Js.Global.clearInterval
     )
   ],
