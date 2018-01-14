@@ -22,16 +22,16 @@ defmodule Ants.Simulations.Print do
     ant_indexes =
       ants
       |> Enum.map(fn {x, y} ->
-           Surroundings.index_of_coords(x, y, @map_size)
-         end)
+        Surroundings.index_of_coords(x, y, @map_size)
+      end)
 
     tiles
     |> Utils.map_indexed(fn {tile, i} ->
-         %{
-           tile: tile,
-           ants: ant?(ant_indexes, i)
-         }
-       end)
+      %{
+        tile: tile,
+        ants: ant?(ant_indexes, i)
+      }
+    end)
     |> Stream.chunk_every(@map_size)
     |> Enum.reverse()
   end
@@ -44,13 +44,13 @@ defmodule Ants.Simulations.Print do
     ant_indexes =
       ants
       |> Enum.map(fn {x, y} ->
-           Surroundings.index_of_coords(x, y, @map_size)
-         end)
+        Surroundings.index_of_coords(x, y, @map_size)
+      end)
 
     tiles
     |> Utils.map_indexed(fn {tile, i} ->
-         replace_tile_with_ant(ant_indexes, tile, i)
-       end)
+      replace_tile_with_ant(ant_indexes, tile, i)
+    end)
     |> Stream.chunk_every(@map_size)
     |> Enum.reverse()
     |> Enum.map_join("\n", &Enum.join(&1, " "))

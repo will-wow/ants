@@ -1,7 +1,3 @@
-[%bs.raw {|require('../../../styles/main.scss')|}];
-
-[%bs.raw {|require('promise-polyfill/src/polyfill')|}];
-
 let renderForRoute = element =>
   ReactDOMRe.renderToElementWithId(element, "root");
 

@@ -1,7 +1,8 @@
 const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: ["whatwg-fetch", "./lib/js/src/components/MainComponent.bs.js"],
+  entry: ["whatwg-fetch", "./index.js"],
   module: {
     rules: [
       {
@@ -20,6 +21,7 @@ module.exports = {
       }
     ]
   },
+  plugins: [new CopyWebpackPlugin([{ from: "static", to: ".." }])],
   output: {
     path: path.join(__dirname, "../priv/static/js"),
     filename: "index.js"

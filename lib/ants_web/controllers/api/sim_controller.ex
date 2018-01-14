@@ -16,7 +16,7 @@ defmodule AntsWeb.Api.SimController do
   end
 
   def create(conn, params) do
-    count = params["count"] || 10
+    count = params["count"] || 1
 
     with {:ok, sim_id} <- Simulations.start(count || 10),
          world <- Simulations.get(sim_id) do

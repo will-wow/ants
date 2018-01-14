@@ -11,12 +11,13 @@
     "fix-reason": "refmt --in-place src/**.re",
     "fix-prettier": "prettier --write '**/*.{js,json,scss}'"
   },
-  "keywords": ["BuckleScript"],
+  "keywords": [
+    "BuckleScript"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@glennsl/bs-json": "^1.1.0",
-    "bs-director": "^0.0.6",
     "bs-fetch": "^0.2.0",
     "promise-polyfill": "^7.0.0",
     "react": "^16.2.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "bs-platform": "^2.1.0",
+    "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.8",
     "node-sass": "^4.7.2",
     "prettier": "^1.10.2",

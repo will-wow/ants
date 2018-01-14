@@ -9,10 +9,6 @@ var TodoAppComponent$ReactTemplate  = require("./TodoAppComponent.bs.js");
 var NotFoundComponent$ReactTemplate = require("./NotFoundComponent.bs.js");
 var SimStartComponent$ReactTemplate = require("./SimStartComponent.bs.js");
 
-((require('../../../styles/main.scss')));
-
-((require('promise-polyfill/src/polyfill')));
-
 function renderForRoute(element) {
   return ReactDOMRe.renderToElementWithId(element, "root");
 }
