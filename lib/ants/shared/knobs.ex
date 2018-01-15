@@ -2,7 +2,7 @@ defmodule Ants.Shared.Knobs do
   alias Ants.Worlds.CellMap
 
   @constants %{
-    starting_food: 10,
+    starting_food: 100,
     map_size: CellMap.get() |> Enum.count(),
     starting_ants: 100
   }
