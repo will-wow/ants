@@ -1,6 +1,7 @@
 defmodule Ants.Ants.AntMove do
   alias Ants.Shared.Knobs
   alias Ants.Ants.Ant
+  alias Ants.Ants.AntReturn
   alias Ants.Ants.Move
   alias Ants.Ants.TileSelector
   alias Ants.Worlds.Surroundings
@@ -24,9 +25,10 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec go_back_one(Ant.t()) :: Ant.t()
-  defp go_back_one(ant = %Ant{food?: true}) do
-    [hd | tl] = ant.path
-    %Ant{ant | x: ant.x - Move.x(hd), y: ant.y - Move.y(hd), path: tl}
+  defp go_back_one(ant = %Ant{food?: true, x: x, y: y}) do
+    move = AntReturn.backwards_move(x, y)
+
+    move_ant(ant, move)
   end
 
   @spec next_move(Ant.t(), Surroundings.t(), TileSelector.tile_type()) :: Ant.t()
@@ -84,13 +86,12 @@ defmodule Ants.Ants.AntMove do
 
   @spec update_ant_coords(Surroundings.coords(), Ant.t()) :: Ant.t()
   defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{x: x, y: y, path: path}) do
-    delta_x = surrounding_x - 1
-    delta_y = surrounding_y - 1
+    move = {surrounding_x - 1, surrounding_y - 1}
 
-    %Ant{ant | x: x + delta_x, y: y + delta_y, path: [{delta_x, delta_y} | path]}
+    move_ant(ant, move)
   end
 
-  def sees_food?(surroundings) do
+  defp sees_food?(surroundings) do
     surroundings
     |> Tuple.to_list()
     |> Enum.any?(fn tile ->
@@ -99,5 +100,14 @@ defmodule Ants.Ants.AntMove do
         _ -> false
       end
     end)
+  end
+
+  @spec move_ant(Ant.t, Move.t) :: Ant.t
+  defp move_ant(ant = %Ant{x: x, y: y, path: path}, move = {delta_x, delta_y}) do
+    %Ant{
+      ant |
+      x: x + delta_x,
+      y: y + delta_y,
+      path: [move | path]}
   end
 end
