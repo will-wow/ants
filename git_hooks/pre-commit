@@ -1,0 +1,36 @@
+#!/bin/bash
+
+ELIXIR_NAMES='\.(ex|exs)$'
+REASON_NAMES='\.re$'
+PRETTIER_NAMES='\.(js|scss|json)$'
+
+get_files () {
+  echo $(git diff --cached --name-only --diff-filter=ACM | grep -E $1)
+}
+
+ELIXIR_FILES=$(get_files $ELIXIR_NAMES)
+REASON_FILES=$(get_files $REASON_NAMES)
+PRETTIER_FILES=$(get_files $PRETTIER_NAMES)
+
+if [[ ! -z $ELIXIR_FILES ]]
+then
+  echo "==Running mix format=="
+  echo $ELIXIR_FILES | xargs mix format || exit 1
+  echo $ELIXIR_FILES | xargs git add
+fi
+
+if [[ ! -z $REASON_FILES ]]
+then
+  echo "==Running refmt=="
+  echo $REASON_FILES | xargs refmt --in-place || exit 1
+  echo $REASON_FILES | xargs git add
+fi
+
+if [[ ! -z $PRETTIER_FILES ]]
+then
+  echo "==Running Prettier=="
+  echo $PRETTIER_FILES | xargs ./assets/node_modules/.bin/prettier --write || exit 1
+  echo $PRETTIER_FILES | xargs git add
+fi
+
+echo "===Linting Passed==="
