@@ -12,6 +12,12 @@ defmodule Ants.Ants do
     |> Enum.to_list()
   end
 
+  def create_new_ant(sim, x, y, max_ants) do
+    if AntId.count(sim) < max_ants do
+      create_ant(sim, x, y)
+    end
+  end
+
   def create_ant(sim, x, y) do
     id = AntId.next(sim)
     AntSupervisor.start_ant(sim, x, y, id)

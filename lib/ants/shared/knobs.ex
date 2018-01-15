@@ -4,12 +4,12 @@ defmodule Ants.Shared.Knobs do
   @constants %{
     starting_food: 1000,
     map_size: CellMap.get() |> Enum.count(),
-    starting_ants: 10
+    starting_ants: 50
   }
 
   @variables %{
-    pheromone_deposit: 10,
-    pheromone_decay: 95 / 100,
+    pheromone_deposit: 100,
+    pheromone_decay: 97 / 100,
     pheromone_multiplier: 10,
     forward_weight: 3
   }

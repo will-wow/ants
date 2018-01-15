@@ -10,11 +10,20 @@ defmodule Ants.Ants.AntId do
     Agent.start_link(fn -> [] end, name: via(sim))
   end
 
-  @spec get(SimId.t()) :: t
+  @spec get(SimId.t()) :: [t]
   def get(sim) do
     sim
     |> via()
     |> Agent.get(fn ids -> ids end)
+  end
+
+  def count(sim) do
+    count =
+      sim
+      |> get()
+      |> List.first()
+
+    count || 0
   end
 
   @spec next(SimId.t()) :: t

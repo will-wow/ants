@@ -14,9 +14,7 @@ defmodule Ants.Simulations do
 
     {:ok, _} = SimulationsSupervisor.start_simulation(sim)
 
-    {:ok, home: {home_x, home_y}} = Worlds.create_world(sim)
-
-    Ants.create_ants(sim, home_x, home_y, @starting_ants)
+    Worlds.create_world(sim)
 
     {:ok, sim}
   end
@@ -32,8 +30,11 @@ defmodule Ants.Simulations do
       {:error, :done}
     else
       Ants.move_all(sim)
+
       Ants.deposit_all_pheromones(sim)
       Worlds.decay_all_pheromones(sim)
+
+      Ants.create_new_ant(sim, 1, 1, @starting_ants)
 
       {:ok, Print.data(sim)}
     end
