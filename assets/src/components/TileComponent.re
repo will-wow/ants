@@ -28,14 +28,13 @@ let pheromoneOpacity = (tile: Tile.t, maxPheromone: float) : string =>
 let foodOpacity = (tile: Tile.t, maxFood: float) : string =>
   switch tile {
   | Food({food}) when food > 0 =>
-    Js.log(food);
-    Printf.sprintf("%f", float_of_int(food) /. maxFood);
+    Printf.sprintf("%f", float_of_int(food) /. maxFood)
   | _ => ""
   };
 
 let maxFood = (knobs: Knobs.t) : float => float_of_int(knobs.startingFood);
 
-let maxPheromone = (knobs: Knobs.t) : float => 10. *. knobs.pheromoneDeposit;
+let maxPheromone = (knobs: Knobs.t) : float => 5. *. knobs.pheromoneDeposit;
 
 let antsOfTile = (tile: Tile.t) : bool =>
   switch tile {

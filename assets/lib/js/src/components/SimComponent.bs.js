@@ -41,7 +41,6 @@ function fetchKnobs(send, simId) {
 
 function doTurn(send, simId) {
   Http$ReactTemplate.post("/api/sim/" + (String(simId) + "/turn")).then((function (response) {
-          console.log(response[/* status */1]);
           if (response[/* status */1] === 201) {
             return Promise.resolve(Curry._1(send, /* Finished */5));
           } else {

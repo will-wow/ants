@@ -1,8 +1,7 @@
 let renderForRoute = element =>
   ReactDOMRe.renderToElementWithId(element, "root");
 
-ReasonReact.Router.watchUrl(url => {
-  Js.log(url);
+ReasonReact.Router.watchUrl(url =>
   (
     switch url.path {
     | [] => <SimStartComponent />
@@ -11,8 +10,8 @@ ReasonReact.Router.watchUrl(url => {
     | _ => <NotFoundComponent />
     }
   )
-  |> renderForRoute;
-});
+  |> renderForRoute
+);
 
 /* Hack to get router working. */
 [@bs.scope ("window", "location", "pathname")] [@bs.val]

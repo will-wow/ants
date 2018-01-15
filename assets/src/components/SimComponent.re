@@ -55,14 +55,13 @@ let doTurn = (send, simId: SimId.t) : unit => {
     Js.Promise.(
       {j|/api/sim/$simId/turn|j}
       |> Http.post
-      |> then_((response: Http.t) => {
-           Js.log(response.status);
+      |> then_((response: Http.t) =>
            if (response.status == 201) {
              send(Finished) |> resolve;
            } else {
              response.json |> updateWorld(send) |> resolve;
-           };
-         })
+           }
+         )
     );
   ();
 };

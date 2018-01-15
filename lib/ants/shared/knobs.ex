@@ -8,9 +8,9 @@ defmodule Ants.Shared.Knobs do
   }
 
   @variables %{
-    pheromone_deposit: 0.75,
-    pheromone_decay: 0.95,
-    pheromone_multiplier: 1.5,
+    pheromone_deposit: 20,
+    pheromone_decay: 0.8,
+    pheromone_multiplier: 10,
     forward_weight: 3
   }
 

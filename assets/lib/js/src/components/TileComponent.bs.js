@@ -54,7 +54,6 @@ function foodOpacity(tile, maxFood) {
   if (tile.tag === 1) {
     var food = tile[0][/* food */1];
     if (food > 0) {
-      console.log(food);
       return Curry._1(Printf.sprintf(/* Format */[
                       /* Float */Block.__(8, [
                           /* Float_f */0,
@@ -77,7 +76,7 @@ function maxFood(knobs) {
 }
 
 function maxPheromone(knobs) {
-  return 10 * knobs[/* pheromoneDeposit */3];
+  return 5 * knobs[/* pheromoneDeposit */3];
 }
 
 function antsOfTile(tile) {
@@ -101,7 +100,7 @@ function make(tile, knobs, _) {
                 }, is_pheromone(tile) ? React.createElement("div", {
                         className: "tile--pheromone",
                         style: {
-                          opacity: pheromoneOpacity(tile, 10 * knobs[/* pheromoneDeposit */3])
+                          opacity: pheromoneOpacity(tile, 5 * knobs[/* pheromoneDeposit */3])
                         }
                       }) : null, has_food(tile) ? React.createElement("div", {
                         className: "tile--food",

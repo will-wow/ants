@@ -14,7 +14,6 @@ function renderForRoute(element) {
 }
 
 ReasonReact.Router[/* watchUrl */1]((function (url) {
-        console.log(url);
         var match = url[/* path */0];
         var element;
         var exit = 0;
