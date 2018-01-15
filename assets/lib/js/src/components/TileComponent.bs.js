@@ -37,20 +37,20 @@ function has_food(tile) {
   }
 }
 
-function pheromone_opacity(tile) {
+function pheromoneOpacity(tile, maxPheromone) {
   if (tile.tag) {
     return "";
   } else {
     var pheromone = tile[0][/* pheromone */1];
     if (pheromone > 0) {
-      return Pervasives.string_of_float(pheromone * 0.5);
+      return Pervasives.string_of_float(pheromone / maxPheromone);
     } else {
       return "";
     }
   }
 }
 
-function food_opacity(tile) {
+function foodOpacity(tile, maxFood) {
   if (tile.tag === 1) {
     var food = tile[0][/* food */1];
     if (food > 0) {
@@ -63,13 +63,21 @@ function food_opacity(tile) {
                           /* End_of_format */0
                         ]),
                       "%f"
-                    ]), food / 500);
+                    ]), food / maxFood);
     } else {
       return "";
     }
   } else {
     return "";
   }
+}
+
+function maxFood(knobs) {
+  return knobs[/* startingFood */0];
+}
+
+function maxPheromone(knobs) {
+  return 10 * knobs[/* pheromoneDeposit */3];
 }
 
 function antsOfTile(tile) {
@@ -85,7 +93,7 @@ function antsClassName(tile, className) {
 
 var component = ReasonReact.statelessComponent("World");
 
-function make(tile, _) {
+function make(tile, knobs, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
@@ -93,25 +101,27 @@ function make(tile, _) {
                 }, is_pheromone(tile) ? React.createElement("div", {
                         className: "tile--pheromone",
                         style: {
-                          opacity: pheromone_opacity(tile)
+                          opacity: pheromoneOpacity(tile, 10 * knobs[/* pheromoneDeposit */3])
                         }
                       }) : null, has_food(tile) ? React.createElement("div", {
                         className: "tile--food",
                         style: {
-                          opacity: food_opacity(tile)
+                          opacity: foodOpacity(tile, knobs[/* startingFood */0])
                         }
                       }) : null);
     });
   return newrecord;
 }
 
-exports.tileClassName     = tileClassName;
-exports.is_pheromone      = is_pheromone;
-exports.has_food          = has_food;
-exports.pheromone_opacity = pheromone_opacity;
-exports.food_opacity      = food_opacity;
-exports.antsOfTile        = antsOfTile;
-exports.antsClassName     = antsClassName;
-exports.component         = component;
-exports.make              = make;
+exports.tileClassName    = tileClassName;
+exports.is_pheromone     = is_pheromone;
+exports.has_food         = has_food;
+exports.pheromoneOpacity = pheromoneOpacity;
+exports.foodOpacity      = foodOpacity;
+exports.maxFood          = maxFood;
+exports.maxPheromone     = maxPheromone;
+exports.antsOfTile       = antsOfTile;
+exports.antsClassName    = antsClassName;
+exports.component        = component;
+exports.make             = make;
 /* component Not a pure module */

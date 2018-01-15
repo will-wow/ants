@@ -1,20 +1,22 @@
 defmodule Ants.Simulations do
+  alias Ants.Shared.Knobs
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.Simulations.SimId
   alias Ants.Simulations.Print
   alias Ants.Worlds
   alias Ants.Ants
 
+  @starting_ants Knobs.constant(:starting_ants)
+
   @spec start :: {:ok, SimId.t()}
-  @spec start(integer) :: {:ok, SimId.t()}
-  def start(ants \\ 10) do
+  def start() do
     sim = SimId.next()
 
     {:ok, _} = SimulationsSupervisor.start_simulation(sim)
 
     {:ok, home: {home_x, home_y}} = Worlds.create_world(sim)
 
-    Ants.create_ants(sim, home_x, home_y, ants)
+    Ants.create_ants(sim, home_x, home_y, @starting_ants)
 
     {:ok, sim}
   end
@@ -70,5 +72,17 @@ defmodule Ants.Simulations do
     food_in_world + food_with_ants <= 0
   end
 
+  @spec knob(String.t) :: {:ok, any} | {:error}
+  def knob(name) when is_binary(name) do
+    case Knobs.parse(name) do
+      {:ok, atom} -> 
+        value = Knobs.get(atom) || Knobs.constant(atom)
+        {:ok, value}
+      {:error, atom} -> 
+        {:error}
+    end
+  end
+
+  defdelegate all_knobs(), to: Knobs, as: :all
   defdelegate print(sim), to: Print
 end

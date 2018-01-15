@@ -18,20 +18,26 @@ let has_food = (tile: Tile.t) : bool =>
   | _ => false
   };
 
-let pheromone_opacity = (tile: Tile.t) : string =>
+let pheromoneOpacity = (tile: Tile.t, maxPheromone: float) : string =>
   switch tile {
-  | Land({pheromone}) when pheromone > 0. => string_of_float(pheromone *. 0.5)
+  | Land({pheromone}) when pheromone > 0. => string_of_float(pheromone /. maxPheromone)
   | _ => ""
   };
 
-let food_opacity = (tile: Tile.t) : string =>
+let foodOpacity = (tile: Tile.t, maxFood: float) : string =>
   switch tile {
   | Food({food}) when food > 0 =>  {
     Js.log(food);
-    Printf.sprintf("%f", float_of_int(food) /. 500.);
+    Printf.sprintf("%f", float_of_int(food) /. maxFood);
   }
   | _ => ""
 };
+
+let maxFood = (knobs: Knobs.t) : float =>
+  float_of_int(knobs.startingFood);
+
+let maxPheromone = (knobs: Knobs.t) : float =>
+  10. *. knobs.pheromoneDeposit ;
 
 let antsOfTile = (tile: Tile.t) : bool =>
   switch tile {
@@ -46,7 +52,7 @@ let antsClassName = (tile: Tile.t, className: string) : string =>
 
 let component = ReasonReact.statelessComponent("World");
 
-let make = (~tile: Tile.t, _children) => {
+let make = (~tile: Tile.t, ~knobs: Knobs.t, _children) => {
   ...component,
   render: _self =>
     <div className=(tile |> tileClassName |> antsClassName(tile))>
@@ -54,7 +60,9 @@ let make = (~tile: Tile.t, _children) => {
         if (is_pheromone(tile)) {
           <div
             className="tile--pheromone"
-            style=(ReactDOMRe.Style.make(~opacity=pheromone_opacity(tile), ()))
+            style=(ReactDOMRe.Style.make(~opacity=(
+              maxPheromone(knobs) |> pheromoneOpacity(tile)
+            ), ()))
           />;
         } else {
           ReasonReact.nullElement;
@@ -64,7 +72,9 @@ let make = (~tile: Tile.t, _children) => {
         if (has_food(tile)) {
           <div
             className="tile--food"
-            style=(ReactDOMRe.Style.make(~opacity=food_opacity(tile), ()))
+            style=(ReactDOMRe.Style.make(~opacity=
+              (maxFood(knobs) |> foodOpacity(tile)), ()
+            ))
           />;
         } else {
           ReasonReact.nullElement;

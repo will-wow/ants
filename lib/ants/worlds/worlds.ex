@@ -1,5 +1,7 @@
 defmodule Ants.Worlds do
   alias Ants.Shared.Utils
+  alias Ants.Shared.Knobs
+  alias Ants.Worlds.CellMap
   alias Ants.Worlds.WorldMap
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
@@ -11,28 +13,12 @@ defmodule Ants.Worlds do
   @callback create_world(integer, WorldMap.t()) :: :ok
   @callback print(integer) :: none
   @callback lookup(integer, integer, integer) :: Tile.t()
+ 
+  @map_size Knobs.constant(:map_size)
 
-  @world_map [
-    "0 0 0 0 0 0 0 0 0 0 0 0 0",
-    "0 _ _ _ _ _ _ _ _ _ _ F 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ F _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 _ _ _ _ _ _ _ F _ _ _ 0",
-    "0 _ _ _ _ _ _ _ _ _ _ _ 0",
-    "0 H _ _ _ _ _ _ _ _ _ _ 0",
-    "0 0 0 0 0 0 0 0 0 0 0 0 0"
-  ]
-
-  @map_size Enum.count(@world_map)
-
-  @spec create_world(integer, WorldMap.t()) :: {:ok, home: {integer, integer}}
-  def create_world(sim, map \\ @world_map) do
-    map
+  @spec create_world(SimId.t) :: {:ok, home: {integer, integer}}
+  def create_world(sim) do
+    CellMap.get()
     |> WorldMap.tile_type_of_world_map()
     |> Utils.map_indexed(fn {type, i} ->
          x = WorldMap.x_coord_of_index(i, @map_size)

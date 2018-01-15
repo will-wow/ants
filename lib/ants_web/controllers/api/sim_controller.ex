@@ -9,18 +9,14 @@ defmodule AntsWeb.Api.SimController do
 
   action_fallback(FallbackController)
 
-  @default_ant_count 10
-
   @spec index(Plug.Conn.t(), any) :: Plug.Conn.t()
   def index(conn, _params) do
     conn
     |> render("index.json", [])
   end
 
-  def create(conn, params) do
-    count = params["count"] || @default_ant_count
-
-    with {:ok, sim_id} <- Simulations.start(count),
+  def create(conn, _) do
+    with {:ok, sim_id} <- Simulations.start(),
          world <- Simulations.get(sim_id) do
       conn
       |> put_status(:created)

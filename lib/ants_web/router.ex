@@ -16,10 +16,10 @@ defmodule AntsWeb.Router do
   scope "/api", AntsWeb.Api do
     pipe_through(:api)
 
-    get("/sim", SimController, :index)
-    post("/sim", SimController, :create)
-    get("/sim/:id", SimController, :show)
-    post("/sim/:id/turn", SimController, :turn)
+    resources("/sim", SimController, only: [:index, :create, :show]) do
+      resources("/turn", TurnController, only: [:create])
+      resources("/knob", KnobController, only: [:index, :show])
+    end
   end
 
   scope "/", AntsWeb do
