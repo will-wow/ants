@@ -19,7 +19,7 @@ defmodule AntsWeb.Api.KnobController do
       {:ok, value} ->
         conn
         |> render(
-          "show.json", 
+          "show.json",
           knob: %{
             name => value
           }

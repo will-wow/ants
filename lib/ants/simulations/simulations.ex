@@ -26,59 +26,34 @@ defmodule Ants.Simulations do
     Print.data(sim)
   end
 
-  @spec turn(SimId.t()) :: :done | Print.world()
+  @spec turn(SimId.t()) :: {:error, :done} | {:ok, Print.world()}
   def turn(sim) do
     if done?(sim) do
-      :done
+      {:error, :done}
     else
       Ants.move_all(sim)
       Ants.deposit_all_pheromones(sim)
       Worlds.decay_all_pheromones(sim)
 
-      Print.data(sim)
-    end
-  end
-
-  @spec turns(SimId.t(), integer) :: Print.world()
-  def turns(sim, turns) do
-    Enum.each(1..turns, fn _ ->
-      end_if_done(sim)
-      Ants.move_all(sim)
-      Ants.deposit_all_pheromones(sim)
-      Worlds.decay_all_pheromones(sim)
-    end)
-
-    print(sim)
-
-    Print.data(sim)
-  end
-
-  @spec end_if_done(SimId.t()) :: :ok
-  def end_if_done(sim) do
-    if done?(sim) do
-      SimulationsSupervisor.end_simulation(sim)
-      IO.puts("====DONE!====")
-      :ok
-    else
-      :ok
+      {:ok, Print.data(sim)}
     end
   end
 
   @spec done?(SimId.t()) :: boolean
   def done?(sim) do
     food_in_world = Worlds.count_food(sim)
-    food_with_ants = Ants.count_food(sim)
 
-    food_in_world + food_with_ants <= 0
+    food_in_world <= 0
   end
 
-  @spec knob(String.t) :: {:ok, any} | {:error}
+  @spec knob(String.t()) :: {:ok, any} | {:error}
   def knob(name) when is_binary(name) do
     case Knobs.parse(name) do
-      {:ok, atom} -> 
+      {:ok, atom} ->
         value = Knobs.get(atom) || Knobs.constant(atom)
         {:ok, value}
-      {:error, atom} -> 
+
+      {:error} ->
         {:error}
     end
   end

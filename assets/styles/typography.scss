@@ -1,4 +1,4 @@
-@import './mixins/fonts';
+@import "./mixins/fonts";
 
 body {
   @include regular-font;
@@ -10,7 +10,8 @@ p {
   font-size: 1rem;
 }
 
-a, button {
+a,
+button {
   @include regular-font;
   font-size: inherit;
   text-decoration: none;

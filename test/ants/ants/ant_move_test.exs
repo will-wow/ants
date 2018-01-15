@@ -153,9 +153,9 @@ defmodule Ants.Ants.AntMoveTest do
     world_map
     |> WorldMap.tile_type_of_world_map()
     |> Enum.map(fn type ->
-         {:ok, tile} = TileType.tile_of_type(type)
-         tile
-       end)
+      {:ok, tile} = TileType.tile_of_type(type)
+      tile
+    end)
     |> List.to_tuple()
   end
 end

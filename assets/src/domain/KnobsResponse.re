@@ -6,5 +6,5 @@ let parse = (json: Js.Json.t) : Knobs.t =>
     pheromoneDeposit: json |> field("pheromone_deposit", float),
     pheromoneDecay: json |> field("pheromone_decay", float),
     pheromoneMultiplier: json |> field("pheromone_multiplier", float),
-    forwardWeight: json |> field("forward_weight", float),
+    forwardWeight: json |> field("forward_weight", float)
   };

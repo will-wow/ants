@@ -2,7 +2,7 @@ defmodule Ants.Shared.Knobs do
   alias Ants.Worlds.CellMap
 
   @constants %{
-    starting_food: 100,
+    starting_food: 10,
     map_size: CellMap.get() |> Enum.count(),
     starting_ants: 100
   }
@@ -15,9 +15,9 @@ defmodule Ants.Shared.Knobs do
   }
 
   @names Enum.map(
-    Map.keys(@constants) ++ Map.keys(@variables),
-    &Atom.to_string/1
-  )
+           Map.keys(@constants) ++ Map.keys(@variables),
+           &Atom.to_string/1
+         )
 
   @spec get(atom) :: any
   def get(name) do
@@ -29,7 +29,7 @@ defmodule Ants.Shared.Knobs do
     @constants[name]
   end
 
-  @spec parse(String.t) :: {:ok, atom} | {:error}
+  @spec parse(String.t()) :: {:ok, atom} | {:error}
   def parse(name) do
     if Enum.member?(@names, name) do
       {:ok, String.to_atom(name)}

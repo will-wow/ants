@@ -13,19 +13,19 @@ defmodule Ants.Worlds do
   @callback create_world(integer, WorldMap.t()) :: :ok
   @callback print(integer) :: none
   @callback lookup(integer, integer, integer) :: Tile.t()
- 
+
   @map_size Knobs.constant(:map_size)
 
-  @spec create_world(SimId.t) :: {:ok, home: {integer, integer}}
+  @spec create_world(SimId.t()) :: {:ok, home: {integer, integer}}
   def create_world(sim) do
     CellMap.get()
     |> WorldMap.tile_type_of_world_map()
     |> Utils.map_indexed(fn {type, i} ->
-         x = WorldMap.x_coord_of_index(i, @map_size)
-         y = WorldMap.y_coord_of_index(i, @map_size)
+      x = WorldMap.x_coord_of_index(i, @map_size)
+      y = WorldMap.y_coord_of_index(i, @map_size)
 
-         {:ok, _} = TileSupervisor.start_tile(sim, type, x, y)
-       end)
+      {:ok, _} = TileSupervisor.start_tile(sim, type, x, y)
+    end)
 
     # TODO: Find Home location
     {:ok, home: {1, 1}}
@@ -42,9 +42,9 @@ defmodule Ants.Worlds do
   def all_tiles(sim) do
     all_coords()
     |> Task.async_stream(fn {x, y} ->
-         sim
-         |> lookup(x, y)
-       end)
+      sim
+      |> lookup(x, y)
+    end)
     |> Enum.map(fn {:ok, tile} -> tile end)
   end
 
@@ -53,11 +53,11 @@ defmodule Ants.Worlds do
     sim
     |> all_tiles()
     |> Enum.reduce(0, fn tile, acc ->
-         case tile do
-           %Food{food: food} -> acc + food
-           _ -> acc
-         end
-       end)
+      case tile do
+        %Food{food: food} -> acc + food
+        _ -> acc
+      end
+    end)
   end
 
   @spec take_food(SimId.t(), integer, integer) :: {:ok, integer} | {:error, :not_food}
@@ -85,8 +85,8 @@ defmodule Ants.Worlds do
   def decay_all_pheromones(sim) do
     all_coords()
     |> Task.async_stream(fn {x, y} ->
-         decay_pheromones(sim, x, y)
-       end)
+      decay_pheromones(sim, x, y)
+    end)
     |> Enum.map(fn {:ok, tile} -> tile end)
   end
 

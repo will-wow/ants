@@ -22,15 +22,15 @@ defmodule Ants.Ants.AntId do
     sim
     |> via()
     |> Agent.get_and_update(fn ids ->
-         case ids do
-           [] ->
-             {0, [0]}
+      case ids do
+        [] ->
+          {0, [0]}
 
-           [last_id | _] ->
-             id = last_id + 1
-             {id, [id | ids]}
-         end
-       end)
+        [last_id | _] ->
+          id = last_id + 1
+          {id, [id | ids]}
+      end
+    end)
   end
 
   defp via(sim) do

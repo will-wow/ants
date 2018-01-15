@@ -11,7 +11,7 @@ function str(prim) {
 }
 
 function startSim() {
-  Http$ReactTemplate.post("/api/sim").then((function (json) {
+  Http$ReactTemplate.json(Http$ReactTemplate.post("/api/sim")).then((function (json) {
             return Promise.resolve(SimResponse$ReactTemplate.parseSimId(json));
           })).then((function (simId) {
           return Promise.resolve(ReasonReact.Router[/* push */0]("sim/" + (String(simId) + "")));

@@ -15,37 +15,46 @@ var putOpts = Fetch.RequestInit[/* make */0](/* Some */[/* Put */3], /* Some */[
 
 var deleteOpts = Fetch.RequestInit[/* make */0](/* Some */[/* Delete */4], /* Some */[jsonHeaders], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0);
 
-function get(url) {
-  return fetch(url, getOpts).then((function (prim) {
-                return prim.json();
+function dataAndStatus(response) {
+  return response.json().then((function (json) {
+                return Promise.resolve(/* record */[
+                            /* json */json,
+                            /* status */response.status
+                          ]);
               }));
+}
+
+function get(url) {
+  return fetch(url, getOpts).then(dataAndStatus);
 }
 
 function post(url) {
-  return fetch(url, postOpts).then((function (prim) {
-                return prim.json();
-              }));
+  return fetch(url, postOpts).then(dataAndStatus);
 }
 
 function put(url, _) {
-  return fetch(url, putOpts).then((function (prim) {
-                return prim.json();
-              }));
+  return fetch(url, putOpts).then(dataAndStatus);
 }
 
 function $$delete(url, _) {
-  return fetch(url, deleteOpts).then((function (prim) {
-                return prim.json();
+  return fetch(url, deleteOpts).then(dataAndStatus);
+}
+
+function json(promise) {
+  return promise.then((function (response) {
+                return Promise.resolve(response[/* json */0]);
               }));
 }
 
-exports.jsonHeaders = jsonHeaders;
-exports.getOpts     = getOpts;
-exports.postOpts    = postOpts;
-exports.putOpts     = putOpts;
-exports.deleteOpts  = deleteOpts;
-exports.get         = get;
-exports.post        = post;
-exports.put         = put;
-exports.$$delete    = $$delete;
+exports.jsonHeaders   = jsonHeaders;
+exports.getOpts       = getOpts;
+exports.postOpts      = postOpts;
+exports.putOpts       = putOpts;
+exports.deleteOpts    = deleteOpts;
+exports.dataAndStatus = dataAndStatus;
+exports.get           = get;
+exports.post          = post;
+exports.put           = put;
+exports.$$delete      = $$delete;
+exports.json          = json;
 /* getOpts Not a pure module */

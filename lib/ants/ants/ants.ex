@@ -7,8 +7,8 @@ defmodule Ants.Ants do
   def create_ants(sim, x, y, ants) do
     1..ants
     |> Task.async_stream(fn _ ->
-         create_ant(sim, x, y)
-       end)
+      create_ant(sim, x, y)
+    end)
     |> Enum.to_list()
   end
 
@@ -22,17 +22,17 @@ defmodule Ants.Ants do
     sim
     |> for_each_ant(&Ant.get/1)
     |> Enum.map(fn {:ok, ant} ->
-         {ant.x, ant.y}
-       end)
+      {ant.x, ant.y}
+    end)
   end
 
   @spec count_food(SimId.t()) :: integer
   def count_food(sim) do
     sim
     |> for_each_ant(fn ant_id ->
-         ant = Ant.get(ant_id)
-         if ant.food?, do: 1, else: 0
-       end)
+      ant = Ant.get(ant_id)
+      if ant.food?, do: 1, else: 0
+    end)
     |> Enum.count()
   end
 
@@ -50,10 +50,10 @@ defmodule Ants.Ants do
     sim
     |> AntId.get()
     |> Task.async_stream(fn id ->
-         sim
-         |> AntSupervisor.get_ant(id)
-         |> f.()
-       end)
+      sim
+      |> AntSupervisor.get_ant(id)
+      |> f.()
+    end)
     |> Enum.to_list()
   end
 end

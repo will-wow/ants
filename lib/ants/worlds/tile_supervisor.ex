@@ -11,13 +11,10 @@ defmodule Ants.Worlds.TileSupervisor do
   end
 
   def start_tile(sim, tile_type, x, y) do
-    DynamicSupervisor.start_child(
-      via(sim),
-      {
-        Tile,
-        {tile_type, [name: tile_via(sim, x, y)]}
-      }
-    )
+    DynamicSupervisor.start_child(via(sim), {
+      Tile,
+      {tile_type, [name: tile_via(sim, x, y)]}
+    })
   end
 
   @spec get_tile(integer, integer, integer) :: pid

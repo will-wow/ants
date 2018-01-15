@@ -5,7 +5,7 @@ defmodule Ants.Ants.Move do
   @type t :: {coord, coord}
 
   @row_length 3
-  @highest_index (@row_length * 3) - 1
+  @highest_index @row_length * 3 - 1
 
   def x({x, _}), do: x
   def y({_, y}), do: y

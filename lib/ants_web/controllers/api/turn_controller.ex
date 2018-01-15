@@ -11,12 +11,15 @@ defmodule AntsWeb.Api.TurnController do
   def create(conn, %{"sim_id" => id}) do
     with {sim_id, ""} <- Integer.parse(id),
          true <- SimId.exists?(sim_id),
-         world <- Simulations.turn(sim_id) do
-      IO.puts("balls")
-
+         {:ok, world} <- Simulations.turn(sim_id) do
       conn
       |> render("show.json", sim_id: sim_id, world: world)
     else
+      {:error, :done} ->
+        conn
+        |> put_status(201)
+        |> render("done.json", [])
+
       _ ->
         conn
         |> put_status(:not_found)

@@ -26,24 +26,39 @@ function updateKnobs(send, json) {
 }
 
 function fetchWorld(send, simId) {
-  Http$ReactTemplate.get("/api/sim/" + (String(simId) + "")).then((function (json) {
+  Http$ReactTemplate.json(Http$ReactTemplate.get("/api/sim/" + (String(simId) + ""))).then((function (json) {
           return Promise.resolve(updateWorld(send, json));
         }));
   return /* () */0;
 }
 
 function fetchKnobs(send, simId) {
-  Http$ReactTemplate.get("/api/sim/" + (String(simId) + "/knob")).then((function (json) {
-          return Promise.resolve(updateKnobs(send, json));
+  Http$ReactTemplate.json(Http$ReactTemplate.get("/api/sim/" + (String(simId) + "/knob"))).then((function (response) {
+          return Promise.resolve(updateKnobs(send, response));
         }));
   return /* () */0;
 }
 
 function doTurn(send, simId) {
-  Http$ReactTemplate.post("/api/sim/" + (String(simId) + "/turn")).then((function (json) {
-          return Promise.resolve(updateWorld(send, json));
+  Http$ReactTemplate.post("/api/sim/" + (String(simId) + "/turn")).then((function (response) {
+          console.log(response[/* status */1]);
+          if (response[/* status */1] === 201) {
+            return Promise.resolve(Curry._1(send, /* Finished */5));
+          } else {
+            return Promise.resolve(updateWorld(send, response[/* json */0]));
+          }
         }));
   return /* () */0;
+}
+
+function antStatusMessage(state) {
+  if (state[/* finished */3]) {
+    return "The ants found all the food!";
+  } else if (state[/* fetching */2]) {
+    return "The ants are marching!";
+  } else {
+    return "The ants are waiting!";
+  }
 }
 
 var component = ReasonReact.reducerComponent("Sim");
@@ -59,26 +74,32 @@ function make(simId, _) {
   newrecord[/* render */9] = (function (param) {
       var send = param[/* send */4];
       var state = param[/* state */2];
-      var match = state[/* fetching */1];
+      var match = state[/* fetching */2];
       return React.createElement("div", {
                   className: "sim"
-                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, "Go ants go!"), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(state[/* world */0], state[/* knobs */2], /* array */[])), React.createElement("div", {
+                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, antStatusMessage(state)), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(state[/* world */0], state[/* knobs */1], /* array */[])), React.createElement("div", {
                       className: "sim__buttons"
                     }, React.createElement("button", {
+                          className: "button",
                           onClick: (function () {
                               return Curry._1(send, /* DoTurn */2);
                             })
                         }, "Turn"), React.createElement("button", {
+                          className: "button",
                           onClick: (function () {
                               return Curry._1(send, /* Pause */4);
                             })
-                        }, match !== 0 ? "Pause" : "Play")));
+                        }, match !== 0 ? "Pause" : "Play"), React.createElement("a", {
+                          className: "button",
+                          href: "/"
+                        }, React.createElement("span", undefined, "Back"))));
     });
   newrecord[/* initialState */10] = (function () {
       return /* record */[
               /* world : [] */0,
+              /* knobs */Knobs$ReactTemplate.$$default,
               /* fetching : false */0,
-              /* knobs */Knobs$ReactTemplate.$$default
+              /* finished : false */0
             ];
     });
   newrecord[/* reducer */12] = (function (action, state) {
@@ -93,12 +114,16 @@ function make(simId, _) {
                             return fetchKnobs(param[/* send */4], simId);
                           })]);
           case 2 : 
-              return /* SideEffects */Block.__(2, [(function (param) {
-                            return doTurn(param[/* send */4], simId);
-                          })]);
+              if (state[/* finished */3]) {
+                return /* NoUpdate */0;
+              } else {
+                return /* SideEffects */Block.__(2, [(function (param) {
+                              return doTurn(param[/* send */4], simId);
+                            })]);
+              }
           case 3 : 
               return /* SideEffects */Block.__(2, [(function (param) {
-                            if (param[/* state */2][/* fetching */1]) {
+                            if (param[/* state */2][/* fetching */2]) {
                               return Curry._1(param[/* send */4], /* DoTurn */2);
                             } else {
                               return 0;
@@ -107,22 +132,32 @@ function make(simId, _) {
           case 4 : 
               return /* Update */Block.__(0, [/* record */[
                           /* world */state[/* world */0],
-                          /* fetching */1 - state[/* fetching */1],
-                          /* knobs */state[/* knobs */2]
+                          /* knobs */state[/* knobs */1],
+                          /* fetching */1 - state[/* fetching */2],
+                          /* finished */state[/* finished */3]
+                        ]]);
+          case 5 : 
+              return /* Update */Block.__(0, [/* record */[
+                          /* world */state[/* world */0],
+                          /* knobs */state[/* knobs */1],
+                          /* fetching : false */0,
+                          /* finished : true */1
                         ]]);
           
         }
       } else if (action.tag) {
         return /* Update */Block.__(0, [/* record */[
                     /* world */state[/* world */0],
-                    /* fetching */state[/* fetching */1],
-                    /* knobs */action[0]
+                    /* knobs */action[0],
+                    /* fetching */state[/* fetching */2],
+                    /* finished */state[/* finished */3]
                   ]]);
       } else {
         return /* Update */Block.__(0, [/* record */[
                     /* world */action[0],
-                    /* fetching */state[/* fetching */1],
-                    /* knobs */state[/* knobs */2]
+                    /* knobs */state[/* knobs */1],
+                    /* fetching */state[/* fetching */2],
+                    /* finished */state[/* finished */3]
                   ]]);
       }
     });
@@ -148,13 +183,14 @@ function make(simId, _) {
 
 var turnLength = 50;
 
-exports.str         = str;
-exports.turnLength  = turnLength;
-exports.updateWorld = updateWorld;
-exports.updateKnobs = updateKnobs;
-exports.fetchWorld  = fetchWorld;
-exports.fetchKnobs  = fetchKnobs;
-exports.doTurn      = doTurn;
-exports.component   = component;
-exports.make        = make;
+exports.str              = str;
+exports.turnLength       = turnLength;
+exports.updateWorld      = updateWorld;
+exports.updateKnobs      = updateKnobs;
+exports.fetchWorld       = fetchWorld;
+exports.fetchKnobs       = fetchKnobs;
+exports.doTurn           = doTurn;
+exports.antStatusMessage = antStatusMessage;
+exports.component        = component;
+exports.make             = make;
 /* component Not a pure module */

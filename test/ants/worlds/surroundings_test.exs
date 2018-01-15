@@ -55,17 +55,17 @@ defmodule Ants.Worlds.SurroundingsTest do
       world_map
       |> WorldMap.tile_type_of_world_map()
       |> Enum.map(fn type ->
-           {:ok, tile} = TileType.tile_of_type(type)
-           tile
-         end)
+        {:ok, tile} = TileType.tile_of_type(type)
+        tile
+      end)
       |> List.to_tuple()
 
     size = length(world_map)
 
     TileLookupMock
     |> stub(:lookup, fn _, x, y ->
-         lookup_tile(tile_types, size, x, y)
-       end)
+      lookup_tile(tile_types, size, x, y)
+    end)
   end
 
   defp tile_at_index(index, tile_types) do

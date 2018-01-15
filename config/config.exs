@@ -10,8 +10,7 @@ config :ants, AntsWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "tfbe1TK7+TseYbUo7v3ClEe3YdAOAmjUEYbEcWlN0v+h0aQNrV7DBDS+V4XNEnQI",
   render_errors: [view: AntsWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Ants.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Ants.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -20,4 +19,4 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

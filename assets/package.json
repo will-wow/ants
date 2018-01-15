@@ -7,13 +7,11 @@
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack -w",
-    "fix": "yarn fix-reason && yarn fix-prettier",
-    "fix-reason": "refmt --in-place src/**.re",
-    "fix-prettier": "prettier --write '**/*.{js,json,scss}'"
+    "format": "yarn format-reason && yarn format-prettier",
+    "format-reason": "refmt --in-place src/**/*.re",
+    "format-prettier": "prettier --write '**/*.{js,json,scss}'"
   },
-  "keywords": [
-    "BuckleScript"
-  ],
+  "keywords": ["BuckleScript"],
   "author": "",
   "license": "MIT",
   "dependencies": {

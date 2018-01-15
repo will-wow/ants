@@ -5,6 +5,7 @@ let startSim = () => {
     Js.Promise.(
       "/api/sim"
       |> Http.post
+      |> Http.json
       |> then_(json => json |> SimResponse.parseSimId |> resolve)
       |> then_((simId: SimId.t) =>
            {j|sim/$(simId)|j} |> ReasonReact.Router.push |> resolve
