@@ -1,3 +1,5 @@
+@import "../mixins/icon";
+
 .tile {
   width: 100%;
   height: 100%;
@@ -43,7 +45,8 @@
     position: relative;
     &:after {
       @include fill;
-      content: "X";
+      @include icon;
+      content: "🐜";
     }
   }
 }

@@ -4,6 +4,7 @@
 var React                     = require("react");
 var ReasonReact               = require("reason-react/lib/js/src/ReasonReact.js");
 var Http$ReactTemplate        = require("../lib/Http.bs.js");
+var AntIcon$ReactTemplate     = require("./AntIcon.bs.js");
 var SimResponse$ReactTemplate = require("../domain/SimResponse.bs.js");
 
 function str(prim) {
@@ -26,7 +27,7 @@ function make() {
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
                   className: "sim-start"
-                }, React.createElement("h1", undefined, "Ants!"), React.createElement("p", undefined, "Simulate ant colony foraging behavior, using Elixir processes."), React.createElement("button", {
+                }, React.createElement("h1", undefined, ReasonReact.element(/* None */0, /* None */0, AntIcon$ReactTemplate.make(/* array */[])), "Ants", ReasonReact.element(/* None */0, /* None */0, AntIcon$ReactTemplate.make(/* array */[]))), React.createElement("p", undefined, "Simulate ant colony foraging behavior, using Elixir processes."), React.createElement("button", {
                       onClick: (function () {
                           return startSim(/* () */0);
                         })

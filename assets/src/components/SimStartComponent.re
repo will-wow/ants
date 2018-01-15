@@ -20,7 +20,11 @@ let make = _children => {
   ...component,
   render: (_) =>
     <div className="sim-start">
-      <h1> (str("Ants!")) </h1>
+      <h1>
+        <AntIcon />
+        (str("Ants"))
+        <AntIcon />
+       </h1>
       <p>
         (str("Simulate ant colony foraging behavior, using Elixir processes."))
       </p>
