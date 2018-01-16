@@ -18,13 +18,13 @@ let make = _children => {
   ...component,
   render: (_) =>
     <div className="sim-start">
-      <h1>
-        <AntIcon />
-        (Utils.str("Ants"))
-        <AntIcon />
-       </h1>
+      <h1> <AntIcon /> (Utils.str("Ants")) <AntIcon /> </h1>
       <p>
-        (Utils.str("Simulate ant colony foraging behavior, using Elixir processes."))
+        (
+          Utils.str(
+            "Simulate ant colony foraging behavior, using Elixir processes."
+          )
+        )
       </p>
       <button onClick=(_event => startSim())>
         (Utils.str("Start a simulation"))
