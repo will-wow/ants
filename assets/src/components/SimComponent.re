@@ -1,4 +1,4 @@
-let str = ReasonReact.stringToElement;
+let str = Utils.str;
 
 type state = {
   world: World.t,

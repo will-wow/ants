@@ -1,5 +1,3 @@
-let str = ReasonReact.stringToElement;
-
 let startSim = () => {
   let _ =
     Js.Promise.(
@@ -22,14 +20,14 @@ let make = _children => {
     <div className="sim-start">
       <h1>
         <AntIcon />
-        (str("Ants"))
+        (Utils.str("Ants"))
         <AntIcon />
        </h1>
       <p>
-        (str("Simulate ant colony foraging behavior, using Elixir processes."))
+        (Utils.str("Simulate ant colony foraging behavior, using Elixir processes."))
       </p>
       <button onClick=(_event => startSim())>
-        (str("Start a simulation"))
+        (Utils.str("Start a simulation"))
       </button>
     </div>
 };

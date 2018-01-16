@@ -7,13 +7,10 @@ var React                        = require("react");
 var ReasonReact                  = require("reason-react/lib/js/src/ReasonReact.js");
 var Http$ReactTemplate           = require("../lib/Http.bs.js");
 var Knobs$ReactTemplate          = require("../domain/Knobs.bs.js");
+var Utils$ReactTemplate          = require("../lib/Utils.bs.js");
 var SimResponse$ReactTemplate    = require("../domain/SimResponse.bs.js");
 var KnobsResponse$ReactTemplate  = require("../domain/KnobsResponse.bs.js");
 var WorldComponent$ReactTemplate = require("./WorldComponent.bs.js");
-
-function str(prim) {
-  return prim;
-}
 
 function updateWorld(send, json) {
   var world = SimResponse$ReactTemplate.parseWorld(json);
@@ -76,22 +73,22 @@ function make(simId, _) {
       var match = state[/* fetching */2];
       return React.createElement("div", {
                   className: "sim"
-                }, React.createElement("h1", undefined, "Sim " + (String(simId) + "")), React.createElement("h2", undefined, antStatusMessage(state)), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(state[/* world */0], state[/* knobs */1], /* array */[])), React.createElement("div", {
+                }, React.createElement("h1", undefined, Utils$ReactTemplate.str("Sim " + (String(simId) + ""))), React.createElement("h2", undefined, Utils$ReactTemplate.str(antStatusMessage(state))), ReasonReact.element(/* None */0, /* None */0, WorldComponent$ReactTemplate.make(state[/* world */0], state[/* knobs */1], /* array */[])), React.createElement("div", {
                       className: "sim__buttons"
                     }, React.createElement("button", {
                           className: "button",
                           onClick: (function () {
                               return Curry._1(send, /* DoTurn */2);
                             })
-                        }, "Turn"), React.createElement("button", {
+                        }, Utils$ReactTemplate.str("Turn")), React.createElement("button", {
                           className: "button",
                           onClick: (function () {
                               return Curry._1(send, /* Pause */4);
                             })
-                        }, match !== 0 ? "Pause" : "Play"), React.createElement("a", {
+                        }, match !== 0 ? Utils$ReactTemplate.str("Pause") : Utils$ReactTemplate.str("Play")), React.createElement("a", {
                           className: "button",
                           href: "/"
-                        }, React.createElement("span", undefined, "Back"))));
+                        }, React.createElement("span", undefined, Utils$ReactTemplate.str("Back")))));
     });
   newrecord[/* initialState */10] = (function () {
       return /* record */[
@@ -179,6 +176,8 @@ function make(simId, _) {
     });
   return newrecord;
 }
+
+var str = Utils$ReactTemplate.str;
 
 var turnLength = 50;
 

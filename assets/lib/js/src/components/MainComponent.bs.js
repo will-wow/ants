@@ -5,7 +5,6 @@ var ReactDOMRe                      = require("reason-react/lib/js/src/ReactDOMR
 var Caml_format                     = require("bs-platform/lib/js/caml_format.js");
 var ReasonReact                     = require("reason-react/lib/js/src/ReasonReact.js");
 var SimComponent$ReactTemplate      = require("./SimComponent.bs.js");
-var TodoAppComponent$ReactTemplate  = require("./TodoAppComponent.bs.js");
 var NotFoundComponent$ReactTemplate = require("./NotFoundComponent.bs.js");
 var SimStartComponent$ReactTemplate = require("./SimStartComponent.bs.js");
 
@@ -18,24 +17,15 @@ ReasonReact.Router[/* watchUrl */1]((function (url) {
         var element;
         var exit = 0;
         if (match) {
-          switch (match[0]) {
-            case "sim" : 
-                var match$1 = match[1];
-                if (match$1 && !match$1[1]) {
-                  element = ReasonReact.element(/* None */0, /* None */0, SimComponent$ReactTemplate.make(Caml_format.caml_int_of_string(match$1[0]), /* array */[]));
-                } else {
-                  exit = 1;
-                }
-                break;
-            case "todo" : 
-                if (match[1]) {
-                  exit = 1;
-                } else {
-                  element = ReasonReact.element(/* None */0, /* None */0, TodoAppComponent$ReactTemplate.make(/* array */[]));
-                }
-                break;
-            default:
+          if (match[0] === "sim") {
+            var match$1 = match[1];
+            if (match$1 && !match$1[1]) {
+              element = ReasonReact.element(/* None */0, /* None */0, SimComponent$ReactTemplate.make(Caml_format.caml_int_of_string(match$1[0]), /* array */[]));
+            } else {
               exit = 1;
+            }
+          } else {
+            exit = 1;
           }
         } else {
           element = ReasonReact.element(/* None */0, /* None */0, SimStartComponent$ReactTemplate.make(/* array */[]));

@@ -8,13 +8,10 @@ var Curry                            = require("bs-platform/lib/js/curry.js");
 var React                            = require("react");
 var Pervasives                       = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact                      = require("reason-react/lib/js/src/ReasonReact.js");
+var Utils$ReactTemplate              = require("../lib/Utils.bs.js");
 var TodoItem$ReactTemplate           = require("../domain/TodoItem.bs.js");
 var TodoItemComponent$ReactTemplate  = require("./TodoItemComponent.bs.js");
 var TodoInputComponent$ReactTemplate = require("./TodoInputComponent.bs.js");
-
-function str(prim) {
-  return prim;
-}
 
 var lastId = [0];
 
@@ -41,7 +38,7 @@ function make() {
                   className: "todo"
                 }, React.createElement("div", {
                       className: "title"
-                    }, "What to do", ReasonReact.element(/* None */0, /* None */0, TodoInputComponent$ReactTemplate.make(Curry._1(reduce, (function (text) {
+                    }, Utils$ReactTemplate.str("What to do"), ReasonReact.element(/* None */0, /* None */0, TodoInputComponent$ReactTemplate.make(Curry._1(reduce, (function (text) {
                                     return /* AddItem */Block.__(0, [text]);
                                   })), /* array */[]))), React.createElement("div", {
                       className: "items"
@@ -51,7 +48,7 @@ function make() {
                                                     })), /* array */[]));
                               }), items))), React.createElement("div", {
                       className: "footer"
-                    }, Pervasives.string_of_int(numItems) + " items"));
+                    }, Utils$ReactTemplate.str(Pervasives.string_of_int(numItems) + " items")));
     });
   newrecord[/* initialState */10] = (function () {
       return /* record */[/* items : [] */0];
@@ -73,7 +70,6 @@ function make() {
   return newrecord;
 }
 
-exports.str           = str;
 exports.lastId        = lastId;
 exports.newItem       = newItem;
 exports.toggleOneItem = toggleOneItem;

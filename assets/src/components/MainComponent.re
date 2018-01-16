@@ -6,7 +6,6 @@ ReasonReact.Router.watchUrl(url =>
     switch url.path {
     | [] => <SimStartComponent />
     | ["sim", simId] => <SimComponent simId=(int_of_string(simId)) />
-    | ["todo"] => <TodoAppComponent />
     | _ => <NotFoundComponent />
     }
   )
