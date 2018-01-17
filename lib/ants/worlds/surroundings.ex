@@ -1,22 +1,10 @@
-require IEx
-
 defmodule Ants.Worlds.Surroundings do
   alias Ants.Worlds.Tile
   alias Ants.Worlds.TileLookup
   alias Ants.Worlds.WorldMap
   alias Ants.Simulations.SimId
 
-  @type t :: {
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t(),
-          Tile.t()
-        }
+  @type t :: [Tile.t()]
 
   @type coords :: {integer, integer}
 
@@ -37,7 +25,6 @@ defmodule Ants.Worlds.Surroundings do
     end)
     |> Stream.map(fn {:ok, tile} -> tile end)
     |> Enum.to_list()
-    |> List.to_tuple()
   end
 
   @spec index_of_coords(integer, integer) :: integer

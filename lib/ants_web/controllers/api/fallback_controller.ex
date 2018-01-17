@@ -6,15 +6,11 @@ defmodule AntsWeb.Api.FallbackController do
   """
   use AntsWeb, :controller
 
+  alias AntsWeb.ErrorView
+
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> render(AntsWeb.ErrorView, :"404")
-  end
-
-  def call(conn, {:error, changeset}) do
-    conn
-    |> put_status(:unprocessable_entity)
-    |> render(AntsWeb.ChangesetView, "error.json", changeset: changeset)
+    |> render(ErrorView, "404.json", [])
   end
 end

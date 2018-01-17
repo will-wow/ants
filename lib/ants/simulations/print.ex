@@ -2,9 +2,10 @@ defmodule Ants.Simulations.Print do
   alias __MODULE__
   alias Ants.Shared.Knobs
   alias Ants.Shared.Utils
+  alias Ants.Worlds
+  alias Ants.Worlds.Tile
   alias Ants.Worlds.Surroundings
   alias Ants.Simulations.SimId
-  alias Ants.Worlds
   alias Ants.Ants
 
   @map_size Knobs.constant(:map_size)

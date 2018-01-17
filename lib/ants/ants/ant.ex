@@ -12,11 +12,11 @@ defmodule Ants.Ants.Ant do
   @type t :: %Ant{
           x: integer,
           y: integer,
-          food?: boolean,
-          path: [Move.t()]
+          last: Move.t(),
+          food?: boolean
         }
 
-  defstruct x: nil, y: nil, food?: false, path: []
+  defstruct x: nil, y: nil, food?: false, last: nil
 
   ## Client
 

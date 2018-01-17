@@ -1,5 +1,3 @@
-require IEx
-
 defmodule AntsWeb.Api.SimController do
   use AntsWeb, :controller
 
@@ -32,9 +30,7 @@ defmodule AntsWeb.Api.SimController do
       |> render("show.json", sim_id: sim_id, world: world)
     else
       _ ->
-        conn
-        |> put_status(:not_found)
-        |> render(AntsWeb.ErrorView, :"404")
+        {:error, :not_found}
     end
   end
 
@@ -46,9 +42,7 @@ defmodule AntsWeb.Api.SimController do
       |> render("show.json", sim_id: sim_id, world: world)
     else
       _ ->
-        conn
-        |> put_status(:not_found)
-        |> render(AntsWeb.ErrorView, :"404")
+        {:error, :not_found}
     end
   end
 end

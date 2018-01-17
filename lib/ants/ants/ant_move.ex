@@ -35,7 +35,6 @@ defmodule Ants.Ants.AntMove do
   @spec next_move(Ant.t(), Surroundings.t(), TileSelector.tile_type()) :: Ant.t()
   defp next_move(ant, surroundings, tile_type) do
     surroundings
-    |> Tuple.to_list()
     |> Stream.with_index()
     |> Enum.filter(&can_visit(ant, &1))
     |> TileSelector.select(tile_type)
@@ -57,16 +56,16 @@ defmodule Ants.Ants.AntMove do
 
   @spec equals_last_move?(Ant.t(), Enum.index()) :: boolean
   defp equals_last_move?(ant, index) do
-    case ant.path do
-      [] -> false
-      [last_move | _] -> Move.backward_to_index(last_move) == index
+    case ant.last do
+      nil -> false
+      last_move -> Move.backward_to_index(last_move) == index
     end
   end
 
   defp last_index(ant) do
-    case ant.path do
-      [] -> raise "ant is trapped!"
-      [last_move | _] -> Move.backward_to_index(last_move)
+    case ant.last do
+      nil -> raise "ant is trapped!"
+      last_move -> Move.backward_to_index(last_move)
     end
   end
 
@@ -79,7 +78,6 @@ defmodule Ants.Ants.AntMove do
 
   defp sees_food?(surroundings) do
     surroundings
-    |> Tuple.to_list()
     |> Enum.any?(fn tile ->
       case tile do
         %Food{} -> true
@@ -89,7 +87,7 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec move_ant(Ant.t(), Move.t()) :: Ant.t()
-  defp move_ant(ant = %Ant{x: x, y: y, path: path}, move = {delta_x, delta_y}) do
-    %Ant{ant | x: x + delta_x, y: y + delta_y, path: [move | path]}
+  defp move_ant(ant = %Ant{x: x, y: y}, move = {delta_x, delta_y}) do
+    %Ant{ant | x: x + delta_x, y: y + delta_y, last: move}
   end
 end

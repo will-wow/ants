@@ -1,8 +1,8 @@
 defmodule AntsWeb.ErrorView do
   use AntsWeb, :view
 
-  def render("404.html", _assigns) do
-    "Page not found"
+  def render("404.json", _assigns) do
+    {}
   end
 
   def render("500.html", _assigns) do

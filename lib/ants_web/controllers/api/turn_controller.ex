@@ -21,9 +21,7 @@ defmodule AntsWeb.Api.TurnController do
         |> render("done.json", [])
 
       _ ->
-        conn
-        |> put_status(:not_found)
-        |> render(AntsWeb.ErrorView, :"404")
+        {:error, :not_found}
     end
   end
 end
