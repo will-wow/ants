@@ -1,12 +1,11 @@
 defmodule Ants.Ants.AntMove do
-  alias Ants.Shared.Knobs
   alias Ants.Ants.Ant
   alias Ants.Ants.AntReturn
   alias Ants.Ants.Move
   alias Ants.Ants.TileSelector
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
-  alias Ants.Worlds.Tile.{Rock, Food, Land}
+  alias Ants.Worlds.Tile.{Rock, Food}
 
   @type location :: {Tile.t(), Enum.index()}
 
@@ -16,7 +15,7 @@ defmodule Ants.Ants.AntMove do
   def move(ant, surroundings) do
     cond do
       ant.food? ->
-        go_back_one(ant)
+        move_toward_home(ant)
 
       sees_food?(surroundings) ->
         next_move(ant, surroundings, :food)
@@ -26,8 +25,8 @@ defmodule Ants.Ants.AntMove do
     end
   end
 
-  @spec go_back_one(Ant.t()) :: Ant.t()
-  defp go_back_one(ant = %Ant{food?: true, x: x, y: y}) do
+  @spec move_toward_home(Ant.t()) :: Ant.t()
+  defp move_toward_home(ant = %Ant{food?: true, x: x, y: y}) do
     move = AntReturn.backwards_move(x, y)
 
     move_ant(ant, move)
@@ -51,11 +50,8 @@ defmodule Ants.Ants.AntMove do
   @spec can_visit(Ant.t(), location) :: boolean
   defp can_visit(ant, {tile, i}) do
     case tile do
-      %Rock{} ->
-        false
-
-      _ ->
-        !(i == @center_tile_index || equals_last_move?(ant, i))
+      %Rock{} -> false
+      _ -> !(i == @center_tile_index || equals_last_move?(ant, i))
     end
   end
 
