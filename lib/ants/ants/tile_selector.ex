@@ -13,18 +13,6 @@ defmodule Ants.Ants.TileSelector do
   @typep index :: Enum.index()
   @typep locations :: [location]
 
-  defmodule RatingMap do
-    alias Ants.Ants.TileSelector
-
-    @type t :: %RatingMap{
-            food: [TileSelector.rating()],
-            land: [TileSelector.rating()],
-            home: TileSelector.rating()
-          }
-
-    defstruct food: [], land: [], home: nil
-  end
-
   @spec select(locations, tile_type) :: on_select
   def select(locations, :land), do: select_land(locations)
   def select(locations, :food), do: select_food(locations)
@@ -63,7 +51,9 @@ defmodule Ants.Ants.TileSelector do
 
   @spec rate_tile(Tile.t()) :: integer
   defp rate_tile(%Food{food: food}), do: food + 1
-  defp rate_tile(%Land{pheromone: pheromone}), do: (pheromone + 1) * pheromone_multiplier()
+
+  defp rate_tile(%Land{pheromone: pheromone}), do: :math.pow(pheromone + 1, pheromone_influence())
+
   defp rate_tile(%Home{}), do: 1
   defp rate_tile(%Rock{}), do: 0
 
@@ -77,11 +67,13 @@ defmodule Ants.Ants.TileSelector do
     end
   end
 
+  @spec weighted_pair_of_rating(rating) :: Utils.weighted_pair()
   defp weighted_pair_of_rating({rating, index}) do
     {index, rating}
   end
 
-  defp pheromone_multiplier() do
-    Knobs.get(:pheromone_multiplier)
+  @spec pheromone_influence() :: number
+  defp pheromone_influence() do
+    Knobs.get(:pheromone_influence)
   end
 end

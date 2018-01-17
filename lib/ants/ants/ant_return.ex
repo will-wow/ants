@@ -1,7 +1,7 @@
 defmodule Ants.Ants.AntReturn do
   alias Ants.Ants.Move
 
-  @spec backwards_move(Move.coord, Move.coord) :: Move.t
+  @spec backwards_move(Move.coord(), Move.coord()) :: Move.t()
   def backwards_move(x, y) do
     cond do
       x < y -> {0, -1}

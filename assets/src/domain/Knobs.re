@@ -3,9 +3,8 @@ type t = {
   mapSize: int,
   startingAnts: int,
   pheromoneDeposit: float,
-  pheromoneDecay: float,
-  pheromoneMultiplier: float,
-  forwardWeight: float
+  pheromoneEvaporationCoefficient: float,
+  pheromoneInfluence: float
 };
 
 let default = {
@@ -13,7 +12,6 @@ let default = {
   mapSize: 0,
   startingAnts: 0,
   pheromoneDeposit: 0.,
-  pheromoneDecay: 0.,
-  pheromoneMultiplier: 0.,
-  forwardWeight: 0.
+  pheromoneEvaporationCoefficient: 0.,
+  pheromoneInfluence: 0.
 };

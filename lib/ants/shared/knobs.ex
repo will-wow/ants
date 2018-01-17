@@ -8,10 +8,9 @@ defmodule Ants.Shared.Knobs do
   }
 
   @variables %{
-    pheromone_deposit: 100,
-    pheromone_decay: 97 / 100,
-    pheromone_multiplier: 10,
-    forward_weight: 3
+    pheromone_deposit: 1,
+    pheromone_evaporation_coefficient: 0.03,
+    pheromone_influence: 2.0
   }
 
   @names Enum.map(

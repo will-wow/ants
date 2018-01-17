@@ -92,7 +92,7 @@ defmodule Ants.Worlds.Tile do
   end
 
   def handle_call(:decay_pheromones, _from, tile = %Land{pheromone: pheromone}) when pheromone > 0 do
-    tile = %Land{tile | pheromone: pheromone * pheromone_decay()}
+    tile = %Land{tile | pheromone: (1 - pheromone_evaporation_coefficient()) * pheromone}
 
     {:reply, tile, tile}
   end
@@ -101,8 +101,9 @@ defmodule Ants.Worlds.Tile do
     {:reply, tile, tile}
   end
 
-  defp pheromone_decay do
-    Knobs.get(:pheromone_decay)
+  @spec pheromone_evaporation_coefficient() :: float
+  defp pheromone_evaporation_coefficient do
+    Knobs.get(:pheromone_evaporation_coefficient)
   end
 
   defp pheromone_deposit do

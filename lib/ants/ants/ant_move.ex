@@ -12,28 +12,30 @@ defmodule Ants.Ants.AntMove do
   @center_tile_index 4
 
   @spec move(Ant.t(), Surroundings.t()) :: Ant.t()
-  def move(ant, surroundings) do
-    cond do
-      ant.food? ->
-        move_toward_home(ant)
+  def move(ant = %Ant{food?: true}, surroundings) do
+    move_toward_home(ant, surroundings)
+  end
 
-      sees_food?(surroundings) ->
-        next_move(ant, surroundings, :food)
+  def move(ant = %Ant{food?: false}, surroundings) do
+    next_move(ant, surroundings)
+  end
 
-      true ->
-        next_move(ant, surroundings, :land)
+  @spec move_toward_home(Ant.t(), Surroundings.t()) :: Ant.t()
+  defp move_toward_home(ant = %Ant{food?: true, x: x, y: y}, surroundings) do
+    move = AntReturn.backwards_move(x, y)
+    new_local_index = Move.forward_to_index(move)
+    tile = Enum.at(surroundings, new_local_index)
+
+    case tile do
+      %Rock{} -> next_move(ant, surroundings)
+      _ -> move_ant(ant, move)
     end
   end
 
-  @spec move_toward_home(Ant.t()) :: Ant.t()
-  defp move_toward_home(ant = %Ant{food?: true, x: x, y: y}) do
-    move = AntReturn.backwards_move(x, y)
+  @spec next_move(Ant.t(), Surroundings.t()) :: Ant.t()
+  defp next_move(ant, surroundings) do
+    tile_type = if sees_food?(surroundings), do: :food, else: :land
 
-    move_ant(ant, move)
-  end
-
-  @spec next_move(Ant.t(), Surroundings.t(), TileSelector.tile_type()) :: Ant.t()
-  defp next_move(ant, surroundings, tile_type) do
     surroundings
     |> Stream.with_index()
     |> Enum.filter(&can_visit(ant, &1))
