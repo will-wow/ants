@@ -10,6 +10,8 @@ defmodule Ants.Ants.AntMove do
 
   @type location :: {Tile.t(), Enum.index()}
 
+  @center_tile_index 4
+
   @spec move(Ant.t(), Surroundings.t()) :: Ant.t()
   def move(ant, surroundings) do
     cond do
@@ -37,7 +39,6 @@ defmodule Ants.Ants.AntMove do
     |> Tuple.to_list()
     |> Stream.with_index()
     |> Enum.filter(&can_visit(ant, &1))
-    |> add_forward_location(ant)
     |> TileSelector.select(tile_type)
     |> (fn
           {:ok, index} -> index
@@ -48,24 +49,13 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec can_visit(Ant.t(), location) :: boolean
-  defp can_visit(ant, {_tile, i}) do
-    # ignore the center tile, and the last move
-    !(i == 4 || equals_last_move?(ant, i))
-  end
-
-  @spec add_forward_location([location], Ant.t()) :: [location]
-  defp add_forward_location(locations, %Ant{path: []}), do: locations
-
-  defp add_forward_location(locations, ant) do
-    [move | _] = ant.path
-
-    forward_index = move |> Move.forward_to_index()
-
-    tile = Enum.find(locations, fn {_, i} -> i == forward_index end)
-
+  defp can_visit(ant, {tile, i}) do
     case tile do
-      {%Rock{}, _i} -> locations
-      _ -> [{%Land{pheromone: Knobs.get(:forward_weight)}, forward_index} | locations]
+      %Rock{} ->
+        false
+
+      _ ->
+        !(i == @center_tile_index || equals_last_move?(ant, i))
     end
   end
 
@@ -85,7 +75,7 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec update_ant_coords(Surroundings.coords(), Ant.t()) :: Ant.t()
-  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{x: x, y: y, path: path}) do
+  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{}) do
     move = {surrounding_x - 1, surrounding_y - 1}
 
     move_ant(ant, move)
@@ -102,12 +92,8 @@ defmodule Ants.Ants.AntMove do
     end)
   end
 
-  @spec move_ant(Ant.t, Move.t) :: Ant.t
+  @spec move_ant(Ant.t(), Move.t()) :: Ant.t()
   defp move_ant(ant = %Ant{x: x, y: y, path: path}, move = {delta_x, delta_y}) do
-    %Ant{
-      ant |
-      x: x + delta_x,
-      y: y + delta_y,
-      path: [move | path]}
+    %Ant{ant | x: x + delta_x, y: y + delta_y, path: [move | path]}
   end
 end
