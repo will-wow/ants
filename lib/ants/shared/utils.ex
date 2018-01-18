@@ -10,12 +10,16 @@ defmodule Ants.Shared.Utils do
   @typep element :: Enum.element()
   @typep index :: Enum.index()
 
+  @spec inc(number) :: number
   def inc(n), do: n + 1
 
+  @spec dec(number) :: number
   def dec(n), do: n - 1
 
+  @spec inc_by(number) :: (number -> number)
   def inc_by(i), do: fn n -> n + i end
 
+  @spec dec_by(number) :: (number -> number)
   def dec_by(i), do: fn n -> n - i end
 
   @spec map_indexed(Enum.t(), ({element, index} -> any)) :: list
