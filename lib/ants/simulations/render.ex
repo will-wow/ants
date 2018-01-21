@@ -1,4 +1,4 @@
-defmodule Ants.Simulations.Print do
+defmodule Ants.Simulations.Render do
   alias __MODULE__
   alias Ants.Shared.Knobs
   alias Ants.Shared.Utils
@@ -10,7 +10,7 @@ defmodule Ants.Simulations.Print do
 
   @map_size Knobs.constant(:map_size)
 
-  @type t :: %Print{tile: Tile.t(), ant: boolean}
+  @type t :: %Render{tile: Tile.t(), ant: boolean}
   @type world :: [[t]]
 
   defstruct [:tile, :ant]

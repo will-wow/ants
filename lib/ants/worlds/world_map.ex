@@ -1,48 +1,27 @@
 defmodule Ants.Worlds.WorldMap do
-  alias Ants.Worlds.Tile
   alias Ants.Worlds.TileType
-  alias Ants.Worlds.Tile.{Land, Rock, Home, Food}
 
-  @type t :: [String.t()]
+  @type t :: [input_row]
   @type tile_types :: [TileType.t()]
+  @typep input_row :: String.t()
   @typep cell :: String.t()
-  @typep cell_map :: [cell]
 
-  @spec tile_type_of_world_map(t) :: tile_types
-  def tile_type_of_world_map(world_map) do
+  @spec to_tile_type_list(t) :: tile_types
+  def to_tile_type_list(world_map) do
     world_map
-    |> cell_map_of_world_map()
-    |> Enum.reverse()
-    |> Enum.concat()
+    |> to_cell_list()
     |> Enum.map(&tile_type_of_cell/1)
   end
 
-  @spec cell_of_tile(Tile.t()) :: cell
-  def cell_of_tile(%Rock{}), do: "0"
-
-  def cell_of_tile(%Land{pheromone: pheromone})
-      when pheromone > 5,
-      do: "P"
-
-  def cell_of_tile(%Land{pheromone: pheromone})
-      when pheromone > 0,
-      do: "p"
-
-  def cell_of_tile(%Land{}), do: "_"
-
-  def cell_of_tile(%Food{food: food})
-      when food < 5,
-      do: "f"
-
-  def cell_of_tile(%Food{}), do: "F"
-  def cell_of_tile(%Home{}), do: "H"
-
-  @spec cell_map_of_world_map(t) :: cell_map
-  defp cell_map_of_world_map(rows) do
-    Enum.map(rows, &split_input_row/1)
+  @spec to_cell_list(t) :: [cell]
+  defp to_cell_list(rows) do
+    rows
+    |> Enum.map(&split_input_row/1)
+    |> Enum.reverse()
+    |> Enum.concat()
   end
 
-  @spec split_input_row(String.t()) :: [String.t()]
+  @spec split_input_row(input_row) :: [cell]
   defp split_input_row(row) do
     String.split(row, " ")
   end

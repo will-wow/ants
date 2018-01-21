@@ -1,4 +1,4 @@
-defmodule Ants.Worlds.CellMap do
+defmodule Ants.Worlds.WorldMapData do
   @world_map [
     "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
     "0 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 0",

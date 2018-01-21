@@ -2,7 +2,7 @@ defmodule Ants.Simulations do
   alias Ants.Shared.Knobs
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.Simulations.SimId
-  alias Ants.Simulations.Print
+  alias Ants.Simulations.Render
   alias Ants.Worlds
   alias Ants.Ants
 
@@ -19,12 +19,12 @@ defmodule Ants.Simulations do
     {:ok, sim}
   end
 
-  @spec get(SimId.t()) :: Print.world()
+  @spec get(SimId.t()) :: Render.world()
   def get(sim) do
-    Print.data(sim)
+    Render.data(sim)
   end
 
-  @spec turn(SimId.t()) :: {:error, :done} | {:ok, Print.world()}
+  @spec turn(SimId.t()) :: {:error, :done} | {:ok, Render.world()}
   def turn(sim) do
     if done?(sim) do
       {:error, :done}
@@ -36,7 +36,7 @@ defmodule Ants.Simulations do
 
       Ants.create_new_ant(sim, 1, 1, @starting_ants)
 
-      {:ok, Print.data(sim)}
+      {:ok, Render.data(sim)}
     end
   end
 

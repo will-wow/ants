@@ -2,7 +2,7 @@ defmodule Ants.Worlds do
   alias Ants.Shared.Knobs
   alias Ants.Shared.Utils
   alias Ants.Simulations.SimId
-  alias Ants.Worlds.CellMap
+  alias Ants.Worlds.WorldMapData
   alias Ants.Worlds.Point
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
@@ -10,17 +10,20 @@ defmodule Ants.Worlds do
   alias Ants.Worlds.TileLookup
   alias Ants.Worlds.TileSupervisor
   alias Ants.Worlds.WorldMap
+  alias Ants.Worlds.WorldMapData
 
   @callback create_world(integer, WorldMap.t()) :: :ok
   @callback print(integer) :: none
   @callback lookup(integer, integer, integer) :: Tile.t()
 
+  @world_map WorldMapData.get()
   @map_size Knobs.constant(:map_size)
 
   @spec create_world(SimId.t()) :: {:ok, home: {integer, integer}}
-  def create_world(sim) do
-    CellMap.get()
-    |> WorldMap.tile_type_of_world_map()
+  @spec create_world(SimId.t(), WorldMap.t()) :: {:ok, home: {integer, integer}}
+  def create_world(sim, world_map \\ @world_map) do
+    world_map
+    |> WorldMap.to_tile_type_list()
     |> Utils.map_indexed(fn {type, i} ->
       {x, y} = Point.from_index(i, @map_size)
 
@@ -29,13 +32,6 @@ defmodule Ants.Worlds do
 
     # TODO: Find Home location
     {:ok, home: {1, 1}}
-  end
-
-  @spec print(SimId.t()) :: [String.t()]
-  def print(sim) do
-    sim
-    |> all_tiles()
-    |> Enum.map(&WorldMap.cell_of_tile/1)
   end
 
   @spec all_tiles(SimId.t()) :: [Tile.t()]
@@ -89,8 +85,6 @@ defmodule Ants.Worlds do
     end)
     |> Enum.map(fn {:ok, tile} -> tile end)
   end
-
-  defdelegate print_tile(tile), to: WorldMap, as: :cell_of_tile
 
   defdelegate surroundings(sim, x, y), to: Surroundings
   defdelegate lookup(sim, x, y), to: TileLookup
