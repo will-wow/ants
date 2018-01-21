@@ -6,6 +6,7 @@ defmodule Ants.Worlds.SurroundingsTest do
   alias Ants.Worlds.TileType
   alias Ants.Worlds.TileLookupMock
   alias Ants.Worlds.WorldMap
+  alias Ants.Worlds.Point
   alias Ants.Worlds.Surroundings
 
   describe "surroundings" do
@@ -24,7 +25,7 @@ defmodule Ants.Worlds.SurroundingsTest do
       mock_tile_lookup(world_map)
 
       assert Surroundings.surroundings(1, 2, 2) ==
-               {
+               [
                  %Land{},
                  %Rock{},
                  %Land{},
@@ -34,20 +35,14 @@ defmodule Ants.Worlds.SurroundingsTest do
                  %Rock{},
                  %Land{},
                  %Land{}
-               }
-    end
-  end
-
-  describe "index of coords" do
-    test "calculates index of x, y" do
-      assert Surroundings.index_of_coords(2, 1, 4) == 6
+               ]
     end
   end
 
   defp mock_tile_lookup(world_map) do
     tile_types =
       world_map
-      |> WorldMap.tile_type_of_world_map()
+      |> WorldMap.to_tile_type_list()
       |> Enum.map(fn type ->
         {:ok, tile} = TileType.tile_of_type(type)
         tile
@@ -67,7 +62,7 @@ defmodule Ants.Worlds.SurroundingsTest do
   end
 
   defp lookup_tile(tiles, size, x, y) do
-    Surroundings.index_of_coords(x, y, size)
+    Point.to_index({x, y}, size)
     |> tile_at_index(tiles)
   end
 end

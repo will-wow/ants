@@ -1,7 +1,6 @@
 defmodule Ants.Ants.MoveTest do
   use ExUnit.Case, async: true
 
-  alias Ants.Worlds.Surroundings
   alias Ants.Ants.Move
 
   describe "forward_to_index" do

@@ -5,7 +5,7 @@ defmodule Ants.Shared.UtilsTest do
 
   describe "weighted_select" do
     test "selects an item" do
-      assert Utils.weighted_select([{"nope", 0}, {"yep", 1}]) == "yep"
+      assert Utils.weighted_select([{"nope", 0}, {"yep", 1}]) == {:ok, "yep"}
     end
   end
 end

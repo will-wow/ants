@@ -1,9 +1,11 @@
 defmodule Ants.Worlds.TileTypeTest do
   use ExUnit.Case, async: true
 
-  alias Ants.Worlds.Tile
+  alias Ants.Shared.Knobs
   alias Ants.Worlds.Tile.{Land, Food, Rock, Home}
   alias Ants.Worlds.TileType
+
+  @starting_food Knobs.constant(:starting_food)
 
   describe "given a tile type" do
     test "returns a land" do
@@ -19,7 +21,7 @@ defmodule Ants.Worlds.TileTypeTest do
     end
 
     test "returns a food" do
-      assert TileType.tile_of_type(:food) == {:ok, %Food{food: 10}}
+      assert TileType.tile_of_type(:food) == {:ok, %Food{food: @starting_food}}
     end
 
     test "returns a light_pheromone" do

@@ -87,8 +87,8 @@ defmodule Ants.Worlds.TileTest do
     end
 
     test "can deposit food", %{tile: tile} do
-      assert Tile.deposit_food(tile) == {:ok}
-      assert Tile.deposit_food(tile) == {:ok}
+      assert Tile.deposit_food(tile) == {:ok, 1}
+      assert Tile.deposit_food(tile) == {:ok, 1}
 
       assert Tile.get(tile) == %Home{food: 2}
     end
@@ -110,7 +110,7 @@ defmodule Ants.Worlds.TileTest do
   end
 
   defp create_food(_context) do
-    {:ok, tile} = GenServer.start_link(Tile, :food)
+    {:ok, tile} = GenServer.start_link(Tile, :light_food)
     %{tile: tile}
   end
 
