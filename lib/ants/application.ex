@@ -1,7 +1,7 @@
 defmodule Ants.Application do
   use Application
 
-  alias Ants.Registries.SimRegistry
+  alias Ants.Shared.SimRegistry
   alias Ants.Simulations.SimulationsSupervisor
   alias Ants.Simulations.SimId
 

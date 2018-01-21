@@ -17,16 +17,6 @@ defmodule Ants.Worlds.WorldMap do
     |> Enum.map(&tile_type_of_cell/1)
   end
 
-  @spec x_coord_of_index(integer, integer) :: integer
-  def x_coord_of_index(index, size) do
-    Integer.mod(index, size)
-  end
-
-  @spec y_coord_of_index(integer, integer) :: integer
-  def y_coord_of_index(index, size) do
-    Integer.floor_div(index, size)
-  end
-
   @spec cell_of_tile(Tile.t()) :: cell
   def cell_of_tile(%Rock{}), do: "0"
 

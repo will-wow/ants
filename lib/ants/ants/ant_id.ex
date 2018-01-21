@@ -2,7 +2,7 @@ defmodule Ants.Ants.AntId do
   use Agent
 
   alias Ants.Simulations.SimId
-  alias Ants.Registries.SimRegistry
+  alias Ants.Shared.SimRegistry
 
   @type t :: integer
 

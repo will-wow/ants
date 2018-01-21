@@ -1,9 +1,10 @@
 @import "../mixins/icon";
+@import "../variables/colors";
 
 .tile {
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: $border;
 
   @mixin fill {
     content: "";
@@ -18,27 +19,27 @@
   }
 
   &--land {
-    background: green;
+    background: $land;
     position: relative;
   }
   &--pheromone {
     @include fill();
-    background: yellowgreen;
+    background: $pheromone;
     opacity: 0;
   }
 
   &--food {
     @include fill();
-    background: brown;
+    background: $food;
     opacity: 0;
   }
 
   &--home {
-    background: pink;
+    background: $home;
   }
 
   &--rock {
-    background: gray;
+    background: $rock;
   }
 
   &--ants {

@@ -38,12 +38,6 @@ defmodule Ants.Worlds.SurroundingsTest do
     end
   end
 
-  describe "coords_of_index" do
-    test "calculates the x, y of an index" do
-      assert Surroundings.coords_of_index(6, 4) == {2, 1}
-    end
-  end
-
   describe "index of coords" do
     test "calculates index of x, y" do
       assert Surroundings.index_of_coords(2, 1, 4) == 6

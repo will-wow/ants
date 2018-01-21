@@ -1,7 +1,7 @@
 defmodule Ants.Ants.AntSupervisor do
   use DynamicSupervisor
 
-  alias Ants.Registries.SimRegistry
+  alias Ants.Shared.SimRegistry
   alias Ants.Simulations.SimId
   alias Ants.Ants.AntId
   alias Ants.Ants.Ant

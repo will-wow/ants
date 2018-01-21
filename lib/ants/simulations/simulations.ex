@@ -60,5 +60,4 @@ defmodule Ants.Simulations do
   end
 
   defdelegate all_knobs(), to: Knobs, as: :all
-  defdelegate print(sim), to: Print
 end

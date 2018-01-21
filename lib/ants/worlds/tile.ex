@@ -31,6 +31,7 @@ defmodule Ants.Worlds.Tile do
 
   ## Client
 
+  @spec start_link({TileType.t(), list}) :: GenServer.on_start()
   def start_link({type, opts}) do
     GenServer.start_link(__MODULE__, type, opts)
   end

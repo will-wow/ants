@@ -1,7 +1,7 @@
 defmodule Ants.Ants.AntMove do
   alias Ants.Ants.Ant
-  alias Ants.Ants.AntReturn
   alias Ants.Ants.Move
+  alias Ants.Ants.ToHome
   alias Ants.Ants.TileSelector
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
@@ -22,13 +22,13 @@ defmodule Ants.Ants.AntMove do
 
   @spec move_toward_home(Ant.t(), Surroundings.t()) :: Ant.t()
   defp move_toward_home(ant = %Ant{food?: true, x: x, y: y}, surroundings) do
-    move = AntReturn.backwards_move(x, y)
+    move = ToHome.backwards_move({x, y})
     new_local_index = Move.forward_to_index(move)
     tile = Enum.at(surroundings, new_local_index)
 
     case tile do
       %Rock{} -> next_move(ant, surroundings)
-      _ -> move_ant(ant, move)
+      _ -> move_ant(move, ant)
     end
   end
 
@@ -44,7 +44,6 @@ defmodule Ants.Ants.AntMove do
           {:ok, index} -> index
           {:error, :blocked} -> last_index(ant)
         end).()
-    |> Surroundings.coords_of_index()
     |> update_ant_coords(ant)
   end
 
@@ -71,11 +70,11 @@ defmodule Ants.Ants.AntMove do
     end
   end
 
-  @spec update_ant_coords(Surroundings.coords(), Ant.t()) :: Ant.t()
-  defp update_ant_coords({surrounding_x, surrounding_y}, ant = %Ant{}) do
-    move = {surrounding_x - 1, surrounding_y - 1}
-
-    move_ant(ant, move)
+  @spec update_ant_coords(Enum.index(), Ant.t()) :: Ant.t()
+  defp update_ant_coords(local_index, ant = %Ant{}) do
+    local_index
+    |> Move.from_index()
+    |> move_ant(ant)
   end
 
   defp sees_food?(surroundings) do
@@ -88,8 +87,8 @@ defmodule Ants.Ants.AntMove do
     end)
   end
 
-  @spec move_ant(Ant.t(), Move.t()) :: Ant.t()
-  defp move_ant(ant = %Ant{x: x, y: y}, move = {delta_x, delta_y}) do
+  @spec move_ant(Move.t(), Ant.t()) :: Ant.t()
+  defp move_ant(move = {delta_x, delta_y}, ant = %Ant{x: x, y: y}) do
     %Ant{ant | x: x + delta_x, y: y + delta_y, last: move}
   end
 end

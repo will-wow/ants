@@ -1,4 +1,4 @@
-defmodule Ants.Registries.SimRegistry do
+defmodule Ants.Shared.SimRegistry do
   @spec simulation(integer) :: tuple
   def simulation(sim) do
     via({sim, :sim})

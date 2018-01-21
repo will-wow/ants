@@ -1,7 +1,7 @@
 defmodule Ants.Simulations.SimulationSupervisor do
   use Supervisor
 
-  alias Ants.Registries.SimRegistry
+  alias Ants.Shared.SimRegistry
   alias Ants.Worlds.TileSupervisor
   alias Ants.Ants.AntSupervisor
   alias Ants.Ants.AntId

@@ -3,6 +3,7 @@ defmodule Ants.Ants do
   alias Ants.Ants.AntSupervisor
   alias Ants.Ants.Ant
   alias Ants.Ants.AntId
+  alias Ants.Worlds.Point
 
   def create_ants(sim, x, y, ants) do
     1..ants
@@ -23,7 +24,7 @@ defmodule Ants.Ants do
     AntSupervisor.start_ant(sim, x, y, id)
   end
 
-  @spec print(SimId.t()) :: [{integer, integer}]
+  @spec print(SimId.t()) :: [Point.t()]
   def print(sim) do
     sim
     |> for_each_ant(&Ant.get/1)

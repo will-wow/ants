@@ -1,14 +1,15 @@
 defmodule Ants.Worlds do
-  alias Ants.Shared.Utils
   alias Ants.Shared.Knobs
+  alias Ants.Shared.Utils
+  alias Ants.Simulations.SimId
   alias Ants.Worlds.CellMap
-  alias Ants.Worlds.WorldMap
+  alias Ants.Worlds.Point
   alias Ants.Worlds.Surroundings
   alias Ants.Worlds.Tile
   alias Ants.Worlds.Tile.Food
   alias Ants.Worlds.TileLookup
   alias Ants.Worlds.TileSupervisor
-  alias Ants.Simulations.SimId
+  alias Ants.Worlds.WorldMap
 
   @callback create_world(integer, WorldMap.t()) :: :ok
   @callback print(integer) :: none
@@ -21,8 +22,7 @@ defmodule Ants.Worlds do
     CellMap.get()
     |> WorldMap.tile_type_of_world_map()
     |> Utils.map_indexed(fn {type, i} ->
-      x = WorldMap.x_coord_of_index(i, @map_size)
-      y = WorldMap.y_coord_of_index(i, @map_size)
+      {x, y} = Point.from_index(i, @map_size)
 
       {:ok, _} = TileSupervisor.start_tile(sim, type, x, y)
     end)

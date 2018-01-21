@@ -3,7 +3,7 @@ defmodule Ants.Worlds.TileSupervisor do
 
   @callback get_tile(integer, integer, integer) :: pid
 
-  alias Ants.Registries.SimRegistry
+  alias Ants.Shared.SimRegistry
   alias Ants.Worlds.Tile
 
   def start_link(sim) do
