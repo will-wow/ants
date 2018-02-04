@@ -1,8 +1,9 @@
 defmodule Ants.Ants.Move do
   alias Ants.Worlds.Point
 
-  @type dx :: integer
-  @type dy :: integer
+  @type delta :: -1 | 0 | 1
+  @type dx :: delta
+  @type dy :: delta
   @type t :: {dx, dy}
 
   @row_length 3
