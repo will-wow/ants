@@ -2,7 +2,6 @@ defmodule Ants.Ants.Ant do
   use GenServer
 
   alias __MODULE__
-  alias Ants.Ants.Move
   alias Ants.Ants.AntMove
   alias Ants.Ants.AntFood
   alias Ants.Worlds
@@ -12,11 +11,10 @@ defmodule Ants.Ants.Ant do
   @type t :: %Ant{
           x: integer,
           y: integer,
-          last: Move.t(),
           food?: boolean
         }
 
-  defstruct x: nil, y: nil, food?: false, last: nil
+  defstruct x: nil, y: nil, food?: false
 
   ## Client
 

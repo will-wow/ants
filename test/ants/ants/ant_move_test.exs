@@ -7,7 +7,7 @@ defmodule Ants.Ants.AntMoveTest do
   alias Ants.Worlds.WorldMap
   alias Ants.Ants.AntMove
 
-  describe "an ant at 1, 1 without a last location" do
+  describe "an ant at 1, 1" do
     setup [:create_home_ant]
 
     test "takes the only open path", %{ant: ant} do
@@ -19,7 +19,7 @@ defmodule Ants.Ants.AntMoveTest do
 
       surroundings = make_surroundings(world_map)
 
-      assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2, last: {0, 1}}
+      assert AntMove.move(ant, surroundings) == %Ant{x: 1, y: 2}
     end
 
     test "goes diagonally", %{ant: ant} do
@@ -31,7 +31,7 @@ defmodule Ants.Ants.AntMoveTest do
 
       surroundings = make_surroundings(world_map)
 
-      assert AntMove.move(ant, surroundings) == %Ant{x: 2, y: 2, last: {1, 1}}
+      assert AntMove.move(ant, surroundings) == %Ant{x: 2, y: 2}
     end
 
     test "chooses a land or home", %{ant: ant} do
@@ -45,9 +45,9 @@ defmodule Ants.Ants.AntMoveTest do
 
       assert Enum.member?(
                [
-                 %Ant{x: 2, y: 1, last: {1, 0}},
-                 %Ant{x: 1, y: 2, last: {0, 1}},
-                 %Ant{x: 0, y: 1, last: {-1, 0}}
+                 %Ant{x: 2, y: 1},
+                 %Ant{x: 1, y: 2},
+                 %Ant{x: 0, y: 1}
                ],
                AntMove.move(ant, surroundings)
              )
@@ -67,7 +67,7 @@ defmodule Ants.Ants.AntMoveTest do
   end
 
   describe "an ant with food" do
-    setup [:create_home_ant, :from_1_0, :with_food]
+    setup [:create_home_ant, :with_food]
 
     test "goes toward home", %{ant: ant} do
       world_map = [
@@ -78,17 +78,12 @@ defmodule Ants.Ants.AntMoveTest do
 
       surroundings = make_surroundings(world_map)
 
-      assert AntMove.move(ant, surroundings) == %Ant{ant | x: 0, y: 0, last: {-1, -1}}
+      assert AntMove.move(ant, surroundings) == %Ant{ant | x: 0, y: 0}
     end
   end
 
   defp create_home_ant(_context) do
     %{ant: %Ant{x: 1, y: 1}}
-  end
-
-  defp from_1_0(context) do
-    ant = context.ant
-    %{context | ant: %Ant{ant | last: {0, 1}}}
   end
 
   def with_food(context) do

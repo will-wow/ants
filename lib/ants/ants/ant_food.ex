@@ -11,7 +11,7 @@ defmodule Ants.Ants.AntFood do
 
     case Worlds.deposit_food(sim, x, y) do
       {:ok, _} ->
-        %Ant{ant | food?: false, last: nil}
+        %Ant{ant | food?: false}
 
       {:error, :not_home} ->
         ant

@@ -38,35 +38,20 @@ defmodule Ants.Ants.AntMove do
 
     surroundings
     |> Stream.with_index()
-    |> Enum.filter(&can_visit(ant, &1))
+    |> Enum.filter(&can_visit/1)
     |> TileSelector.select(tile_type)
     |> (fn
           {:ok, index} -> index
-          {:error, :blocked} -> last_index(ant)
+          {:error, :blocked} -> raise "ant is trapped!"
         end).()
     |> update_ant_coords(ant)
   end
 
-  @spec can_visit(Ant.t(), location) :: boolean
-  defp can_visit(ant, {tile, i}) do
+  @spec can_visit(location) :: boolean
+  defp can_visit({tile, i}) do
     case tile do
       %Rock{} -> false
-      _ -> !(i == @center_tile_index || equals_last_move?(ant, i))
-    end
-  end
-
-  @spec equals_last_move?(Ant.t(), Enum.index()) :: boolean
-  defp equals_last_move?(ant, index) do
-    case ant.last do
-      nil -> false
-      last_move -> Move.backward_to_index(last_move) == index
-    end
-  end
-
-  defp last_index(ant) do
-    case ant.last do
-      nil -> raise "ant is trapped!"
-      last_move -> Move.backward_to_index(last_move)
+      _ -> !(i == @center_tile_index)
     end
   end
 
@@ -88,7 +73,7 @@ defmodule Ants.Ants.AntMove do
   end
 
   @spec move_ant(Move.t(), Ant.t()) :: Ant.t()
-  defp move_ant(move = {delta_x, delta_y}, ant = %Ant{x: x, y: y}) do
-    %Ant{ant | x: x + delta_x, y: y + delta_y, last: move}
+  defp move_ant({delta_x, delta_y}, ant = %Ant{x: x, y: y}) do
+    %Ant{ant | x: x + delta_x, y: y + delta_y}
   end
 end
