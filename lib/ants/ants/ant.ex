@@ -5,14 +5,15 @@ defmodule Ants.Ants.Ant do
   alias Ants.Ants.AntMove
   alias Ants.Ants.AntFood
   alias Ants.Worlds
-
-  ## Structs
+  alias Ants.Simulations.SimId
 
   @type t :: %Ant{
           x: integer,
           y: integer,
           food?: boolean
         }
+
+  @type state :: {SimId.t(), Ant.t()}
 
   defstruct x: nil, y: nil, food?: false
 
@@ -40,6 +41,7 @@ defmodule Ants.Ants.Ant do
     {:ok, {sim, %Ant{x: x, y: y}}}
   end
 
+  @spec handle_call(:get | :move | :deposit_pheromones, any, state) :: {:reply, Ant.t(), state}
   def handle_call(:get, _from, state = {_, ant}) do
     {:reply, ant, state}
   end

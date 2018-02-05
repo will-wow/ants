@@ -18,11 +18,10 @@ defmodule Ants.Ants.AntSupervisor do
     )
   end
 
-  @spec get_ant(integer, integer) :: pid
+  @spec get_ant(integer, integer) :: SimRegistry.t()
   def get_ant(sim, id) do
     sim
     |> ant_via(id)
-    |> GenServer.whereis()
   end
 
   def init(:ok) do

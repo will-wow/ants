@@ -1,4 +1,6 @@
 defmodule Ants.Shared.SimRegistry do
+  @type t :: {:via, Registry, tuple}
+
   @spec simulation(integer) :: tuple
   def simulation(sim) do
     via({sim, :sim})

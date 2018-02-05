@@ -17,11 +17,10 @@ defmodule Ants.Worlds.TileSupervisor do
     })
   end
 
-  @spec get_tile(integer, integer, integer) :: pid
+  @spec get_tile(integer, integer, integer) :: SimRegistry.t()
   def get_tile(sim, x, y) do
     sim
     |> tile_via(x, y)
-    |> GenServer.whereis()
   end
 
   def init(:ok) do
