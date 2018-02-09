@@ -19,8 +19,7 @@ defmodule Ants.Worlds.Surroundings do
     |> Task.async_stream(fn {x, y} ->
       @lookup.lookup(sim, x, y)
     end)
-    |> Stream.map(fn {:ok, tile} -> tile end)
-    |> Enum.to_list()
+    |> Enum.map(fn {:ok, tile} -> tile end)
   end
 
   @spec point_of_offset(Point.x(), Point.y(), integer, integer) :: Point.t()

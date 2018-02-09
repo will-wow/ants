@@ -81,7 +81,8 @@ defmodule Ants.Worlds do
   def decay_all_pheromones(sim) do
     all_coords()
     |> Task.async_stream(fn {x, y} ->
-      decay_pheromones(sim, x, y)
+      sim
+      |> decay_pheromones(x, y)
     end)
     |> Enum.map(fn {:ok, tile} -> tile end)
   end

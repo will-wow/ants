@@ -28,7 +28,7 @@ defmodule Ants.Ants do
   def print(sim) do
     sim
     |> for_each_ant(&Ant.get/1)
-    |> Enum.map(fn {:ok, ant} ->
+    |> Enum.map(fn ant ->
       {ant.x, ant.y}
     end)
   end
@@ -46,6 +46,7 @@ defmodule Ants.Ants do
   @spec move_all(SimId.t()) :: any
   def move_all(sim) do
     for_each_ant(sim, &Ant.move/1)
+    |> Enum.to_list()
   end
 
   @spec deposit_all_pheromones(SimId.t()) :: any
@@ -61,6 +62,6 @@ defmodule Ants.Ants do
       |> AntSupervisor.get_ant(id)
       |> f.()
     end)
-    |> Enum.to_list()
+    |> Stream.map(fn {:ok, ant} -> ant end)
   end
 end
