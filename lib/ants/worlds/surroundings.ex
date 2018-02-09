@@ -16,10 +16,9 @@ defmodule Ants.Worlds.Surroundings do
       end)
     end)
     |> Enum.concat()
-    |> Task.async_stream(fn {x, y} ->
+    |> Enum.map(fn {x, y} ->
       @lookup.lookup(sim, x, y)
     end)
-    |> Enum.map(fn {:ok, tile} -> tile end)
   end
 
   @spec point_of_offset(Point.x(), Point.y(), integer, integer) :: Point.t()
