@@ -18,8 +18,8 @@ defmodule Ants.Simulations.SimulationSupervisor do
     Supervisor.init(
       [
         {TileSupervisor, sim},
-        {AntSupervisor, sim},
-        {AntId, sim}
+        {AntId, sim},
+        {AntSupervisor, sim}
       ],
       strategy: :one_for_one
     )
